@@ -1,14 +1,17 @@
 import type { DisplayNameDraft } from "./display-name.ts";
 import type { IdentityList } from "./identity-list.ts";
 import type { IdentityName } from "../../sdk/index.ts";
+import type { SignInLineStore } from "./sign-in-line.ts";
 import type { TriggerSettings } from "./trigger-settings.ts";
 import { createDisplayName } from "./display-name.ts";
+import { createSignInLine } from "./sign-in-line.ts";
 import { createTriggerSettings } from "./trigger-settings.ts";
 
 interface ProfileStores {
   readonly displayName: (name: IdentityName) => DisplayNameDraft;
   readonly description: (name: IdentityName) => DisplayNameDraft;
   readonly trigger: (name: IdentityName) => TriggerSettings;
+  readonly signIn: (name: IdentityName) => SignInLineStore;
 }
 
 function cachedBy<Store>(make: (name: IdentityName) => Store): (name: IdentityName) => Store {
@@ -24,6 +27,7 @@ function profileStoresOf(list: IdentityList): ProfileStores {
   return {
     description: cachedBy((name) => createDisplayName({ list, name, set: list.calls.setDescription })),
     displayName: cachedBy((name) => createDisplayName({ list, name, set: list.calls.setDisplayName })),
+    signIn: (name) => createSignInLine({ calls: list.calls, name, show: list.show, store: list.store }),
     trigger: cachedBy((name) => createTriggerSettings({ calls: list.calls, name, show: list.show, store: list.store })),
   };
 }
@@ -31,3 +35,4 @@ function profileStoresOf(list: IdentityList): ProfileStores {
 export { profileStoresOf };
 export type { DisplayNameDraft } from "./display-name.ts";
 export type { TriggerSettings } from "./trigger-settings.ts";
+export type { SignInLineStore } from "./sign-in-line.ts";

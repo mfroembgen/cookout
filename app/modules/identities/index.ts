@@ -6,6 +6,7 @@
 import type { Described } from "./client.ts";
 import type { IsoTime } from "../time/index.ts";
 import type { WithAvatar } from "../avatars/index.ts";
+import type { WithSignIn } from "./lib/sign-in.ts";
 import { avatarErrorCodes } from "../avatars/index.ts";
 import { identityDeletionErrorCodes } from "./lib/deletion.ts";
 
@@ -133,10 +134,8 @@ export function nameFitsOwner(identity: Identity): boolean {
   return !identity.name.includes("/") || (identity.kind === "agent" && identity.owner === namespace);
 }
 
-/** The answer to `GET /v1/whoami`, and to the admin and display-name changes. */
-export type IdentityResponse = {
-  readonly identity: Identity;
-};
+/** The answer to `GET /v1/whoami`, `GET /v1/identities/:name` (with a linked human's `signIn`, for itself and admins), and the admin and display-name changes. */
+export type IdentityResponse = WithSignIn<{ readonly identity: Identity }>;
 
 /** The answer to creating an identity and rotating its token. The token is shown this once only. */
 export type IdentityWithTokenResponse = {

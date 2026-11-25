@@ -166,6 +166,46 @@ export const openIdentityRoutes: typeof openLoginRoutes = openLoginRoutes;
  */
 export { AddressLimit } from "./lib/server/routes.ts";
 
+/**
+ * Signing a person in to the web UI through an OpenID Connect provider (ADR 0107): Authorization Code with PKCE
+ * (S256), as a public client or, given a client secret, with `client_secret_post`.
+ *
+ * `signInRoutes(settings)` are open routes behind the per-address request limit. With no settings they are only
+ * `GET /v1/sign-in`, answering `{ oidc: false }`; with settings it answers `{ oidc: true, label, start }`, `start`
+ * the absolute `GET /v1/oidc/start` URL on the public URL. `start`, with a
+ * loopback public URL and asked on another host, first sends the browser there (same path and `return`, no cookie);
+ * then it reads the
+ * discovery document (its `issuer` the setting, its endpoints https and, unless the issuer is on loopback, not on a
+ * private host) and sends the browser to the provider with `state`, a nonce and the challenge, keeping them, the
+ * verifier and the page to come back to (its `return`, kept only for `#/approve/<user code>` or
+ * `#/approve-join/<user code>`) for 10 minutes in an HttpOnly, SameSite=Lax cookie sealed with a per-process key
+ * (`__Host-cookout_oidc` on https), which every answer of `callback` clears. `callback` checks the seal, `state` and any `iss`, exchanges the code, checks the ID token (issuer, `aud`
+ * only the client, any `azp` the client, `exp`, `iat`, `sub`, nonce) and that userinfo names its `sub`, and lets in
+ * only a verified address at exactly the email domain. A linked account signs in as its human; an unlinked one makes a
+ * new human (never an admin; display name from the ID token's names, else userinfo's) named by the address's part
+ * before `@` (`.` and `_` read as `-`), a taken name refused (`oidc_name_taken`), so it never reaches an existing
+ * identity. A Deactivated human is refused. It then issues a Login credential in the Storage step that checks
+ * the link it found (issuer, `sub`, human and the link's random ID) is still there and its human active, says why not (`identity_deactivated` or `oidc_sign_in_changed`) and
+ * stores the verified address only when it issues, and sends the browser to the page it came from, else `/`; a
+ * refusal sends it to `/#/login/<code>` (followed by the approval page it started from, when known), the refusal as
+ * the body. Every answer of `start` and `callback`, and the
+ * `GET /v1/whoami` and `GET /v1/identities/:name` answers, carry `Cache-Control: no-store`.
+ *
+ * `signInLayer`: how the routes reach the provider (a 10 s timeout, no redirect, a Schema per answer; the ID token
+ * checked against the JWKS, kept 10 minutes and fetched again once for an unknown key ID) and the cookie's seal key.
+ * `PublicUrl` makes the web session cookie Secure when it is https. `SignInIssuer` is the provider whose links
+ * `GET /v1/whoami` and `GET /v1/identities/:name` show as `signIn`. `isProviderUrl`: https, or http on loopback;
+ * `isProviderIssuer` adds that the issuer is on loopback or on a global unicast host. Off loopback, every provider
+ * call (discovery, token, userinfo, JWKS) connects through a dispatcher that refuses a name resolving to anything but
+ * global unicast (IPv4-mapped and -compatible forms judged as IPv4): `oidc_provider_failed`, its step saying "on a
+ * private address"; a name that doesn't resolve fails the same way, without that note.
+ */
+export { signInResponseSchemas, signInRoutes } from "./lib/server/oidc/sign-in-routes.ts";
+export { type OidcSettings, isProviderIssuer, isProviderUrl } from "./lib/server/oidc/settings.ts";
+export { signInLayer } from "./lib/server/oidc/sign-in-layer.ts";
+export { PublicUrl } from "./lib/server/session.ts";
+export { SignInIssuer } from "./lib/server/sign-in-shown.ts";
+
 /** `PUT /v1/identities/:name/owner`, an admin transferring an agent to another human. It needs `Caller`. */
 export { transferRoutes } from "./lib/server/transfer.ts";
 

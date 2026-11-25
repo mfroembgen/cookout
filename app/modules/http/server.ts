@@ -166,6 +166,17 @@ export { cuttableRelay } from "./lib/server/cuttable-relay.ts";
 export type { Gate, Route } from "./lib/server/router.ts";
 export type { Listen, Serving };
 
+/**
+ * The response the server answers a route's failure with: a refusal's status and body, or 503
+ * `storage_unavailable`. A route that must change every response, such as clearing a cookie, answers through it.
+ *
+ * @param failure - What the route failed with.
+ * @returns The response the server would answer.
+ */
+export function failureResponse(failure: unknown): Effect.Effect<HttpServerResponse.HttpServerResponse> {
+  return answerFailure(failure);
+}
+
 /** The response Schemas of `/v1/health`, of every refusal and of an `invalid_request` refusal's details, for the SDK's generated validators. */
 export const httpResponseSchemas = {
   ErrorResponse: ErrorResponseSchema,

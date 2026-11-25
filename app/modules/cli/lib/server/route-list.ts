@@ -19,6 +19,8 @@ import {
   identityChangesLayer,
   identityRoutes,
   openIdentityRoutes,
+  signInLayer,
+  signInRoutes,
   transferRoutes,
 } from "../../../identities/server.ts";
 import { channelRoutes, channelsLayer } from "../../../channels/server.ts";
@@ -44,6 +46,8 @@ import {
   webhookCommandsLayer,
 } from "../../../webhook-commands/server.ts";
 import { Layer } from "effect";
+import type { OidcSettings } from "../../../identities/server.ts";
+import type { Option } from "effect";
 import type { Route } from "../../../http/server.ts";
 
 type NeedsOf<Routes> = Routes extends readonly Route<infer Needs>[] ? Needs : never;
@@ -62,7 +66,10 @@ type RouteNeeds =
   | NeedsOf<typeof webhookCommandRoutes>
   | NeedsOf<typeof scheduledMessageRoutes>;
 
-type OpenNeeds = NeedsOf<typeof openIdentityRoutes> | NeedsOf<typeof openJoinRequestRoutes>;
+type OpenNeeds =
+  | NeedsOf<typeof openIdentityRoutes>
+  | NeedsOf<typeof openJoinRequestRoutes>
+  | NeedsOf<ReturnType<typeof signInRoutes>>;
 
 export const routes: readonly Route<RouteNeeds>[] = [
   ...identityRoutes,
@@ -84,11 +91,9 @@ export const routes: readonly Route<RouteNeeds>[] = [
   ...scheduledMessageRoutes,
 ];
 
-export const openRoutes: readonly Route<OpenNeeds>[] = [
-  ...openIdentityRoutes,
-  ...openJoinRequestRoutes,
-  ...openJoinCodeRoutes,
-];
+export function openRoutes(oidc: Option.Option<OidcSettings>): readonly Route<OpenNeeds>[] {
+  return [...openIdentityRoutes, ...openJoinRequestRoutes, ...openJoinCodeRoutes, ...signInRoutes(oidc)];
+}
 
 export const domainLayers = Layer.mergeAll(
   identitiesLayer,
@@ -101,6 +106,7 @@ export const domainLayers = Layer.mergeAll(
   addressLimitLayer,
   presenceLayer,
   scheduledMessagesLayer,
+  signInLayer,
 ).pipe(
   Layer.provideMerge(Layer.mergeAll(messagesLayer, agentSessionsLayer, deactivationOffersLayer)),
   Layer.provideMerge(

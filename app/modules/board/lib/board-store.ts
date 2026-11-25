@@ -4,6 +4,7 @@ import type {
   IdentityCalls,
   IdentityParts,
   IdentityPartsClient,
+  IdentityPartsOptions,
   SessionState,
 } from "./identity-parts.ts";
 import type { CalledPart, CalledTriggers } from "./triggers-slice.ts";
@@ -79,6 +80,7 @@ interface BoardStoreOptions {
   readonly url: string;
   readonly live: FollowedLive;
   readonly pageSize?: number;
+  readonly clock?: IdentityPartsOptions["clock"];
 }
 
 const PAGE_SIZE = 50;
@@ -152,7 +154,7 @@ function partsOf(changed: () => void, options: BoardStoreOptions): Parts {
   const own = createOwn({ changed, client, pageSize });
   return {
     ...reactionPartsOf({ changed, client }),
-    ...identityPartsOf({ changed, client, url }),
+    ...identityPartsOf({ changed, client, clock: options.clock, url }),
     ...inboxPartsOf({ changed, client, keepItems: own.parts.messages.keepItems, pageSize }),
     own,
     presence: createPart({ changed, client, slice: presenceSlice }),

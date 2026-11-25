@@ -1,4 +1,12 @@
-import type { CookoutClient, Identity, IdentityName, SetTriggerRequest, Token, Trigger } from "../../sdk/index.ts";
+import type {
+  CookoutClient,
+  Identity,
+  IdentityName,
+  IdentityResponse,
+  SetTriggerRequest,
+  Token,
+  Trigger,
+} from "../../sdk/index.ts";
 import type { Identities, IdentityChange } from "./identities-slice.ts";
 import type { Part } from "./slice.ts";
 import type { SessionsPart } from "./agent-sessions-part.ts";
@@ -10,6 +18,7 @@ type IdentityCallsClient = Pick<
   | "createIdentity"
   | "deactivateIdentity"
   | "deleteIdentity"
+  | "getIdentity"
   | "getTrigger"
   | "makeAdmin"
   | "reactivateIdentity"
@@ -32,6 +41,8 @@ interface NewAgent {
   readonly displayName: string;
 }
 
+type SignIn = NonNullable<IdentityResponse["signIn"]>;
+
 interface IdentityCalls {
   readonly setAdmin: (name: IdentityName, admin: boolean) => Promise<void>;
   readonly setDisplayName: (name: IdentityName, text: string | null) => Promise<void>;
@@ -44,6 +55,7 @@ interface IdentityCalls {
   readonly delete: (name: IdentityName) => Promise<void>;
   readonly transfer: (name: IdentityName, to: string) => Promise<void>;
   readonly countMessages: (name: IdentityName) => Promise<number>;
+  readonly readSignIn: (name: IdentityName) => Promise<SignIn | null>;
   readonly readTrigger: (name: IdentityName) => Promise<Trigger | null>;
   readonly setTrigger: (name: IdentityName, request: SetTriggerRequest) => Promise<Trigger | null>;
   readonly clearTrigger: (name: IdentityName) => Promise<void>;
@@ -146,6 +158,10 @@ function createIdentityCalls(options: IdentityCallsOptions): IdentityCalls {
       const { identity, token } = await client.createIdentity({ displayName, kind: "agent", name });
       put(identity);
       return { name: identity.name, token };
+    },
+    readSignIn: async (name) => {
+      const { signIn } = await client.getIdentity(name);
+      return signIn ?? null;
     },
     revokeSession: async (name) => {
       await client.revokeAgentSession(name);

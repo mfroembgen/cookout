@@ -31,6 +31,7 @@ export { s3AssetStore } from "./lib/server/asset-store-s3.ts";
 export type { S3Bucket } from "./lib/server/asset-store-s3.ts";
 export type { QueryPlan } from "./lib/server/query-plans-sqlite.ts";
 export type { TokenLookup } from "./lib/server/identities.ts";
+export type { FoundLink } from "./lib/server/oidc-links.ts";
 export type { SetAdminResult } from "./lib/server/identity-admins.ts";
 export type { DeactivateIdentityResult, ReactivateIdentityResult } from "./lib/server/identity-deactivations.ts";
 export type { DeleteIdentityResult } from "./lib/server/identity-deletes.ts";

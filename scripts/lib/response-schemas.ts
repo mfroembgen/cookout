@@ -1,5 +1,9 @@
 import { agentSessionResponseSchemas, joinCodeResponseSchemas } from "../../app/modules/agent-sessions/server.ts";
-import { identityResponseSchemas, loginResponseSchemas } from "../../app/modules/identities/server.ts";
+import {
+  identityResponseSchemas,
+  loginResponseSchemas,
+  signInResponseSchemas,
+} from "../../app/modules/identities/server.ts";
 import {
   messageResponseSchemas,
   scheduledMessageResponseSchemas,
@@ -22,6 +26,7 @@ const responseSchemas = {
   inbox: inboxResponseSchemas,
   logins: loginResponseSchemas,
   messages: messageResponseSchemas,
+  oidc: signInResponseSchemas,
   "scheduled-messages": scheduledMessageResponseSchemas,
   search: searchResponseSchemas,
   triggers: triggerResponseSchemas,

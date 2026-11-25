@@ -3,6 +3,7 @@ import { alertSaying, alertsShown } from "./alerts.ts";
 import { expect, it } from "vitest";
 import { fireEvent, screen } from "@testing-library/react";
 import { inPane, inSidebar } from "./regions.ts";
+import type { SignInResponse } from "../../oidc/index.ts";
 import { openAt } from "./render.tsx";
 import { unreachableClient } from "../../testing/index.ts";
 
@@ -16,7 +17,7 @@ async function refusalShownFor(token: string): Promise<readonly unknown[]> {
   await screen.findByRole("form", { name: "Log in" });
   logInWith(token);
   const alert = await alertSaying("Couldn't log in");
-  const shown = [alert.textContent, screen.queryByRole("list")];
+  const shown = [alert.textContent, screen.queryByRole("list", { name: "Views" })];
   close();
   return shown;
 }
@@ -111,6 +112,117 @@ it("the login view says so when the server can't be reached", { timeout: 5000 },
   const alert = await alertSaying("Couldn't log in");
 
   expect(alert.textContent).toMatch(/^Couldn't log in \(unreachable\)/u);
+
+  close();
+});
+
+it("with single sign-on on, the login view links to it above the token form", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const close = openAt({ client: anonymousClient(), hash: "#/" });
+
+  const link = await inPane().findByRole("link", { name: "Sign in with single sign-on" });
+  const form = inPane().getByRole("form", { name: "Log in" });
+
+  expect([link.getAttribute("href"), form.textContent]).toStrictEqual([
+    "https://board.example.com/v1/oidc/start",
+    "TokenLog in",
+  ]);
+
+  close();
+});
+
+async function signInHrefAt(hash: string): Promise<string | null> {
+  const close = openAt({ client: anonymousClient(), hash });
+  const link = await inPane().findByRole("link", { name: "Sign in with single sign-on" });
+  close();
+  return link.getAttribute("href");
+}
+
+async function publicStartAt(hash: string): Promise<string | null> {
+  const elsewhere = "https://public.example.org/v1/oidc/start";
+  const client = {
+    ...anonymousClient(),
+    signIn: async (): Promise<SignInResponse> => {
+      await Promise.resolve();
+      return { label: "single sign-on", oidc: true, start: elsewhere };
+    },
+  };
+  const close = openAt({ client, hash });
+  const link = await inPane().findByRole("link", { name: "Sign in with single sign-on" });
+  close();
+  return link.getAttribute("href");
+}
+
+it("single sign-on starts at the start URL the server names, whatever address the page was opened on", {
+  timeout: 5000,
+}, async () => {
+  expect.hasAssertions();
+
+  const hrefs = [await publicStartAt("#/"), await publicStartAt("#/approve/ABCD-1234")];
+
+  expect([globalThis.location.origin === "https://public.example.org", ...hrefs]).toStrictEqual([
+    false,
+    "https://public.example.org/v1/oidc/start",
+    "https://public.example.org/v1/oidc/start?return=%23%2Fapprove%2FABCD-1234",
+  ]);
+});
+
+it("signed out on an approval page, single sign-on comes back to that page", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const hrefs = [await signInHrefAt("#/approve/ABCD-1234"), await signInHrefAt("#/approve-join/WXYZ-9876")];
+
+  expect(hrefs).toStrictEqual([
+    "https://board.example.com/v1/oidc/start?return=%23%2Fapprove%2FABCD-1234",
+    "https://board.example.com/v1/oidc/start?return=%23%2Fapprove-join%2FWXYZ-9876",
+  ]);
+});
+
+it("a sign-in refused after starting from an approval page signs in again back to that page", {
+  timeout: 5000,
+}, async () => {
+  expect.hasAssertions();
+
+  const close = openAt({ client: anonymousClient(), hash: "#/login/oidc_provider_refused/approve/ABCD-1234" });
+  const link = await inPane().findByRole("link", { name: "Sign in with single sign-on" });
+  const alert = await alertSaying("Couldn't sign in");
+
+  expect([link.getAttribute("href"), alert.textContent]).toStrictEqual([
+    "https://board.example.com/v1/oidc/start?return=%23%2Fapprove%2FABCD-1234",
+    "Couldn't sign in (oidc_provider_refused): The single sign-on provider didn't sign you in.",
+  ]);
+
+  close();
+});
+
+it("a refused sign-in says why on the login view, with the link to sign in again", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const close = openAt({ client: anonymousClient(), hash: "#/login/oidc_email_not_allowed" });
+
+  const alert = await alertSaying("Couldn't sign in");
+  const link = await inPane().findByRole("link", { name: "Sign in with single sign-on" });
+
+  expect([alert.textContent, link]).toStrictEqual([
+    "Couldn't sign in (oidc_email_not_allowed): Your email address isn't one this board lets in.",
+    expect.anything(),
+  ]);
+
+  close();
+});
+
+it("the login view has no single sign-on link when the server can't be reached", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const close = openAt({ client: unreachableClient(), hash: "#/login/no_such_code" });
+
+  await alertSaying("Couldn't log in");
+
+  expect([inPane().queryByRole("link", { name: "Sign in with single sign-on" }), alertsShown()]).toStrictEqual([
+    null,
+    [expect.stringMatching(/^Couldn't log in \(unreachable\)/u)],
+  ]);
 
   close();
 });

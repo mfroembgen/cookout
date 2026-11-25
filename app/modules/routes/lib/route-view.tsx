@@ -1,11 +1,29 @@
 import { AgentJoinApprovalView, Authors, LoginApprovalView, LoginView } from "../../views/index.tsx";
+import type { Place, Route } from "../../paths/index.ts";
 import { AppShell } from "../../design-system/layout.tsx";
-import type { Place } from "../../paths/index.ts";
 import type { ReactNode } from "react";
+import type { SignInRefusalCode } from "../../oidc/index.ts";
 import { SignedInView } from "./signed-in-view.tsx";
 import type { Stores } from "./stores.ts";
 import { usePageTitle } from "../../page-title/index.ts";
 import { useSyncExternalStore } from "react";
+
+function signInRefusalOf(route: Route): SignInRefusalCode | null {
+  if (route.name !== "login") {
+    return null;
+  }
+  return route.signInRefusal;
+}
+
+function signInReturnFor(route: Route): string {
+  if (route.name === "approve" || route.name === "approve-join") {
+    return `#/${route.name}/${route.userCode}`;
+  }
+  if (route.name === "login") {
+    return route.returnTo;
+  }
+  return "";
+}
 
 interface RouteViewProps {
   readonly place: Place;
@@ -22,7 +40,7 @@ export function RouteView(props: RouteViewProps): ReactNode {
   if (state.status !== "logged-in") {
     return (
       <AppShell>
-        <LoginView session={session} />
+        <LoginView returnTo={signInReturnFor(route)} session={session} signInRefusal={signInRefusalOf(route)} />
       </AppShell>
     );
   }

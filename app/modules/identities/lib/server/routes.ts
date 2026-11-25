@@ -1,5 +1,14 @@
 import { Array as Arr, Effect, Predicate } from "effect";
-import { Caller, announced, issueToken, requireAdmin, requireOwnerOrAdmin, tokensEnded } from "./auth.ts";
+import {
+  Caller,
+  NOT_STORED,
+  announced,
+  issueToken,
+  requireAdmin,
+  requireOwnerOrAdmin,
+  shownTo,
+  tokensEnded,
+} from "./auth.ts";
 import { CreateIdentityRequestSchema, createAgentByAgent, createIdentity } from "./create.ts";
 import {
   DeactivateIdentityResponseSchema,
@@ -91,7 +100,7 @@ const listRoute: Route<Storage> = {
   path: identitiesPath,
 };
 
-const getRoute: Route<Storage> = {
+const getRoute: Route<Caller | Storage> = {
   handle: (params) =>
     Effect.gen(function* getIdentityRoute() {
       const name = yield* nameParam(params);
@@ -102,7 +111,8 @@ const getRoute: Route<Storage> = {
       }
       const commands = yield* storage.listWebhookCommands;
       const identity = flaggedIfHandler(found, new Set(Arr.map(commands, ({ handler }) => handler)));
-      return yield* HttpServerResponse.schemaJson(IdentityResponseSchema)({ identity });
+      const shown = yield* shownTo({ identity, viewer: yield* Caller });
+      return yield* HttpServerResponse.schemaJson(IdentityResponseSchema)(shown, { headers: NOT_STORED });
     }),
   method: "GET",
   path: identityPath,

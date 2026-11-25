@@ -130,6 +130,12 @@ interface AvatarCalls<Answer> {
    */
   readonly setAvatar: (name: string, png: Uint8Array) => Promise<Answer>;
 }
+type WithSignIn<Shown> = Shown & {
+  readonly signIn?: {
+    readonly email: string;
+    readonly linkedAt: IsoTime;
+  };
+};
 interface IdentityMessageCountResponse {
   readonly messages: number;
 }
@@ -186,10 +192,10 @@ type AgentIdentity = Described<IdentityFields> & {
  * mentioned, and `GET /v1/identities` leaves it out unless asked (ADR 0045).
  */
 type Identity = HumanIdentity | AgentIdentity;
-/** The answer to `GET /v1/whoami`, and to the admin and display-name changes. */
-type IdentityResponse = {
+/** The answer to `GET /v1/whoami`, `GET /v1/identities/:name` (with a linked human's `signIn`, for itself and admins), and the admin and display-name changes. */
+type IdentityResponse = WithSignIn<{
   readonly identity: Identity;
-};
+}>;
 /** The answer to creating an identity and rotating its token. The token is shown this once only. */
 type IdentityWithTokenResponse = {
   readonly identity: Identity;
@@ -1605,21 +1611,6 @@ interface EventCalls {
   readonly watch: (options?: WatchOptions) => Promise<EventStream>;
   readonly presence: () => Promise<PresenceResponse>;
 }
-/** The answer to the health check. */
-interface HealthResponse {
-  readonly status: "ok";
-  readonly time: IsoTime;
-}
-/** Every code a cookout server refuses with. */
-declare const errorCodes: readonly ["token_missing", "token_unknown", "token_revoked", "token_expired", "outside_command_thread", "agent_as_human", "admin_only", "human_only", "identity_exists", "identity_not_found", "last_admin", "not_owner", "owner_not_human", "name_not_owned", "not_deactivated", "has_messages", "owns_agents", "avatar_too_large", "avatar_not_png", "avatar_wrong_size", "avatar_not_found", "login_request_not_found", "channel_exists", "channel_not_found", "message_not_found", "reply_in_other_channel", "reaction_not_found", "nudge_not_found", "deactivation_offer_not_found", "deactivated_quiet_agent_not_found", "not_your_identity", "identity_kind", "agent_session_live", "identity_deactivated", "idle_expiry_too_long", "agent_session_required", "display_name_required", "display_name_on_existing_agent", "agent_join_request_not_found", "join_code_not_found", "not_brought_in", "agent_not_found", "agent_session_revoked", "agent_session_expired", "command_exists", "handler_not_agent", "command_not_found", "rate_limited", "too_many_streams", "watch_replaced", "offline_alert_not_found", "trigger_url_invalid", "trigger_token_missing", "trigger_header_invalid", "empty_query", "unknown_identity", "unknown_channel", "invalid_date", "attachment_too_large", "too_many_attachments", "attachment_empty", "attachment_unnamed", "message_empty", "thread_moved", "attachment_not_found", "cron_invalid", "cron_too_frequent", "cron_never_runs", "time_zone_invalid", "at_in_past", "cron_or_at", "scheduled_message_not_found", "creator_deactivated", "not_found", "method_not_allowed", "invalid_path", "invalid_json", "invalid_request", "body_too_large", "foreign_host", "foreign_origin", "storage_unavailable", "internal_error"];
-/** A code a cookout server refuses with. */
-type ErrorCode = (typeof errorCodes)[number];
-/** One way a request broke a schema: what is wrong, and where (`path` from the body's top, such as `["data", "branch"]`). */
-interface SchemaProblem {
-  readonly message: string;
-  readonly path: readonly (string | number)[];
-}
-type IdentityAvatarCalls = AvatarCalls<IdentityResponse>;
 interface StartLoginRequest {
   readonly host: string;
 }
@@ -1671,11 +1662,43 @@ interface LoginCalls {
   /** `DELETE /v1/login`: revokes the Login credential this client sends, answering whether it was one. */
   readonly revokeLogin: () => Promise<LogoutResponse>;
 }
+/**
+ * The answer to `GET /v1/sign-in`: whether the server signs people in through an OpenID Connect provider, and if so
+ * the provider's name the web UI shows, such as `Google` (`COOKOUT_OIDC_LABEL`), and `start`, the absolute
+ * `GET /v1/oidc/start` URL on the board's public URL, which every sign-in starts from.
+ */
+type SignInResponse = {
+  readonly oidc: false;
+} | {
+  readonly oidc: true;
+  readonly label: string;
+  readonly start: string;
+};
+/** The SDK's call for how a person can sign in. */
+interface SignInCalls {
+  /** `GET /v1/sign-in` (no token): whether the server signs people in through an OpenID Connect provider. */
+  readonly signIn: () => Promise<SignInResponse>;
+}
+/** The answer to the health check. */
+interface HealthResponse {
+  readonly status: "ok";
+  readonly time: IsoTime;
+}
+/** Every code a cookout server refuses with. */
+declare const errorCodes: readonly ["token_missing", "token_unknown", "token_revoked", "token_expired", "outside_command_thread", "agent_as_human", "admin_only", "human_only", "identity_exists", "identity_not_found", "last_admin", "not_owner", "owner_not_human", "name_not_owned", "not_deactivated", "has_messages", "owns_agents", "avatar_too_large", "avatar_not_png", "avatar_wrong_size", "avatar_not_found", "login_request_not_found", "channel_exists", "channel_not_found", "message_not_found", "reply_in_other_channel", "reaction_not_found", "nudge_not_found", "deactivation_offer_not_found", "deactivated_quiet_agent_not_found", "not_your_identity", "identity_kind", "agent_session_live", "identity_deactivated", "idle_expiry_too_long", "agent_session_required", "display_name_required", "display_name_on_existing_agent", "agent_join_request_not_found", "join_code_not_found", "not_brought_in", "agent_not_found", "agent_session_revoked", "agent_session_expired", "command_exists", "handler_not_agent", "command_not_found", "rate_limited", "too_many_streams", "watch_replaced", "offline_alert_not_found", "trigger_url_invalid", "trigger_token_missing", "trigger_header_invalid", "empty_query", "unknown_identity", "unknown_channel", "invalid_date", "oidc_state_missing", "oidc_state_mismatch", "oidc_issuer_mismatch", "oidc_provider_refused", "oidc_provider_failed", "oidc_email_unverified", "oidc_email_not_allowed", "oidc_name_unusable", "oidc_name_taken", "oidc_id_token_invalid", "oidc_sign_in_changed", "attachment_too_large", "too_many_attachments", "attachment_empty", "attachment_unnamed", "message_empty", "thread_moved", "attachment_not_found", "cron_invalid", "cron_too_frequent", "cron_never_runs", "time_zone_invalid", "at_in_past", "cron_or_at", "scheduled_message_not_found", "creator_deactivated", "not_found", "method_not_allowed", "invalid_path", "invalid_json", "invalid_request", "body_too_large", "foreign_host", "foreign_origin", "storage_unavailable", "internal_error"];
+/** A code a cookout server refuses with. */
+type ErrorCode = (typeof errorCodes)[number];
+/** One way a request broke a schema: what is wrong, and where (`path` from the body's top, such as `["data", "branch"]`). */
+interface SchemaProblem {
+  readonly message: string;
+  readonly path: readonly (string | number)[];
+}
+type IdentityAvatarCalls = AvatarCalls<IdentityResponse>;
 interface IdentityDeletionCalls {
   readonly deleteIdentity: (name: string) => Promise<IdentityResponse>;
   readonly countMessagesBy: (name: string) => Promise<IdentityMessageCountResponse>;
 }
-type CallGroups = LoginCalls & AgentApprovalCalls & AgentCreationCalls<IdentityResponse> & AttachmentCalls & IdentityAvatarCalls & IdentityDeletionCalls & DescriptionCalls<IdentityResponse> & ClosedThreadCalls & OpenThreadCalls & SearchCalls & ScheduledMessageCalls & TriggerCalls & Pick<EventCalls, "presence">;
+type CallGroups = LoginCalls & SignInCalls & AgentApprovalCalls & AgentCreationCalls<IdentityResponse> & AttachmentCalls & IdentityAvatarCalls & IdentityDeletionCalls & DescriptionCalls<IdentityResponse> & ClosedThreadCalls & OpenThreadCalls & SearchCalls & ScheduledMessageCalls & TriggerCalls & Pick<EventCalls, "presence">;
 declare function scheduledMessageCalls(server: ClientConnection): ScheduledMessageCalls;
 declare const brand: unique symbol;
 type UnknownErrorCode = string & {

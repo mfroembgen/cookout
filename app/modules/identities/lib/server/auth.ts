@@ -266,3 +266,4 @@ export {
 export type { Principal } from "./principals.ts";
 export { harnessOf } from "./harness-guard.ts";
 export { IdentityChanges, announced, announcedDeleted, reactivated, tokensEnded } from "./changes.ts";
+export { NOT_STORED, shownTo } from "./sign-in-shown.ts";

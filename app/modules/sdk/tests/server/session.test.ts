@@ -56,6 +56,7 @@ it.effect("the session cookie is HttpOnly and SameSite=Strict, for the whole sit
 
     expect(Arr.headNonEmpty(attributes)).toMatch(new RegExp(`^${sessionCookieName}=cookout_`, "u"));
     expect(attributes).toStrictEqual(expect.arrayContaining(["HttpOnly", "SameSite=Strict", "Path=/"]));
+    expect(attributes).not.toContain("Secure");
   }).pipe(Effect.provide(testCookout())),
 );
 
@@ -72,6 +73,16 @@ it.effect(
       expect(byCookie.json).toStrictEqual({ identity: ada.identity });
       expect(byHeader).toStrictEqual({ identity: ada.identity });
     }).pipe(Effect.provide(testCookout())),
+);
+
+it.effect("on an https public URL the session cookie is Secure too", () =>
+  Effect.gen(function* secureCookie() {
+    const cookout = yield* TestCookout;
+    const ada = yield* cookout.createIdentity("ada", { kind: "human" });
+    const response = yield* logIn(cookout.url, ada.token);
+
+    expect(cookieAttributes(response)).toStrictEqual(expect.arrayContaining(["Secure", "HttpOnly", "SameSite=Strict"]));
+  }).pipe(Effect.provide(testCookout({ publicUrl: "https://board.example.com" }))),
 );
 
 it.effect("the bearer header wins over a session cookie for another identity", () =>

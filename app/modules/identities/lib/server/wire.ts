@@ -29,6 +29,8 @@ const NO_MESSAGES = 0;
 
 const MessageCountSchema = Schema.Int.check(Schema.isGreaterThanOrEqualTo(NO_MESSAGES));
 
+const SignInSchema = Schema.Struct({ email: Schema.String, linkedAt: IsoTimeSchema });
+
 export const IdentityNameSchema = Schema.String.check(
   Schema.isPattern(identityNamePattern, {
     message: "Use 1-64 lowercase letters, digits or '-', or two such parts joined by one '/'.",
@@ -89,7 +91,9 @@ export const AgentIdentitySchema = Schema.Struct({
 
 export const IdentitySchema = matchesWire<Identity>()(Schema.Union([HumanIdentitySchema, AgentIdentitySchema]));
 
-export const IdentityResponseSchema = matchesWire<IdentityResponse>()(Schema.Struct({ identity: IdentitySchema }));
+export const IdentityResponseSchema = matchesWire<IdentityResponse>()(
+  Schema.Struct({ identity: IdentitySchema, signIn: Schema.optionalKey(SignInSchema) }),
+);
 
 export const IdentityWithTokenResponseSchema = matchesWire<IdentityWithTokenResponse>()(
   Schema.Struct({ identity: IdentitySchema, token: TokenSchema }),

@@ -15,10 +15,15 @@ import {
 } from "../../../webhook-fake/server.ts";
 import {
   deactivatedMidRunStorage,
+  deactivatedMidSignInStorage,
+  deletedMidSignInStorage,
   editedMidRunStorage,
   freshDatabasePath,
   memoryAssets,
   pausedMidRunStorage,
+  racedMidSignInStorage,
+  recreatedMidSignInStorage,
+  signInUnavailableStorage,
   unusableStorage,
 } from "./storage.ts";
 import { Secrets } from "../../../secrets/server.ts";
@@ -30,7 +35,18 @@ import { layer as nodeServices } from "@effect/platform-node/NodeServices";
 import { secretsOf } from "./secrets.ts";
 import { triggerCallerLive } from "../../../triggers/server.ts";
 
-type StorageKind = "memory" | "unusable" | "sqlite" | "paused-mid-run" | "deactivated-mid-run" | "edited-mid-run";
+type StorageKind =
+  | "memory"
+  | "unusable"
+  | "sqlite"
+  | "paused-mid-run"
+  | "deactivated-mid-run"
+  | "edited-mid-run"
+  | "deactivated-mid-sign-in"
+  | "deleted-mid-sign-in"
+  | "raced-mid-sign-in"
+  | "recreated-mid-sign-in"
+  | "sign-in-unavailable";
 
 interface BackingOptions {
   readonly storage?: StorageKind;
@@ -54,9 +70,14 @@ function sqliteStores(database: string): Layer.Layer<Stores> {
 
 const sharedLayers: Readonly<Record<Exclude<StorageKind, "sqlite">, Layer.Layer<Storage>>> = {
   "deactivated-mid-run": deactivatedMidRunStorage,
+  "deactivated-mid-sign-in": deactivatedMidSignInStorage,
+  "deleted-mid-sign-in": deletedMidSignInStorage,
   "edited-mid-run": editedMidRunStorage,
   memory: memoryStorage,
   "paused-mid-run": pausedMidRunStorage,
+  "raced-mid-sign-in": racedMidSignInStorage,
+  "recreated-mid-sign-in": recreatedMidSignInStorage,
+  "sign-in-unavailable": signInUnavailableStorage,
   unusable: unusableStorage,
 };
 

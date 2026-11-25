@@ -100,6 +100,19 @@ export {
   testCookout,
 } from "./lib/server/cookout.ts";
 export type { LastEnd } from "./lib/server/booted.ts";
+export {
+  type FinishedOidcSignIn,
+  type StartedOidcSignIn,
+  authorizeAt,
+  finishOidcSignIn,
+  linkIdOf,
+  signedInAs,
+  startOidcSignIn,
+  startOidcSignInBackTo,
+  testCookoutWithOidc,
+  whoamiAfter,
+} from "./lib/server/oidc.ts";
+export { type FakeUser, type IdTokenChanges, OidcFake, oidcFake } from "../oidc-fake/server.ts";
 export { fixtureTime, isoTime, testStartTime } from "./lib/server/time.ts";
 export { triggerToken } from "../webhook-fake/server.ts";
 export { type BuiltWeb, builtWebFolder } from "./lib/server/web.ts";

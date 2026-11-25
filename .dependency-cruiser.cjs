@@ -8,7 +8,7 @@ const SCREENSHOTS = String.raw`^scripts/screenshots\.ts$`;
 const WEB = `^app/web\\.tsx$|^${R}/(design-system|session|board|unread|composer|live|layout|paths|routes|format|views)/`;
 const PUBLISHED_ENTRIES = ["app/main.ts", `${R}/sdk/index.ts`];
 const PUBLISHED_SDK = `${R}/sdk/index.ts`;
-const TESTED_INTERFACES = ["sdk", "cli", "storage", "webhook-fake", "dev", "routes", "board"];
+const TESTED_INTERFACES = ["sdk", "cli", "storage", "webhook-fake", "oidc-fake", "dev", "routes", "board"];
 const HANDLER_EXAMPLE = "packages/handler-example";
 const HANDLER_EXAMPLE_MODULES = `${HANDLER_EXAMPLE}/app/modules`;
 const HANDLER_EXAMPLE_TESTED_INTERFACES = ["handler"];
@@ -27,7 +27,7 @@ module.exports = {
       from: { path: PUBLISHED_ENTRIES.map(exactly) },
       name: "published-entries-ship-no-test-code",
       severity: "error",
-      to: { path: `^${R}/(testing|webhook-fake|dev)/`, reachable: true },
+      to: { path: `^${R}/(testing|webhook-fake|oidc-fake|dev)/`, reachable: true },
     },
     {
       comment: "serve never runs on the dev program's adjustable clock, wherever that clock's file moves (#268).",
@@ -125,6 +125,12 @@ module.exports = {
       name: "webhook-fake-only-from-tests-and-dev",
       severity: "error",
       to: { path: `^${R}/webhook-fake/` },
+    },
+    {
+      from: { pathNot: [TESTS, `^${R}/testing/`, `^${R}/oidc-fake/`] },
+      name: "oidc-fake-only-from-tests",
+      severity: "error",
+      to: { path: `^${R}/oidc-fake/` },
     },
     {
       from: { pathNot: [TESTS, `^${R}/testing/`, `^${R}/dev/`, DEV_ENTRY] },

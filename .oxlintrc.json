@@ -1641,6 +1641,13 @@
       }
     },
     {
+      "files": ["app/modules/identities/lib/server/adapters/provider-network.ts"],
+      "rules": {
+        "effecttsgo/node-builtin-import": "off",
+        "import/no-nodejs-modules": "off"
+      }
+    },
+    {
       "files": ["app/modules/secrets/lib/server/**"],
       "rules": {
         "no-restricted-imports": [

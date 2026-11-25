@@ -297,3 +297,4 @@ export { adminTokenRule };
 
 /** Why `cookout serve` refused `COOKOUT_ADMIN_NAME`: the identity-name rule. */
 export { adminNameRule };
+export { oidcSettings } from "./lib/server/oidc.ts";

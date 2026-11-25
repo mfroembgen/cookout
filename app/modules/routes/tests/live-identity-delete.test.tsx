@@ -123,7 +123,7 @@ it("an identity deleted elsewhere shows no notice on a page not open on its prof
 
   await newIdentity({ kind: "agent", name: "web-live-gone-other-bot" });
   const { boardStore, close } = await openBoardAs("web-live-gone-other-reader", "#/people");
-  await inPane().findByRole("link", { name: testAgentDisplayName("web-live-gone-other-bot") });
+  await inPane().findByRole("link", { name: new RegExp(`^${testAgentDisplayName("web-live-gone-other-bot")}`, "u") });
   await adminClient().deleteIdentity("web-live-gone-other-bot");
   await leftPeople("web-live-gone-other-bot");
   await heardDeleted(boardStore, "web-live-gone-other-bot");

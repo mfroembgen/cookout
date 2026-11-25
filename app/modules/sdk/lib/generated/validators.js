@@ -19433,7 +19433,7 @@ return errors === 0;
 validate58.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isIdentityResponse = validate59;
-const schema318 = {"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]}},"required":["identity"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
+const schema318 = {"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"signIn":{"type":"object","properties":{"email":{"type":"string"},"linkedAt":{"$ref":"#/$defs/IsoTime"}},"required":["email","linkedAt"],"additionalProperties":true}},"required":["identity"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
 const schema319 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
 const schema320 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
 const schema321 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
@@ -19461,6 +19461,7 @@ return false;
 else {
 if(data.identity !== undefined){
 let data0 = data.identity;
+const _errs2 = errors;
 const _errs3 = errors;
 let valid1 = false;
 const _errs4 = errors;
@@ -20255,6 +20256,69 @@ vErrors = null;
 }
 }
 }
+var valid0 = _errs2 === errors;
+}
+else {
+var valid0 = true;
+}
+if(valid0){
+if(data.signIn !== undefined){
+let data21 = data.signIn;
+const _errs63 = errors;
+if(errors === _errs63){
+if(data21 && typeof data21 == "object" && !Array.isArray(data21)){
+let missing5;
+if(((data21.email === undefined) && (missing5 = "email")) || ((data21.linkedAt === undefined) && (missing5 = "linkedAt"))){
+validate59.errors = [{instancePath:instancePath+"/signIn",schemaPath:"#/properties/signIn/required",keyword:"required",params:{missingProperty: missing5},message:"must have required property '"+missing5+"'"}];
+return false;
+}
+else {
+if(data21.email !== undefined){
+const _errs66 = errors;
+if(typeof data21.email !== "string"){
+validate59.errors = [{instancePath:instancePath+"/signIn/email",schemaPath:"#/properties/signIn/properties/email/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+var valid17 = _errs66 === errors;
+}
+else {
+var valid17 = true;
+}
+if(valid17){
+if(data21.linkedAt !== undefined){
+let data23 = data21.linkedAt;
+const _errs68 = errors;
+const _errs69 = errors;
+if(errors === _errs69){
+if(typeof data23 === "string"){
+if(!pattern5.test(data23)){
+validate59.errors = [{instancePath:instancePath+"/signIn/linkedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+return false;
+}
+}
+else {
+validate59.errors = [{instancePath:instancePath+"/signIn/linkedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid17 = _errs68 === errors;
+}
+else {
+var valid17 = true;
+}
+}
+}
+}
+else {
+validate59.errors = [{instancePath:instancePath+"/signIn",schemaPath:"#/properties/signIn/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+var valid0 = _errs63 === errors;
+}
+else {
+var valid0 = true;
+}
 }
 }
 }
@@ -20269,14 +20333,14 @@ return errors === 0;
 validate59.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isIdentityWithTokenResponse = validate60;
-const schema330 = {"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"token":{"$ref":"#/$defs/Token"}},"required":["identity","token"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"Token":{"type":"string","pattern":"^cookout_[A-Za-z0-9_-]+$"}}};
-const schema331 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema332 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema333 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema334 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema338 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema341 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema342 = {"type":"string","pattern":"^cookout_[A-Za-z0-9_-]+$"};
+const schema331 = {"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"token":{"$ref":"#/$defs/Token"}},"required":["identity","token"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"Token":{"type":"string","pattern":"^cookout_[A-Za-z0-9_-]+$"}}};
+const schema332 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema333 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema334 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema335 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema339 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema342 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema343 = {"type":"string","pattern":"^cookout_[A-Za-z0-9_-]+$"};
 
 function validate60(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -20446,7 +20510,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data5 === true)){
-const err9 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema330.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema331.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -20533,7 +20597,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data7 === "human")){
-const err15 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema330.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema331.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -20784,7 +20848,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data14 === true)){
-const err30 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema330.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema331.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -20929,7 +20993,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data17 === true)){
-const err40 = {instancePath:instancePath+"/identity/handler",schemaPath:"#/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema330.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/identity/handler",schemaPath:"#/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema331.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -20958,7 +21022,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data18 === "agent")){
-const err42 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema330.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema331.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -21134,13 +21198,13 @@ return errors === 0;
 validate60.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isListIdentitiesResponse = validate61;
-const schema343 = {"type":"object","properties":{"identities":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]}}},"required":["identities"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
-const schema344 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema345 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema346 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema347 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema351 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema354 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema344 = {"type":"object","properties":{"identities":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]}}},"required":["identities"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
+const schema345 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema346 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema347 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema348 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema352 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema355 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
 
 function validate61(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -21317,7 +21381,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data6 === true)){
-const err9 = {instancePath:instancePath+"/identities/" + i0+"/deactivated",schemaPath:"#/properties/identities/items/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema343.properties.identities.items.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/identities/" + i0+"/deactivated",schemaPath:"#/properties/identities/items/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema344.properties.identities.items.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -21404,7 +21468,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data8 === "human")){
-const err15 = {instancePath:instancePath+"/identities/" + i0+"/kind",schemaPath:"#/properties/identities/items/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema343.properties.identities.items.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/identities/" + i0+"/kind",schemaPath:"#/properties/identities/items/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema344.properties.identities.items.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -21655,7 +21719,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data15 === true)){
-const err30 = {instancePath:instancePath+"/identities/" + i0+"/deactivated",schemaPath:"#/properties/identities/items/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema343.properties.identities.items.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/identities/" + i0+"/deactivated",schemaPath:"#/properties/identities/items/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema344.properties.identities.items.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -21800,7 +21864,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data18 === true)){
-const err40 = {instancePath:instancePath+"/identities/" + i0+"/handler",schemaPath:"#/properties/identities/items/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema343.properties.identities.items.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/identities/" + i0+"/handler",schemaPath:"#/properties/identities/items/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema344.properties.identities.items.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -21829,7 +21893,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data19 === "agent")){
-const err42 = {instancePath:instancePath+"/identities/" + i0+"/kind",schemaPath:"#/properties/identities/items/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema343.properties.identities.items.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/identities/" + i0+"/kind",schemaPath:"#/properties/identities/items/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema344.properties.identities.items.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -21989,12 +22053,12 @@ return errors === 0;
 validate61.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isAckAllResponse = validate62;
-const schema355 = {"type":"object","properties":{"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"readPositions":{"type":"array","items":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}}},"required":["alerts","readPositions"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"}}};
-const schema356 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema357 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema358 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema360 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema361 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema356 = {"type":"object","properties":{"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"readPositions":{"type":"array","items":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}}},"required":["alerts","readPositions"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"}}};
+const schema357 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema358 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema359 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema361 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema362 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
 
 function validate62(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -22112,7 +22176,7 @@ validate62.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason"
 return false;
 }
 if(!(((((((data5 === "left") || (data5 === "session revoked")) || (data5 === "session expired")) || (data5 === "token rotated")) || (data5 === "deactivated")) || (data5 === "connection lost")) || (data5 === "trigger failed"))){
-validate62.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema355.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
+validate62.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema356.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid2 = _errs16 === errors;
@@ -22469,9 +22533,9 @@ return errors === 0;
 validate62.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isAckResponse = validate63;
-const schema364 = {"type":"object","properties":{"readPosition":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}},"required":["readPosition"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema365 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema366 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema365 = {"type":"object","properties":{"readPosition":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}},"required":["readPosition"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema366 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema367 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate63(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -22661,14 +22725,14 @@ return errors === 0;
 validate63.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isDeactivatedQuietAgentResponse = validate64;
-const schema368 = {"type":"object","properties":{"deactivatedQuietAgent":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"required":["deactivatedQuietAgent"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
-const schema369 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema370 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema371 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema373 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema374 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema378 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema381 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema369 = {"type":"object","properties":{"deactivatedQuietAgent":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"required":["deactivatedQuietAgent"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
+const schema370 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema371 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema372 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema374 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema375 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema379 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema382 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
 
 function validate64(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -22899,7 +22963,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data8 === true)){
-const err9 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema368.properties.deactivatedQuietAgent.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema369.properties.deactivatedQuietAgent.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -22986,7 +23050,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data10 === "human")){
-const err15 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/kind",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema368.properties.deactivatedQuietAgent.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/kind",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema369.properties.deactivatedQuietAgent.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -23237,7 +23301,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data17 === true)){
-const err30 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema368.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema369.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -23382,7 +23446,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data20 === true)){
-const err40 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/handler",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema368.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/handler",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema369.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -23411,7 +23475,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data21 === "agent")){
-const err42 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/kind",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema368.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/deactivatedQuietAgent/identity/kind",schemaPath:"#/properties/deactivatedQuietAgent/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema369.properties.deactivatedQuietAgent.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -23600,14 +23664,14 @@ return errors === 0;
 validate64.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isDeactivationOfferResponse = validate65;
-const schema382 = {"type":"object","properties":{"deactivationOffer":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"required":["deactivationOffer"],"additionalProperties":true,"$defs":{"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
-const schema383 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema384 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema385 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema386 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema387 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema391 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema394 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema383 = {"type":"object","properties":{"deactivationOffer":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"required":["deactivationOffer"],"additionalProperties":true,"$defs":{"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
+const schema384 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema385 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema386 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema387 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema388 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema392 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema395 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
 
 function validate65(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -23828,7 +23892,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data8 === true)){
-const err9 = {instancePath:instancePath+"/deactivationOffer/identity/deactivated",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema382.properties.deactivationOffer.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/deactivationOffer/identity/deactivated",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema383.properties.deactivationOffer.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -23915,7 +23979,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data10 === "human")){
-const err15 = {instancePath:instancePath+"/deactivationOffer/identity/kind",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema382.properties.deactivationOffer.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/deactivationOffer/identity/kind",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema383.properties.deactivationOffer.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -24166,7 +24230,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data17 === true)){
-const err30 = {instancePath:instancePath+"/deactivationOffer/identity/deactivated",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema382.properties.deactivationOffer.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/deactivationOffer/identity/deactivated",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema383.properties.deactivationOffer.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -24311,7 +24375,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data20 === true)){
-const err40 = {instancePath:instancePath+"/deactivationOffer/identity/handler",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema382.properties.deactivationOffer.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/deactivationOffer/identity/handler",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema383.properties.deactivationOffer.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -24340,7 +24404,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data21 === "agent")){
-const err42 = {instancePath:instancePath+"/deactivationOffer/identity/kind",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema382.properties.deactivationOffer.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/deactivationOffer/identity/kind",schemaPath:"#/properties/deactivationOffer/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema383.properties.deactivationOffer.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -24567,8 +24631,8 @@ return errors === 0;
 validate65.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isFollowResponse = validate66;
-const schema396 = {"type":"object","properties":{"following":{"type":"boolean"},"thread":{"$ref":"#/$defs/MessageId"}},"required":["following","thread"],"additionalProperties":true,"$defs":{"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema397 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema397 = {"type":"object","properties":{"following":{"type":"boolean"},"thread":{"$ref":"#/$defs/MessageId"}},"required":["following","thread"],"additionalProperties":true,"$defs":{"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema398 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate66(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -24641,25 +24705,25 @@ return errors === 0;
 validate66.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isInboxHistoryResponse = validate67;
-const schema398 = {"type":"object","properties":{"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"deactivatedQuietAgents":{"type":"array","items":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"deactivationOffers":{"type":"array","items":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"hasMore":{"type":"boolean"},"items":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"newReactions":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName_1"},"messageId":{"$ref":"#/$defs/MessageId"},"reactedAt":{"$ref":"#/$defs/IsoTime"},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["identity","messageId","reactedAt","reaction"],"additionalProperties":true}},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"reasons":{"type":"array","items":{"type":"string","enum":["followed-thread","mention","reaction","subscribed-channel"]}},"read":{"type":"boolean"}},"required":["channel","message","parent","reasons","read"],"additionalProperties":true}},"nudges":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"},"read":{"type":"boolean"}},"required":["channel","id","kind","parent","raisedAt","text","read"],"additionalProperties":true}}},"required":["alerts","deactivatedQuietAgents","deactivationOffers","hasMore","items","nudges"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}}};
-const schema399 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema400 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema401 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema403 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema405 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema406 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema408 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema413 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema416 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema417 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema431 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema432 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema433 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema434 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema435 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema437 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema441 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema480 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema399 = {"type":"object","properties":{"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"deactivatedQuietAgents":{"type":"array","items":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"deactivationOffers":{"type":"array","items":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"hasMore":{"type":"boolean"},"items":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"newReactions":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName_1"},"messageId":{"$ref":"#/$defs/MessageId"},"reactedAt":{"$ref":"#/$defs/IsoTime"},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["identity","messageId","reactedAt","reaction"],"additionalProperties":true}},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"reasons":{"type":"array","items":{"type":"string","enum":["followed-thread","mention","reaction","subscribed-channel"]}},"read":{"type":"boolean"}},"required":["channel","message","parent","reasons","read"],"additionalProperties":true}},"nudges":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"},"read":{"type":"boolean"}},"required":["channel","id","kind","parent","raisedAt","text","read"],"additionalProperties":true}}},"required":["alerts","deactivatedQuietAgents","deactivationOffers","hasMore","items","nudges"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}}};
+const schema400 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema401 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema402 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema404 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema406 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema407 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema409 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema414 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema417 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema418 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema432 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema433 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema434 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema435 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema436 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema438 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema442 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema481 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
 
 function validate67(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -24777,7 +24841,7 @@ validate67.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason"
 return false;
 }
 if(!(((((((data5 === "left") || (data5 === "session revoked")) || (data5 === "session expired")) || (data5 === "token rotated")) || (data5 === "deactivated")) || (data5 === "connection lost")) || (data5 === "trigger failed"))){
-validate67.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema398.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/alerts/" + i0+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema399.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid2 = _errs16 === errors;
@@ -25159,7 +25223,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data21 === true)){
-const err9 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -25246,7 +25310,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data23 === "human")){
-const err15 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -25497,7 +25561,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data30 === true)){
-const err30 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -25642,7 +25706,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data33 === true)){
-const err40 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/handler",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/handler",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -25671,7 +25735,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data34 === "agent")){
-const err42 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i1+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -26071,7 +26135,7 @@ vErrors.push(err57);
 errors++;
 }
 if(!(data48 === true)){
-const err58 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err58 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err58];
 }
@@ -26158,7 +26222,7 @@ vErrors.push(err63);
 errors++;
 }
 if(!(data50 === "human")){
-const err64 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err64 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err64];
 }
@@ -26409,7 +26473,7 @@ vErrors.push(err78);
 errors++;
 }
 if(!(data57 === true)){
-const err79 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err79 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err79];
 }
@@ -26554,7 +26618,7 @@ vErrors.push(err88);
 errors++;
 }
 if(!(data60 === true)){
-const err89 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/handler",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err89 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/handler",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err89];
 }
@@ -26583,7 +26647,7 @@ vErrors.push(err90);
 errors++;
 }
 if(!(data61 === "agent")){
-const err91 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err91 = {instancePath:instancePath+"/deactivationOffers/" + i2+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err91];
 }
@@ -26997,7 +27061,7 @@ vErrors.push(err100);
 errors++;
 }
 if(!(((((data77 === "image/png") || (data77 === "image/jpeg")) || (data77 === "image/gif")) || (data77 === "image/webp")) || (data77 === "application/octet-stream"))){
-const err101 = {instancePath:instancePath+"/items/" + i3+"/message/attachments/" + i4+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err101 = {instancePath:instancePath+"/items/" + i3+"/message/attachments/" + i4+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err101];
 }
@@ -27709,7 +27773,7 @@ vErrors.push(err142);
 errors++;
 }
 if(!((data98 === "thumbs_up") || (data98 === "thumbs_down"))){
-const err143 = {instancePath:instancePath+"/items/" + i3+"/message/reactions/" + i6+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err143 = {instancePath:instancePath+"/items/" + i3+"/message/reactions/" + i6+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err143];
 }
@@ -27976,7 +28040,7 @@ vErrors.push(err158);
 errors++;
 }
 if(!(data105 === "top-level")){
-const err159 = {instancePath:instancePath+"/items/" + i3+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err159 = {instancePath:instancePath+"/items/" + i3+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err159];
 }
@@ -28420,7 +28484,7 @@ vErrors.push(err183);
 errors++;
 }
 if(!(((((data115 === "image/png") || (data115 === "image/jpeg")) || (data115 === "image/gif")) || (data115 === "image/webp")) || (data115 === "application/octet-stream"))){
-const err184 = {instancePath:instancePath+"/items/" + i3+"/message/attachments/" + i9+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err184 = {instancePath:instancePath+"/items/" + i3+"/message/attachments/" + i9+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err184];
 }
@@ -29132,7 +29196,7 @@ vErrors.push(err225);
 errors++;
 }
 if(!((data136 === "thumbs_up") || (data136 === "thumbs_down"))){
-const err226 = {instancePath:instancePath+"/items/" + i3+"/message/reactions/" + i11+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err226 = {instancePath:instancePath+"/items/" + i3+"/message/reactions/" + i11+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err226];
 }
@@ -29331,7 +29395,7 @@ vErrors.push(err237);
 errors++;
 }
 if(!(data141 === "reply")){
-const err238 = {instancePath:instancePath+"/items/" + i3+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err238 = {instancePath:instancePath+"/items/" + i3+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err238];
 }
@@ -29549,7 +29613,7 @@ validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/newReactions/" 
 return false;
 }
 if(!((data148 === "thumbs_up") || (data148 === "thumbs_down"))){
-validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/newReactions/" + i13+"/reaction",schemaPath:"#/properties/items/items/properties/newReactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.newReactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/newReactions/" + i13+"/reaction",schemaPath:"#/properties/items/items/properties/newReactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.newReactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid105 = _errs407 === errors;
@@ -29621,7 +29685,7 @@ validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/attachme
 return false;
 }
 if(!(((((data152 === "image/png") || (data152 === "image/jpeg")) || (data152 === "image/gif")) || (data152 === "image/webp")) || (data152 === "application/octet-stream"))){
-validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/attachments/" + i14+"/contentType",schemaPath:"#/properties/items/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/attachments/" + i14+"/contentType",schemaPath:"#/properties/items/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid111 = _errs417 === errors;
@@ -30081,7 +30145,7 @@ validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/reaction
 return false;
 }
 if(!((data173 === "thumbs_up") || (data173 === "thumbs_down"))){
-validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/reactions/" + i16+"/reaction",schemaPath:"#/properties/items/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/reactions/" + i16+"/reaction",schemaPath:"#/properties/items/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid123 = _errs470 === errors;
@@ -30252,7 +30316,7 @@ validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/kind",sc
 return false;
 }
 if(!(data180 === "top-level")){
-validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/kind",schemaPath:"#/properties/items/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/parent/kind",schemaPath:"#/properties/items/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid109 = _errs488 === errors;
@@ -30585,7 +30649,7 @@ validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/reasons/" + i19
 return false;
 }
 if(!((((data189 === "followed-thread") || (data189 === "mention")) || (data189 === "reaction")) || (data189 === "subscribed-channel"))){
-validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/reasons/" + i19,schemaPath:"#/properties/items/items/properties/reasons/items/enum",keyword:"enum",params:{allowedValues: schema398.properties.items.items.properties.reasons.items.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/items/" + i3+"/reasons/" + i19,schemaPath:"#/properties/items/items/properties/reasons/items/enum",keyword:"enum",params:{allowedValues: schema399.properties.items.items.properties.reasons.items.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid138 = _errs519 === errors;
@@ -30795,7 +30859,7 @@ validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/kind",schemaP
 return false;
 }
 if(!((data198 === "first") || (data198 === "second"))){
-validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/kind",schemaPath:"#/properties/nudges/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.nudges.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/kind",schemaPath:"#/properties/nudges/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.nudges.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid140 = _errs542 === errors;
@@ -30841,7 +30905,7 @@ validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/attach
 return false;
 }
 if(!(((((data202 === "image/png") || (data202 === "image/jpeg")) || (data202 === "image/gif")) || (data202 === "image/webp")) || (data202 === "application/octet-stream"))){
-validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/attachments/" + i21+"/contentType",schemaPath:"#/properties/nudges/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema398.properties.nudges.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/attachments/" + i21+"/contentType",schemaPath:"#/properties/nudges/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema399.properties.nudges.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid147 = _errs552 === errors;
@@ -31301,7 +31365,7 @@ validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/reacti
 return false;
 }
 if(!((data223 === "thumbs_up") || (data223 === "thumbs_down"))){
-validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/reactions/" + i23+"/reaction",schemaPath:"#/properties/nudges/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema398.properties.nudges.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/reactions/" + i23+"/reaction",schemaPath:"#/properties/nudges/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema399.properties.nudges.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid159 = _errs605 === errors;
@@ -31472,7 +31536,7 @@ validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/kind",
 return false;
 }
 if(!(data230 === "top-level")){
-validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/kind",schemaPath:"#/properties/nudges/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema398.properties.nudges.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate67.errors = [{instancePath:instancePath+"/nudges/" + i20+"/parent/kind",schemaPath:"#/properties/nudges/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema399.properties.nudges.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid145 = _errs623 === errors;
@@ -31882,25 +31946,25 @@ return errors === 0;
 validate67.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isInboxResponse = validate68;
-const schema498 = {"type":"object","properties":{"agentJoinRequests":{"type":"array","items":{"type":"object","properties":{"agent":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"createdAt":{"$ref":"#/$defs/IsoTime"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"host":{"type":"string"},"text":{"type":"string"},"userCode":{"type":"string"}},"required":["agent","createdAt","expiresAt","host","text","userCode"],"additionalProperties":true}},"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"deactivatedQuietAgents":{"type":"array","items":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"deactivationOffers":{"type":"array","items":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"items":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"newReactions":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName_1"},"messageId":{"$ref":"#/$defs/MessageId"},"reactedAt":{"$ref":"#/$defs/IsoTime"},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["identity","messageId","reactedAt","reaction"],"additionalProperties":true}},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"reasons":{"type":"array","items":{"type":"string","enum":["followed-thread","mention","reaction","subscribed-channel"]}}},"required":["channel","message","parent","reasons"],"additionalProperties":true}},"nudges":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["channel","id","kind","parent","raisedAt","text"],"additionalProperties":true}}},"required":["agentJoinRequests","alerts","deactivatedQuietAgents","deactivationOffers","items","nudges"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}}};
-const schema499 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema500 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema501 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema502 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema506 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema509 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema514 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema516 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema518 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema530 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema544 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema545 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema546 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema547 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema548 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema550 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema554 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema593 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema499 = {"type":"object","properties":{"agentJoinRequests":{"type":"array","items":{"type":"object","properties":{"agent":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"createdAt":{"$ref":"#/$defs/IsoTime"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"host":{"type":"string"},"text":{"type":"string"},"userCode":{"type":"string"}},"required":["agent","createdAt","expiresAt","host","text","userCode"],"additionalProperties":true}},"alerts":{"type":"array","items":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"deactivatedQuietAgents":{"type":"array","items":{"type":"object","properties":{"deactivatedAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/DeactivatedQuietAgentId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"read":{"type":"boolean"},"text":{"type":"string"}},"required":["deactivatedAt","id","identity","read","text"],"additionalProperties":true}},"deactivationOffers":{"type":"array","items":{"type":"object","properties":{"cleared":{"type":"boolean"},"id":{"$ref":"#/$defs/DeactivationOfferId"},"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"quietDays":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["cleared","id","identity","quietDays","raisedAt","text"],"additionalProperties":true}},"items":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"newReactions":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName_1"},"messageId":{"$ref":"#/$defs/MessageId"},"reactedAt":{"$ref":"#/$defs/IsoTime"},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["identity","messageId","reactedAt","reaction"],"additionalProperties":true}},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"reasons":{"type":"array","items":{"type":"string","enum":["followed-thread","mention","reaction","subscribed-channel"]}}},"required":["channel","message","parent","reasons"],"additionalProperties":true}},"nudges":{"type":"array","items":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName_1"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName_1"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName_1"},"owner":{"$ref":"#/$defs/Owner_1"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"}},"required":["channel","id","kind","parent","raisedAt","text"],"additionalProperties":true}}},"required":["agentJoinRequests","alerts","deactivatedQuietAgents","deactivationOffers","items","nudges"],"additionalProperties":true,"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"DeactivatedQuietAgentId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"DeactivationOfferId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner_1":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}}};
+const schema500 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema501 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema502 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema503 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema507 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema510 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema515 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema517 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema519 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema531 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema545 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema546 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema547 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema548 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema549 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema551 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema555 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema594 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
 
 function validate68(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -32088,7 +32152,7 @@ vErrors.push(err8);
 errors++;
 }
 if(!(data7 === true)){
-const err9 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/deactivated",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.agentJoinRequests.items.properties.agent.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err9 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/deactivated",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.agentJoinRequests.items.properties.agent.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -32175,7 +32239,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!(data9 === "human")){
-const err15 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/kind",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.agentJoinRequests.items.properties.agent.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/kind",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.agentJoinRequests.items.properties.agent.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -32426,7 +32490,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!(data16 === true)){
-const err30 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/deactivated",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/deactivated",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -32571,7 +32635,7 @@ vErrors.push(err39);
 errors++;
 }
 if(!(data19 === true)){
-const err40 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/handler",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema498.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err40 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/handler",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema499.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -32600,7 +32664,7 @@ vErrors.push(err41);
 errors++;
 }
 if(!(data20 === "agent")){
-const err42 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/kind",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err42 = {instancePath:instancePath+"/agentJoinRequests/" + i0+"/agent/kind",schemaPath:"#/properties/agentJoinRequests/items/properties/agent/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.agentJoinRequests.items.properties.agent.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -32947,7 +33011,7 @@ validate68.errors = [{instancePath:instancePath+"/alerts/" + i1+"/offlineReason"
 return false;
 }
 if(!(((((((data33 === "left") || (data33 === "session revoked")) || (data33 === "session expired")) || (data33 === "token rotated")) || (data33 === "deactivated")) || (data33 === "connection lost")) || (data33 === "trigger failed"))){
-validate68.errors = [{instancePath:instancePath+"/alerts/" + i1+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema498.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/alerts/" + i1+"/offlineReason",schemaPath:"#/properties/alerts/items/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema499.properties.alerts.items.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid22 = _errs94 === errors;
@@ -33329,7 +33393,7 @@ vErrors.push(err57);
 errors++;
 }
 if(!(data49 === true)){
-const err58 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err58 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err58];
 }
@@ -33416,7 +33480,7 @@ vErrors.push(err63);
 errors++;
 }
 if(!(data51 === "human")){
-const err64 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err64 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivatedQuietAgents.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err64];
 }
@@ -33667,7 +33731,7 @@ vErrors.push(err78);
 errors++;
 }
 if(!(data58 === true)){
-const err79 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err79 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/deactivated",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err79];
 }
@@ -33812,7 +33876,7 @@ vErrors.push(err88);
 errors++;
 }
 if(!(data61 === true)){
-const err89 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/handler",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err89 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/handler",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err89];
 }
@@ -33841,7 +33905,7 @@ vErrors.push(err90);
 errors++;
 }
 if(!(data62 === "agent")){
-const err91 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err91 = {instancePath:instancePath+"/deactivatedQuietAgents/" + i2+"/identity/kind",schemaPath:"#/properties/deactivatedQuietAgents/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivatedQuietAgents.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err91];
 }
@@ -34241,7 +34305,7 @@ vErrors.push(err106);
 errors++;
 }
 if(!(data76 === true)){
-const err107 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err107 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err107];
 }
@@ -34328,7 +34392,7 @@ vErrors.push(err112);
 errors++;
 }
 if(!(data78 === "human")){
-const err113 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err113 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivationOffers.items.properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err113];
 }
@@ -34579,7 +34643,7 @@ vErrors.push(err127);
 errors++;
 }
 if(!(data85 === true)){
-const err128 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err128 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/deactivated",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err128];
 }
@@ -34724,7 +34788,7 @@ vErrors.push(err137);
 errors++;
 }
 if(!(data88 === true)){
-const err138 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/handler",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err138 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/handler",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err138];
 }
@@ -34753,7 +34817,7 @@ vErrors.push(err139);
 errors++;
 }
 if(!(data89 === "agent")){
-const err140 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err140 = {instancePath:instancePath+"/deactivationOffers/" + i3+"/identity/kind",schemaPath:"#/properties/deactivationOffers/items/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.deactivationOffers.items.properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err140];
 }
@@ -35155,7 +35219,7 @@ vErrors.push(err149);
 errors++;
 }
 if(!(((((data104 === "image/png") || (data104 === "image/jpeg")) || (data104 === "image/gif")) || (data104 === "image/webp")) || (data104 === "application/octet-stream"))){
-const err150 = {instancePath:instancePath+"/items/" + i4+"/message/attachments/" + i5+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err150 = {instancePath:instancePath+"/items/" + i4+"/message/attachments/" + i5+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err150];
 }
@@ -35867,7 +35931,7 @@ vErrors.push(err191);
 errors++;
 }
 if(!((data125 === "thumbs_up") || (data125 === "thumbs_down"))){
-const err192 = {instancePath:instancePath+"/items/" + i4+"/message/reactions/" + i7+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err192 = {instancePath:instancePath+"/items/" + i4+"/message/reactions/" + i7+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err192];
 }
@@ -36134,7 +36198,7 @@ vErrors.push(err207);
 errors++;
 }
 if(!(data132 === "top-level")){
-const err208 = {instancePath:instancePath+"/items/" + i4+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err208 = {instancePath:instancePath+"/items/" + i4+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err208];
 }
@@ -36578,7 +36642,7 @@ vErrors.push(err232);
 errors++;
 }
 if(!(((((data142 === "image/png") || (data142 === "image/jpeg")) || (data142 === "image/gif")) || (data142 === "image/webp")) || (data142 === "application/octet-stream"))){
-const err233 = {instancePath:instancePath+"/items/" + i4+"/message/attachments/" + i10+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err233 = {instancePath:instancePath+"/items/" + i4+"/message/attachments/" + i10+"/contentType",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err233];
 }
@@ -37290,7 +37354,7 @@ vErrors.push(err274);
 errors++;
 }
 if(!((data163 === "thumbs_up") || (data163 === "thumbs_down"))){
-const err275 = {instancePath:instancePath+"/items/" + i4+"/message/reactions/" + i12+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err275 = {instancePath:instancePath+"/items/" + i4+"/message/reactions/" + i12+"/reaction",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err275];
 }
@@ -37489,7 +37553,7 @@ vErrors.push(err286);
 errors++;
 }
 if(!(data168 === "reply")){
-const err287 = {instancePath:instancePath+"/items/" + i4+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err287 = {instancePath:instancePath+"/items/" + i4+"/message/kind",schemaPath:"#/properties/items/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err287];
 }
@@ -37707,7 +37771,7 @@ validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/newReactions/" 
 return false;
 }
 if(!((data175 === "thumbs_up") || (data175 === "thumbs_down"))){
-validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/newReactions/" + i14+"/reaction",schemaPath:"#/properties/items/items/properties/newReactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.newReactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/newReactions/" + i14+"/reaction",schemaPath:"#/properties/items/items/properties/newReactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.newReactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid125 = _errs483 === errors;
@@ -37779,7 +37843,7 @@ validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/attachme
 return false;
 }
 if(!(((((data179 === "image/png") || (data179 === "image/jpeg")) || (data179 === "image/gif")) || (data179 === "image/webp")) || (data179 === "application/octet-stream"))){
-validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/attachments/" + i15+"/contentType",schemaPath:"#/properties/items/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/attachments/" + i15+"/contentType",schemaPath:"#/properties/items/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid131 = _errs493 === errors;
@@ -38239,7 +38303,7 @@ validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/reaction
 return false;
 }
 if(!((data200 === "thumbs_up") || (data200 === "thumbs_down"))){
-validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/reactions/" + i17+"/reaction",schemaPath:"#/properties/items/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/reactions/" + i17+"/reaction",schemaPath:"#/properties/items/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid143 = _errs546 === errors;
@@ -38410,7 +38474,7 @@ validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/kind",sc
 return false;
 }
 if(!(data207 === "top-level")){
-validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/kind",schemaPath:"#/properties/items/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/parent/kind",schemaPath:"#/properties/items/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid129 = _errs564 === errors;
@@ -38743,7 +38807,7 @@ validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/reasons/" + i20
 return false;
 }
 if(!((((data216 === "followed-thread") || (data216 === "mention")) || (data216 === "reaction")) || (data216 === "subscribed-channel"))){
-validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/reasons/" + i20,schemaPath:"#/properties/items/items/properties/reasons/items/enum",keyword:"enum",params:{allowedValues: schema498.properties.items.items.properties.reasons.items.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/items/" + i4+"/reasons/" + i20,schemaPath:"#/properties/items/items/properties/reasons/items/enum",keyword:"enum",params:{allowedValues: schema499.properties.items.items.properties.reasons.items.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid158 = _errs595 === errors;
@@ -38940,7 +39004,7 @@ validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/kind",schemaP
 return false;
 }
 if(!((data224 === "first") || (data224 === "second"))){
-validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/kind",schemaPath:"#/properties/nudges/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.nudges.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/kind",schemaPath:"#/properties/nudges/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.nudges.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid160 = _errs616 === errors;
@@ -38986,7 +39050,7 @@ validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/attach
 return false;
 }
 if(!(((((data228 === "image/png") || (data228 === "image/jpeg")) || (data228 === "image/gif")) || (data228 === "image/webp")) || (data228 === "application/octet-stream"))){
-validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/attachments/" + i22+"/contentType",schemaPath:"#/properties/nudges/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema498.properties.nudges.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/attachments/" + i22+"/contentType",schemaPath:"#/properties/nudges/items/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema499.properties.nudges.items.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid167 = _errs626 === errors;
@@ -39446,7 +39510,7 @@ validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/reacti
 return false;
 }
 if(!((data249 === "thumbs_up") || (data249 === "thumbs_down"))){
-validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/reactions/" + i24+"/reaction",schemaPath:"#/properties/nudges/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema498.properties.nudges.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/reactions/" + i24+"/reaction",schemaPath:"#/properties/nudges/items/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema499.properties.nudges.items.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid179 = _errs679 === errors;
@@ -39617,7 +39681,7 @@ validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/kind",
 return false;
 }
 if(!(data256 === "top-level")){
-validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/kind",schemaPath:"#/properties/nudges/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema498.properties.nudges.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate68.errors = [{instancePath:instancePath+"/nudges/" + i21+"/parent/kind",schemaPath:"#/properties/nudges/items/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema499.properties.nudges.items.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid165 = _errs697 === errors;
@@ -40014,9 +40078,9 @@ return errors === 0;
 validate68.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isMarkUnreadResponse = validate69;
-const schema611 = {"type":"object","properties":{"readPosition":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}},"required":["readPosition"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema612 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema613 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema612 = {"type":"object","properties":{"readPosition":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}},"required":["readPosition"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema613 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema614 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate69(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -40265,17 +40329,17 @@ return errors === 0;
 validate69.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isNudgeResponse = validate70;
-const schema615 = {"type":"object","properties":{"nudge":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"},"read":{"type":"boolean"}},"required":["channel","id","kind","parent","raisedAt","text","read"],"additionalProperties":true}},"required":["nudge"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema616 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema617 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema618 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema619 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema620 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema621 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema622 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema624 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema625 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema628 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema616 = {"type":"object","properties":{"nudge":{"type":"object","properties":{"channel":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"name":{"$ref":"#/$defs/ChannelName"}},"required":["createdAt","name"],"additionalProperties":true},"id":{"$ref":"#/$defs/NudgeId"},"kind":{"type":"string","enum":["first","second"]},"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName_1"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"raisedAt":{"$ref":"#/$defs/IsoTime"},"text":{"type":"string"},"read":{"type":"boolean"}},"required":["channel","id","kind","parent","raisedAt","text","read"],"additionalProperties":true}},"required":["nudge"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"NudgeId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName_1":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema617 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema618 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema619 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema620 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema621 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema622 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema623 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema625 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema626 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema629 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate70(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -40438,7 +40502,7 @@ validate70.errors = [{instancePath:instancePath+"/nudge/kind",schemaPath:"#/prop
 return false;
 }
 if(!((data6 === "first") || (data6 === "second"))){
-validate70.errors = [{instancePath:instancePath+"/nudge/kind",schemaPath:"#/properties/nudge/properties/kind/enum",keyword:"enum",params:{allowedValues: schema615.properties.nudge.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate70.errors = [{instancePath:instancePath+"/nudge/kind",schemaPath:"#/properties/nudge/properties/kind/enum",keyword:"enum",params:{allowedValues: schema616.properties.nudge.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs19 === errors;
@@ -40484,7 +40548,7 @@ validate70.errors = [{instancePath:instancePath+"/nudge/parent/attachments/" + i
 return false;
 }
 if(!(((((data10 === "image/png") || (data10 === "image/jpeg")) || (data10 === "image/gif")) || (data10 === "image/webp")) || (data10 === "application/octet-stream"))){
-validate70.errors = [{instancePath:instancePath+"/nudge/parent/attachments/" + i0+"/contentType",schemaPath:"#/properties/nudge/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema615.properties.nudge.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate70.errors = [{instancePath:instancePath+"/nudge/parent/attachments/" + i0+"/contentType",schemaPath:"#/properties/nudge/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema616.properties.nudge.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid8 = _errs29 === errors;
@@ -40944,7 +41008,7 @@ validate70.errors = [{instancePath:instancePath+"/nudge/parent/reactions/" + i2+
 return false;
 }
 if(!((data31 === "thumbs_up") || (data31 === "thumbs_down"))){
-validate70.errors = [{instancePath:instancePath+"/nudge/parent/reactions/" + i2+"/reaction",schemaPath:"#/properties/nudge/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema615.properties.nudge.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate70.errors = [{instancePath:instancePath+"/nudge/parent/reactions/" + i2+"/reaction",schemaPath:"#/properties/nudge/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema616.properties.nudge.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid20 = _errs82 === errors;
@@ -41115,7 +41179,7 @@ validate70.errors = [{instancePath:instancePath+"/nudge/parent/kind",schemaPath:
 return false;
 }
 if(!(data38 === "top-level")){
-validate70.errors = [{instancePath:instancePath+"/nudge/parent/kind",schemaPath:"#/properties/nudge/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema615.properties.nudge.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate70.errors = [{instancePath:instancePath+"/nudge/parent/kind",schemaPath:"#/properties/nudge/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema616.properties.nudge.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid6 = _errs100 === errors;
@@ -41505,11 +41569,11 @@ return errors === 0;
 validate70.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isOfflineAlertResponse = validate71;
-const schema636 = {"type":"object","properties":{"alert":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"required":["alert"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema637 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema638 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema639 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
-const schema641 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema637 = {"type":"object","properties":{"alert":{"type":"object","properties":{"agent":{"$ref":"#/$defs/IdentityName"},"backOnlineAt":{"$ref":"#/$defs/IsoTime"},"id":{"$ref":"#/$defs/OfflineAlertId"},"offlineReason":{"type":"string","enum":["left","session revoked","session expired","token rotated","deactivated","connection lost","trigger failed"]},"raisedAt":{"$ref":"#/$defs/IsoTime"},"read":{"type":"boolean"},"trigger":{"type":"object","properties":{"error":{"type":"string"},"message":{"$ref":"#/$defs/MessageId"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["message"],"additionalProperties":true}},"required":["agent","id","offlineReason","raisedAt","read"],"additionalProperties":true}},"required":["alert"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"OfflineAlertId":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema638 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema639 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema640 = {"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991};
+const schema642 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate71(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -41620,7 +41684,7 @@ validate71.errors = [{instancePath:instancePath+"/alert/offlineReason",schemaPat
 return false;
 }
 if(!(((((((data4 === "left") || (data4 === "session revoked")) || (data4 === "session expired")) || (data4 === "token rotated")) || (data4 === "deactivated")) || (data4 === "connection lost")) || (data4 === "trigger failed"))){
-validate71.errors = [{instancePath:instancePath+"/alert/offlineReason",schemaPath:"#/properties/alert/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema636.properties.alert.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
+validate71.errors = [{instancePath:instancePath+"/alert/offlineReason",schemaPath:"#/properties/alert/properties/offlineReason/enum",keyword:"enum",params:{allowedValues: schema637.properties.alert.properties.offlineReason.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs14 === errors;
@@ -41781,9 +41845,9 @@ return errors === 0;
 validate71.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isReadPositionsResponse = validate72;
-const schema642 = {"type":"object","properties":{"readPositions":{"type":"array","items":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}}},"required":["readPositions"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema643 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema644 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema643 = {"type":"object","properties":{"readPositions":{"type":"array","items":{"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"thread":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]}},"required":["channel","messageId","thread"],"additionalProperties":true}}},"required":["readPositions"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema644 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema645 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate72(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -41991,8 +42055,8 @@ return errors === 0;
 validate72.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isSubscriptionResponse = validate73;
-const schema646 = {"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"subscribed":{"type":"boolean"}},"required":["channel","subscribed"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"}}};
-const schema647 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema647 = {"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"subscribed":{"type":"boolean"}},"required":["channel","subscribed"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"}}};
+const schema648 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
 
 function validate73(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -42059,14 +42123,14 @@ return errors === 0;
 validate73.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isLoginCollectedResponse = validate74;
-const schema648 = {"anyOf":[{"type":"object","properties":{"status":{"type":"string","enum":["pending"]}},"required":["status"],"additionalProperties":true},{"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"status":{"type":"string","enum":["approved"]},"token":{"$ref":"#/$defs/Token"}},"required":["identity","status","token"],"additionalProperties":true}],"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"Token":{"type":"string"}}};
-const schema649 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema650 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema651 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
-const schema652 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema656 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
-const schema659 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema660 = {"type":"string"};
+const schema649 = {"anyOf":[{"type":"object","properties":{"status":{"type":"string","enum":["pending"]}},"required":["status"],"additionalProperties":true},{"type":"object","properties":{"identity":{"anyOf":[{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"displayName":{"$ref":"#/$defs/DisplayName"},"kind":{"type":"string","enum":["human"]},"name":{"$ref":"#/$defs/IdentityName"}},"required":["admin","createdAt","kind","name"],"additionalProperties":true},{"type":"object","properties":{"admin":{"type":"boolean"},"avatar":{"type":"object","properties":{"id":{"$ref":"#/$defs/AvatarId"}},"required":["id"],"additionalProperties":true},"broughtInBy":{"$ref":"#/$defs/IdentityName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"deactivated":{"type":"boolean","enum":[true]},"description":{"$ref":"#/$defs/Description"},"displayName":{"$ref":"#/$defs/DisplayName"},"handler":{"type":"boolean","enum":[true]},"kind":{"type":"string","enum":["agent"]},"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["admin","createdAt","kind","name","owner"],"additionalProperties":true}]},"status":{"type":"string","enum":["approved"]},"token":{"$ref":"#/$defs/Token"}},"required":["identity","status","token"],"additionalProperties":true}],"$defs":{"AvatarId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"DisplayName":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Description":{"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"Token":{"type":"string"}}};
+const schema650 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema651 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema652 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":80};
+const schema653 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema657 = {"type":"string","pattern":"^\\S[\\s\\S]*\\S$|^\\S$|^$","minLength":1,"maxLength":500};
+const schema660 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema661 = {"type":"string"};
 
 function validate74(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -42108,7 +42172,7 @@ vErrors.push(err1);
 errors++;
 }
 if(!(data0 === "pending")){
-const err2 = {instancePath:instancePath+"/status",schemaPath:"#/anyOf/0/properties/status/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[0].properties.status.enum},message:"must be equal to one of the allowed values"};
+const err2 = {instancePath:instancePath+"/status",schemaPath:"#/anyOf/0/properties/status/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[0].properties.status.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err2];
 }
@@ -42301,7 +42365,7 @@ vErrors.push(err13);
 errors++;
 }
 if(!(data6 === true)){
-const err14 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/anyOf/1/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err14 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/anyOf/1/properties/identity/anyOf/0/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.identity.anyOf[0].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err14];
 }
@@ -42388,7 +42452,7 @@ vErrors.push(err19);
 errors++;
 }
 if(!(data8 === "human")){
-const err20 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/anyOf/1/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err20 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/anyOf/1/properties/identity/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.identity.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -42639,7 +42703,7 @@ vErrors.push(err34);
 errors++;
 }
 if(!(data15 === true)){
-const err35 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
+const err35 = {instancePath:instancePath+"/identity/deactivated",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/deactivated/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.identity.anyOf[1].properties.deactivated.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err35];
 }
@@ -42784,7 +42848,7 @@ vErrors.push(err44);
 errors++;
 }
 if(!(data18 === true)){
-const err45 = {instancePath:instancePath+"/identity/handler",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
+const err45 = {instancePath:instancePath+"/identity/handler",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/handler/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.identity.anyOf[1].properties.handler.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err45];
 }
@@ -42813,7 +42877,7 @@ vErrors.push(err46);
 errors++;
 }
 if(!(data19 === "agent")){
-const err47 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err47 = {instancePath:instancePath+"/identity/kind",schemaPath:"#/anyOf/1/properties/identity/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.identity.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err47];
 }
@@ -42966,7 +43030,7 @@ vErrors.push(err54);
 errors++;
 }
 if(!(data22 === "approved")){
-const err55 = {instancePath:instancePath+"/status",schemaPath:"#/anyOf/1/properties/status/enum",keyword:"enum",params:{allowedValues: schema648.anyOf[1].properties.status.enum},message:"must be equal to one of the allowed values"};
+const err55 = {instancePath:instancePath+"/status",schemaPath:"#/anyOf/1/properties/status/enum",keyword:"enum",params:{allowedValues: schema649.anyOf[1].properties.status.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err55];
 }
@@ -43050,8 +43114,8 @@ return errors === 0;
 validate74.evaluated = {"dynamicProps":true,"dynamicItems":false};
 
 export const isLoginRequestResponse = validate75;
-const schema661 = {"type":"object","properties":{"loginRequest":{"type":"object","properties":{"approved":{"type":"boolean"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"host":{"type":"string"},"userCode":{"type":"string","pattern":"^[A-Z0-9]{4}-[A-Z0-9]{4}$"}},"required":["approved","expiresAt","host","userCode"],"additionalProperties":true}},"required":["loginRequest"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
-const schema662 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema662 = {"type":"object","properties":{"loginRequest":{"type":"object","properties":{"approved":{"type":"boolean"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"host":{"type":"string"},"userCode":{"type":"string","pattern":"^[A-Z0-9]{4}-[A-Z0-9]{4}$"}},"required":["approved","expiresAt","host","userCode"],"additionalProperties":true}},"required":["loginRequest"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
+const schema663 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
 
 function validate75(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -43172,9 +43236,9 @@ return errors === 0;
 validate75.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isLoginRequestStartedResponse = validate76;
-const schema663 = {"type":"object","properties":{"approvalPath":{"type":"string"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"requestId":{"$ref":"#/$defs/Token"},"userCode":{"type":"string","pattern":"^[A-Z0-9]{4}-[A-Z0-9]{4}$"}},"required":["approvalPath","expiresAt","requestId","userCode"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Token":{"type":"string"}}};
-const schema664 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema665 = {"type":"string"};
+const schema664 = {"type":"object","properties":{"approvalPath":{"type":"string"},"expiresAt":{"$ref":"#/$defs/IsoTime"},"requestId":{"$ref":"#/$defs/Token"},"userCode":{"type":"string","pattern":"^[A-Z0-9]{4}-[A-Z0-9]{4}$"}},"required":["approvalPath","expiresAt","requestId","userCode"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Token":{"type":"string"}}};
+const schema665 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema666 = {"type":"string"};
 
 function validate76(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -43276,7 +43340,7 @@ return errors === 0;
 validate76.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isLogoutResponse = validate77;
-const schema666 = {"type":"object","properties":{"revoked":{"type":"boolean"}},"required":["revoked"],"additionalProperties":true,"$defs":{}};
+const schema667 = {"type":"object","properties":{"revoked":{"type":"boolean"}},"required":["revoked"],"additionalProperties":true,"$defs":{}};
 
 function validate77(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -43315,15 +43379,15 @@ return errors === 0;
 validate77.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isListMessagesResponse = validate78;
-const schema667 = {"type":"object","properties":{"hasMore":{"type":"boolean"},"messages":{"type":"array","items":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"receipts":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"messageId":{"$ref":"#/$defs/MessageId"},"seen":{"type":"boolean"},"seenAt":{"$ref":"#/$defs/IsoTime"}},"required":["identity","messageId","seen"],"additionalProperties":true}}},"required":["hasMore","messages","receipts"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema668 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema669 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema670 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema671 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema672 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema673 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema674 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema677 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema668 = {"type":"object","properties":{"hasMore":{"type":"boolean"},"messages":{"type":"array","items":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"receipts":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"messageId":{"$ref":"#/$defs/MessageId"},"seen":{"type":"boolean"},"seenAt":{"$ref":"#/$defs/IsoTime"}},"required":["identity","messageId","seen"],"additionalProperties":true}}},"required":["hasMore","messages","receipts"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema669 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema670 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema671 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema672 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema673 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema674 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema675 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema678 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate78(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -43399,7 +43463,7 @@ validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/attachments/
 return false;
 }
 if(!(((((data5 === "image/png") || (data5 === "image/jpeg")) || (data5 === "image/gif")) || (data5 === "image/webp")) || (data5 === "application/octet-stream"))){
-validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/attachments/" + i1+"/contentType",schemaPath:"#/properties/messages/items/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema667.properties.messages.items.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/attachments/" + i1+"/contentType",schemaPath:"#/properties/messages/items/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema668.properties.messages.items.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid4 = _errs14 === errors;
@@ -43859,7 +43923,7 @@ validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/reactions/" 
 return false;
 }
 if(!((data26 === "thumbs_up") || (data26 === "thumbs_down"))){
-validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/reactions/" + i3+"/reaction",schemaPath:"#/properties/messages/items/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema667.properties.messages.items.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/reactions/" + i3+"/reaction",schemaPath:"#/properties/messages/items/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema668.properties.messages.items.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid16 = _errs67 === errors;
@@ -44030,7 +44094,7 @@ validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/kind",schema
 return false;
 }
 if(!(data33 === "top-level")){
-validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/kind",schemaPath:"#/properties/messages/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema667.properties.messages.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate78.errors = [{instancePath:instancePath+"/messages/" + i0+"/kind",schemaPath:"#/properties/messages/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema668.properties.messages.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid2 = _errs85 === errors;
@@ -44501,15 +44565,15 @@ return errors === 0;
 validate78.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isMessageResponse = validate79;
-const schema687 = {"type":"object","properties":{"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"unknownMentions":{"type":"array","items":{"type":"string"}}},"required":["message","unknownMentions"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema688 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema689 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema690 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema691 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema692 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema693 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema694 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema697 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema688 = {"type":"object","properties":{"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"unknownMentions":{"type":"array","items":{"type":"string"}}},"required":["message","unknownMentions"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema689 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema690 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema691 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema692 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema693 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema694 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema695 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema698 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate79(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -44587,7 +44651,7 @@ vErrors.push(err2);
 errors++;
 }
 if(!(((((data3 === "image/png") || (data3 === "image/jpeg")) || (data3 === "image/gif")) || (data3 === "image/webp")) || (data3 === "application/octet-stream"))){
-const err3 = {instancePath:instancePath+"/message/attachments/" + i0+"/contentType",schemaPath:"#/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err3 = {instancePath:instancePath+"/message/attachments/" + i0+"/contentType",schemaPath:"#/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err3];
 }
@@ -45299,7 +45363,7 @@ vErrors.push(err44);
 errors++;
 }
 if(!((data24 === "thumbs_up") || (data24 === "thumbs_down"))){
-const err45 = {instancePath:instancePath+"/message/reactions/" + i2+"/reaction",schemaPath:"#/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err45 = {instancePath:instancePath+"/message/reactions/" + i2+"/reaction",schemaPath:"#/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err45];
 }
@@ -45566,7 +45630,7 @@ vErrors.push(err60);
 errors++;
 }
 if(!(data31 === "top-level")){
-const err61 = {instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err61 = {instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err61];
 }
@@ -46010,7 +46074,7 @@ vErrors.push(err85);
 errors++;
 }
 if(!(((((data41 === "image/png") || (data41 === "image/jpeg")) || (data41 === "image/gif")) || (data41 === "image/webp")) || (data41 === "application/octet-stream"))){
-const err86 = {instancePath:instancePath+"/message/attachments/" + i5+"/contentType",schemaPath:"#/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err86 = {instancePath:instancePath+"/message/attachments/" + i5+"/contentType",schemaPath:"#/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err86];
 }
@@ -46722,7 +46786,7 @@ vErrors.push(err127);
 errors++;
 }
 if(!((data62 === "thumbs_up") || (data62 === "thumbs_down"))){
-const err128 = {instancePath:instancePath+"/message/reactions/" + i7+"/reaction",schemaPath:"#/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err128 = {instancePath:instancePath+"/message/reactions/" + i7+"/reaction",schemaPath:"#/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err128];
 }
@@ -46921,7 +46985,7 @@ vErrors.push(err139);
 errors++;
 }
 if(!(data67 === "reply")){
-const err140 = {instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema687.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err140 = {instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema688.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err140];
 }
@@ -47084,10 +47148,10 @@ return errors === 0;
 validate79.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isReactionsResponse = validate80;
-const schema715 = {"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}}},"required":["channel","messageId","reactions"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"}}};
-const schema716 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema717 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema718 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema716 = {"type":"object","properties":{"channel":{"$ref":"#/$defs/ChannelName"},"messageId":{"$ref":"#/$defs/MessageId"},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}}},"required":["channel","messageId","reactions"],"additionalProperties":true,"$defs":{"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"}}};
+const schema717 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema718 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema719 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
 
 function validate80(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -47250,7 +47314,7 @@ validate80.errors = [{instancePath:instancePath+"/reactions/" + i0+"/reaction",s
 return false;
 }
 if(!((data7 === "thumbs_up") || (data7 === "thumbs_down"))){
-validate80.errors = [{instancePath:instancePath+"/reactions/" + i0+"/reaction",schemaPath:"#/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema715.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate80.errors = [{instancePath:instancePath+"/reactions/" + i0+"/reaction",schemaPath:"#/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema716.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid4 = _errs20 === errors;
@@ -47298,15 +47362,15 @@ return errors === 0;
 validate80.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isThreadResponse = validate81;
-const schema719 = {"type":"object","properties":{"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"receipts":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"messageId":{"$ref":"#/$defs/MessageId"},"seen":{"type":"boolean"},"seenAt":{"$ref":"#/$defs/IsoTime"}},"required":["identity","messageId","seen"],"additionalProperties":true}},"replies":{"type":"array","items":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}}},"required":["parent","receipts","replies"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema720 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema721 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema722 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema723 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema724 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema725 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema726 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema729 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema720 = {"type":"object","properties":{"parent":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},"receipts":{"type":"array","items":{"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"messageId":{"$ref":"#/$defs/MessageId"},"seen":{"type":"boolean"},"seenAt":{"$ref":"#/$defs/IsoTime"}},"required":["identity","messageId","seen"],"additionalProperties":true}},"replies":{"type":"array","items":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}}},"required":["parent","receipts","replies"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema721 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema722 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema723 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema724 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema725 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema726 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema727 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema730 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate81(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -47363,7 +47427,7 @@ validate81.errors = [{instancePath:instancePath+"/parent/attachments/" + i0+"/co
 return false;
 }
 if(!(((((data3 === "image/png") || (data3 === "image/jpeg")) || (data3 === "image/gif")) || (data3 === "image/webp")) || (data3 === "application/octet-stream"))){
-validate81.errors = [{instancePath:instancePath+"/parent/attachments/" + i0+"/contentType",schemaPath:"#/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema719.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/parent/attachments/" + i0+"/contentType",schemaPath:"#/properties/parent/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema720.properties.parent.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid3 = _errs10 === errors;
@@ -47823,7 +47887,7 @@ validate81.errors = [{instancePath:instancePath+"/parent/reactions/" + i2+"/reac
 return false;
 }
 if(!((data24 === "thumbs_up") || (data24 === "thumbs_down"))){
-validate81.errors = [{instancePath:instancePath+"/parent/reactions/" + i2+"/reaction",schemaPath:"#/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema719.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/parent/reactions/" + i2+"/reaction",schemaPath:"#/properties/parent/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema720.properties.parent.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid15 = _errs63 === errors;
@@ -47994,7 +48058,7 @@ validate81.errors = [{instancePath:instancePath+"/parent/kind",schemaPath:"#/pro
 return false;
 }
 if(!(data31 === "top-level")){
-validate81.errors = [{instancePath:instancePath+"/parent/kind",schemaPath:"#/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema719.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/parent/kind",schemaPath:"#/properties/parent/properties/kind/enum",keyword:"enum",params:{allowedValues: schema720.properties.parent.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs81 === errors;
@@ -48484,7 +48548,7 @@ validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/attachments/"
 return false;
 }
 if(!(((((data49 === "image/png") || (data49 === "image/jpeg")) || (data49 === "image/gif")) || (data49 === "image/webp")) || (data49 === "application/octet-stream"))){
-validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/attachments/" + i7+"/contentType",schemaPath:"#/properties/replies/items/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema719.properties.replies.items.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/attachments/" + i7+"/contentType",schemaPath:"#/properties/replies/items/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema720.properties.replies.items.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid38 = _errs136 === errors;
@@ -48944,7 +49008,7 @@ validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/reactions/" +
 return false;
 }
 if(!((data70 === "thumbs_up") || (data70 === "thumbs_down"))){
-validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/reactions/" + i9+"/reaction",schemaPath:"#/properties/replies/items/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema719.properties.replies.items.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/reactions/" + i9+"/reaction",schemaPath:"#/properties/replies/items/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema720.properties.replies.items.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid50 = _errs189 === errors;
@@ -49071,7 +49135,7 @@ validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/kind",schemaP
 return false;
 }
 if(!(data75 === "reply")){
-validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/kind",schemaPath:"#/properties/replies/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema719.properties.replies.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate81.errors = [{instancePath:instancePath+"/replies/" + i6+"/kind",schemaPath:"#/properties/replies/items/properties/kind/enum",keyword:"enum",params:{allowedValues: schema720.properties.replies.items.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid36 = _errs201 === errors;
@@ -49156,15 +49220,15 @@ return errors === 0;
 validate81.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isTopLevelMessageResponse = validate82;
-const schema750 = {"type":"object","properties":{"message":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"required":["message"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema751 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema752 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema753 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema754 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema755 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema756 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema757 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema760 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema751 = {"type":"object","properties":{"message":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"required":["message"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema752 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema753 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema754 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema755 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema756 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema757 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema758 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema761 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate82(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -49221,7 +49285,7 @@ validate82.errors = [{instancePath:instancePath+"/message/attachments/" + i0+"/c
 return false;
 }
 if(!(((((data3 === "image/png") || (data3 === "image/jpeg")) || (data3 === "image/gif")) || (data3 === "image/webp")) || (data3 === "application/octet-stream"))){
-validate82.errors = [{instancePath:instancePath+"/message/attachments/" + i0+"/contentType",schemaPath:"#/properties/message/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema750.properties.message.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate82.errors = [{instancePath:instancePath+"/message/attachments/" + i0+"/contentType",schemaPath:"#/properties/message/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema751.properties.message.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid3 = _errs10 === errors;
@@ -49681,7 +49745,7 @@ validate82.errors = [{instancePath:instancePath+"/message/reactions/" + i2+"/rea
 return false;
 }
 if(!((data24 === "thumbs_up") || (data24 === "thumbs_down"))){
-validate82.errors = [{instancePath:instancePath+"/message/reactions/" + i2+"/reaction",schemaPath:"#/properties/message/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema750.properties.message.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate82.errors = [{instancePath:instancePath+"/message/reactions/" + i2+"/reaction",schemaPath:"#/properties/message/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema751.properties.message.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid15 = _errs63 === errors;
@@ -49852,7 +49916,7 @@ validate82.errors = [{instancePath:instancePath+"/message/kind",schemaPath:"#/pr
 return false;
 }
 if(!(data31 === "top-level")){
-validate82.errors = [{instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/properties/kind/enum",keyword:"enum",params:{allowedValues: schema750.properties.message.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate82.errors = [{instancePath:instancePath+"/message/kind",schemaPath:"#/properties/message/properties/kind/enum",keyword:"enum",params:{allowedValues: schema751.properties.message.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs81 === errors;
@@ -50178,15 +50242,15 @@ return errors === 0;
 validate82.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
 export const isListOpenThreadsResponse = validate83;
-const schema767 = {"type":"object","properties":{"cursor":{"anyOf":[{"type":"string"},{"type":"null"}]},"hasMore":{"type":"boolean"},"threads":{"type":"array","items":{"type":"object","properties":{"lastActivityAt":{"$ref":"#/$defs/IsoTime"},"message":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"required":["lastActivityAt","message"],"additionalProperties":true}}},"required":["cursor","hasMore","threads"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema768 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema769 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema770 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema771 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema772 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema774 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema775 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema778 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema768 = {"type":"object","properties":{"cursor":{"anyOf":[{"type":"string"},{"type":"null"}]},"hasMore":{"type":"boolean"},"threads":{"type":"array","items":{"type":"object","properties":{"lastActivityAt":{"$ref":"#/$defs/IsoTime"},"message":{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true}},"required":["lastActivityAt","message"],"additionalProperties":true}}},"required":["cursor","hasMore","threads"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema769 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema770 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema771 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema772 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema773 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema775 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema776 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema779 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
 function validate83(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -50355,7 +50419,7 @@ validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/attac
 return false;
 }
 if(!(((((data8 === "image/png") || (data8 === "image/jpeg")) || (data8 === "image/gif")) || (data8 === "image/webp")) || (data8 === "application/octet-stream"))){
-validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/attachments/" + i1+"/contentType",schemaPath:"#/properties/threads/items/properties/message/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema767.properties.threads.items.properties.message.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
+validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/attachments/" + i1+"/contentType",schemaPath:"#/properties/threads/items/properties/message/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema768.properties.threads.items.properties.message.properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid7 = _errs26 === errors;
@@ -50815,7 +50879,7 @@ validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/react
 return false;
 }
 if(!((data29 === "thumbs_up") || (data29 === "thumbs_down"))){
-validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/reactions/" + i3+"/reaction",schemaPath:"#/properties/threads/items/properties/message/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema767.properties.threads.items.properties.message.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
+validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/reactions/" + i3+"/reaction",schemaPath:"#/properties/threads/items/properties/message/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema768.properties.threads.items.properties.message.properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid19 = _errs79 === errors;
@@ -50986,7 +51050,7 @@ validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/kind"
 return false;
 }
 if(!(data36 === "top-level")){
-validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/kind",schemaPath:"#/properties/threads/items/properties/message/properties/kind/enum",keyword:"enum",params:{allowedValues: schema767.properties.threads.items.properties.message.properties.kind.enum},message:"must be equal to one of the allowed values"}];
+validate83.errors = [{instancePath:instancePath+"/threads/" + i0+"/message/kind",schemaPath:"#/properties/threads/items/properties/message/properties/kind/enum",keyword:"enum",params:{allowedValues: schema768.properties.threads.items.properties.message.properties.kind.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid5 = _errs97 === errors;
@@ -51341,14 +51405,8 @@ return errors === 0;
 }
 validate83.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isListScheduledMessagesResponse = validate84;
-const schema785 = {"type":"object","properties":{"scheduledMessages":{"type":"array","items":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true}}},"required":["scheduledMessages"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema786 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema787 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema789 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema790 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema791 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema793 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+export const isSignInResponse = validate84;
+const schema786 = {"anyOf":[{"type":"object","properties":{"oidc":{"type":"boolean","enum":[false]}},"required":["oidc"],"additionalProperties":true},{"type":"object","properties":{"label":{"type":"string"},"oidc":{"type":"boolean","enum":[true]},"start":{"type":"string"}},"required":["label","oidc","start"],"additionalProperties":true}],"$defs":{}};
 
 function validate84(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -51360,11 +51418,218 @@ evaluated0.props = undefined;
 if(evaluated0.dynamicItems){
 evaluated0.items = undefined;
 }
+const _errs0 = errors;
+let valid0 = false;
+const _errs1 = errors;
+if(errors === _errs1){
+if(data && typeof data == "object" && !Array.isArray(data)){
+let missing0;
+if((data.oidc === undefined) && (missing0 = "oidc")){
+const err0 = {instancePath,schemaPath:"#/anyOf/0/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"};
+if(vErrors === null){
+vErrors = [err0];
+}
+else {
+vErrors.push(err0);
+}
+errors++;
+}
+else {
+if(data.oidc !== undefined){
+let data0 = data.oidc;
+if(typeof data0 !== "boolean"){
+const err1 = {instancePath:instancePath+"/oidc",schemaPath:"#/anyOf/0/properties/oidc/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err1];
+}
+else {
+vErrors.push(err1);
+}
+errors++;
+}
+if(!(data0 === false)){
+const err2 = {instancePath:instancePath+"/oidc",schemaPath:"#/anyOf/0/properties/oidc/enum",keyword:"enum",params:{allowedValues: schema786.anyOf[0].properties.oidc.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err2];
+}
+else {
+vErrors.push(err2);
+}
+errors++;
+}
+}
+}
+}
+else {
+const err3 = {instancePath,schemaPath:"#/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err3];
+}
+else {
+vErrors.push(err3);
+}
+errors++;
+}
+}
+var _valid0 = _errs1 === errors;
+valid0 = valid0 || _valid0;
+if(_valid0){
+var props0 = true;
+}
+const _errs6 = errors;
+if(errors === _errs6){
+if(data && typeof data == "object" && !Array.isArray(data)){
+let missing1;
+if((((data.label === undefined) && (missing1 = "label")) || ((data.oidc === undefined) && (missing1 = "oidc"))) || ((data.start === undefined) && (missing1 = "start"))){
+const err4 = {instancePath,schemaPath:"#/anyOf/1/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"};
+if(vErrors === null){
+vErrors = [err4];
+}
+else {
+vErrors.push(err4);
+}
+errors++;
+}
+else {
+if(data.label !== undefined){
+const _errs9 = errors;
+if(typeof data.label !== "string"){
+const err5 = {instancePath:instancePath+"/label",schemaPath:"#/anyOf/1/properties/label/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err5];
+}
+else {
+vErrors.push(err5);
+}
+errors++;
+}
+var valid2 = _errs9 === errors;
+}
+else {
+var valid2 = true;
+}
+if(valid2){
+if(data.oidc !== undefined){
+let data2 = data.oidc;
+const _errs11 = errors;
+if(typeof data2 !== "boolean"){
+const err6 = {instancePath:instancePath+"/oidc",schemaPath:"#/anyOf/1/properties/oidc/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err6];
+}
+else {
+vErrors.push(err6);
+}
+errors++;
+}
+if(!(data2 === true)){
+const err7 = {instancePath:instancePath+"/oidc",schemaPath:"#/anyOf/1/properties/oidc/enum",keyword:"enum",params:{allowedValues: schema786.anyOf[1].properties.oidc.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err7];
+}
+else {
+vErrors.push(err7);
+}
+errors++;
+}
+var valid2 = _errs11 === errors;
+}
+else {
+var valid2 = true;
+}
+if(valid2){
+if(data.start !== undefined){
+const _errs13 = errors;
+if(typeof data.start !== "string"){
+const err8 = {instancePath:instancePath+"/start",schemaPath:"#/anyOf/1/properties/start/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err8];
+}
+else {
+vErrors.push(err8);
+}
+errors++;
+}
+var valid2 = _errs13 === errors;
+}
+else {
+var valid2 = true;
+}
+}
+}
+}
+}
+else {
+const err9 = {instancePath,schemaPath:"#/anyOf/1/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err9];
+}
+else {
+vErrors.push(err9);
+}
+errors++;
+}
+}
+var _valid0 = _errs6 === errors;
+valid0 = valid0 || _valid0;
+if(_valid0){
+if(props0 !== true){
+props0 = true;
+}
+}
+if(!valid0){
+const err10 = {instancePath,schemaPath:"#/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err10];
+}
+else {
+vErrors.push(err10);
+}
+errors++;
+validate84.errors = vErrors;
+return false;
+}
+else {
+errors = _errs0;
+if(vErrors !== null){
+if(_errs0){
+vErrors.length = _errs0;
+}
+else {
+vErrors = null;
+}
+}
+}
+validate84.errors = vErrors;
+evaluated0.props = props0;
+return errors === 0;
+}
+validate84.evaluated = {"dynamicProps":true,"dynamicItems":false};
+
+export const isListScheduledMessagesResponse = validate85;
+const schema787 = {"type":"object","properties":{"scheduledMessages":{"type":"array","items":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true}}},"required":["scheduledMessages"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema788 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema789 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema791 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema792 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema793 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema795 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+
+function validate85(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+let vErrors = null;
+let errors = 0;
+const evaluated0 = validate85.evaluated;
+if(evaluated0.dynamicProps){
+evaluated0.props = undefined;
+}
+if(evaluated0.dynamicItems){
+evaluated0.items = undefined;
+}
 if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if((data.scheduledMessages === undefined) && (missing0 = "scheduledMessages")){
-validate84.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate85.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -51382,7 +51647,7 @@ if(errors === _errs4){
 if(data1 && typeof data1 == "object" && !Array.isArray(data1)){
 let missing1;
 if((((((((((data1.channel === undefined) && (missing1 = "channel")) || ((data1.createdAt === undefined) && (missing1 = "createdAt"))) || ((data1.creator === undefined) && (missing1 = "creator"))) || ((data1.id === undefined) && (missing1 = "id"))) || ((data1.nextRuns === undefined) && (missing1 = "nextRuns"))) || ((data1.status === undefined) && (missing1 = "status"))) || ((data1.text === undefined) && (missing1 = "text"))) || ((data1.timeZone === undefined) && (missing1 = "timeZone"))) || ((data1.updatedAt === undefined) && (missing1 = "updatedAt"))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0,schemaPath:"#/properties/scheduledMessages/items/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0,schemaPath:"#/properties/scheduledMessages/items/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
 return false;
 }
 else {
@@ -51393,12 +51658,12 @@ const _errs8 = errors;
 if(errors === _errs8){
 if(typeof data2 === "string"){
 if(!pattern5.test(data2)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51415,12 +51680,12 @@ const _errs11 = errors;
 if(errors === _errs11){
 if(typeof data3 === "string"){
 if(!pattern33.test(data3)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51437,12 +51702,12 @@ const _errs14 = errors;
 if(errors === _errs14){
 if(typeof data4 === "string"){
 if(!pattern5.test(data4)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51459,7 +51724,7 @@ if(errors === _errs16){
 if(data5 && typeof data5 == "object" && !Array.isArray(data5)){
 let missing2;
 if((data5.name === undefined) && (missing2 = "name")){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator",schemaPath:"#/properties/scheduledMessages/items/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator",schemaPath:"#/properties/scheduledMessages/items/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
 return false;
 }
 else {
@@ -51470,12 +51735,12 @@ const _errs20 = errors;
 if(errors === _errs20){
 if(typeof data6 === "string"){
 if(!pattern6.test(data6)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51492,12 +51757,12 @@ const _errs23 = errors;
 if(errors === _errs23){
 if(typeof data7 === "string"){
 if(!pattern30.test(data7)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51510,7 +51775,7 @@ var valid6 = true;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator",schemaPath:"#/properties/scheduledMessages/items/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/creator",schemaPath:"#/properties/scheduledMessages/items/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -51523,7 +51788,7 @@ if(valid2){
 if(data1.cron !== undefined){
 const _errs25 = errors;
 if(typeof data1.cron !== "string"){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/cron",schemaPath:"#/properties/scheduledMessages/items/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/cron",schemaPath:"#/properties/scheduledMessages/items/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid2 = _errs25 === errors;
@@ -51537,18 +51802,18 @@ let data9 = data1.id;
 const _errs27 = errors;
 const _errs28 = errors;
 if(!(((typeof data9 == "number") && (!(data9 % 1) && !isNaN(data9))) && (isFinite(data9)))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs28){
 if((typeof data9 == "number") && (isFinite(data9))){
 if(data9 > 9007199254740991 || isNaN(data9)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data9 < 1 || isNaN(data9)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -51567,7 +51832,7 @@ if(errors === _errs30){
 if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
 let missing3;
 if(((data10.due === undefined) && (missing3 = "due")) || ((data10.outcome === undefined) && (missing3 = "outcome"))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
 return false;
 }
 else {
@@ -51578,12 +51843,12 @@ const _errs34 = errors;
 if(errors === _errs34){
 if(typeof data11 === "string"){
 if(!pattern5.test(data11)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51598,18 +51863,18 @@ let data12 = data10.messageId;
 const _errs36 = errors;
 const _errs37 = errors;
 if(!(((typeof data12 == "number") && (!(data12 % 1) && !isNaN(data12))) && (isFinite(data12)))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs37){
 if((typeof data12 == "number") && (isFinite(data12))){
 if(data12 > 9007199254740991 || isNaN(data12)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data12 < 1 || isNaN(data12)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -51625,11 +51890,11 @@ if(data10.outcome !== undefined){
 let data13 = data10.outcome;
 const _errs39 = errors;
 if(typeof data13 !== "string"){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/outcome",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/outcome",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!((data13 === "posted") || (data13 === "skipped"))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/outcome",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema785.properties.scheduledMessages.items.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun/outcome",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema787.properties.scheduledMessages.items.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid10 = _errs39 === errors;
@@ -51642,7 +51907,7 @@ var valid10 = true;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/lastRun",schemaPath:"#/properties/scheduledMessages/items/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -51666,12 +51931,12 @@ const _errs44 = errors;
 if(errors === _errs44){
 if(typeof data15 === "string"){
 if(!pattern5.test(data15)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns/" + i1,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns/" + i1,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns/" + i1,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns/" + i1,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51682,7 +51947,7 @@ break;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns",schemaPath:"#/properties/scheduledMessages/items/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/nextRuns",schemaPath:"#/properties/scheduledMessages/items/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -51709,7 +51974,7 @@ vErrors.push(err0);
 errors++;
 }
 if(!(data16 === "creator_deactivated")){
-const err1 = {instancePath:instancePath+"/scheduledMessages/" + i0+"/pausedBecause",schemaPath:"#/properties/scheduledMessages/items/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema785.properties.scheduledMessages.items.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
+const err1 = {instancePath:instancePath+"/scheduledMessages/" + i0+"/pausedBecause",schemaPath:"#/properties/scheduledMessages/items/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema787.properties.scheduledMessages.items.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err1];
 }
@@ -51729,7 +51994,7 @@ else {
 vErrors.push(err2);
 }
 errors++;
-validate84.errors = vErrors;
+validate85.errors = vErrors;
 return false;
 }
 else {
@@ -51753,11 +52018,11 @@ if(data1.status !== undefined){
 let data17 = data1.status;
 const _errs50 = errors;
 if(typeof data17 !== "string"){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/status",schemaPath:"#/properties/scheduledMessages/items/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/status",schemaPath:"#/properties/scheduledMessages/items/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!(((data17 === "active") || (data17 === "paused")) || (data17 === "finished"))){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/status",schemaPath:"#/properties/scheduledMessages/items/properties/status/enum",keyword:"enum",params:{allowedValues: schema785.properties.scheduledMessages.items.properties.status.enum},message:"must be equal to one of the allowed values"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/status",schemaPath:"#/properties/scheduledMessages/items/properties/status/enum",keyword:"enum",params:{allowedValues: schema787.properties.scheduledMessages.items.properties.status.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid2 = _errs50 === errors;
@@ -51769,7 +52034,7 @@ if(valid2){
 if(data1.text !== undefined){
 const _errs52 = errors;
 if(typeof data1.text !== "string"){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/text",schemaPath:"#/properties/scheduledMessages/items/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/text",schemaPath:"#/properties/scheduledMessages/items/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid2 = _errs52 === errors;
@@ -51781,7 +52046,7 @@ if(valid2){
 if(data1.timeZone !== undefined){
 const _errs54 = errors;
 if(typeof data1.timeZone !== "string"){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/timeZone",schemaPath:"#/properties/scheduledMessages/items/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/timeZone",schemaPath:"#/properties/scheduledMessages/items/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid2 = _errs54 === errors;
@@ -51797,12 +52062,12 @@ const _errs57 = errors;
 if(errors === _errs57){
 if(typeof data20 === "string"){
 if(!pattern5.test(data20)){
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0+"/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51826,7 +52091,7 @@ var valid2 = true;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0,schemaPath:"#/properties/scheduledMessages/items/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages/" + i0,schemaPath:"#/properties/scheduledMessages/items/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -51837,7 +52102,7 @@ break;
 }
 }
 else {
-validate84.errors = [{instancePath:instancePath+"/scheduledMessages",schemaPath:"#/properties/scheduledMessages/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate85.errors = [{instancePath:instancePath+"/scheduledMessages",schemaPath:"#/properties/scheduledMessages/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -51845,28 +52110,28 @@ return false;
 }
 }
 else {
-validate84.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate85.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate84.errors = vErrors;
+validate85.errors = vErrors;
 return errors === 0;
 }
-validate84.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate85.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isScheduledMessageEvent = validate85;
-const schema796 = {"type":"object","properties":{"deleted":{"type":"boolean"},"scheduledMessage":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true},"type":{"type":"string","enum":["scheduled-message"]}},"required":["deleted","scheduledMessage","type"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema797 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema798 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema800 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema801 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema802 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+export const isScheduledMessageEvent = validate86;
+const schema798 = {"type":"object","properties":{"deleted":{"type":"boolean"},"scheduledMessage":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true},"type":{"type":"string","enum":["scheduled-message"]}},"required":["deleted","scheduledMessage","type"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema799 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema800 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema802 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema803 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
 const schema804 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema806 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
-function validate85(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+function validate86(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
 let errors = 0;
-const evaluated0 = validate85.evaluated;
+const evaluated0 = validate86.evaluated;
 if(evaluated0.dynamicProps){
 evaluated0.props = undefined;
 }
@@ -51877,14 +52142,14 @@ if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if((((data.deleted === undefined) && (missing0 = "deleted")) || ((data.scheduledMessage === undefined) && (missing0 = "scheduledMessage"))) || ((data.type === undefined) && (missing0 = "type"))){
-validate85.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate86.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
 if(data.deleted !== undefined){
 const _errs2 = errors;
 if(typeof data.deleted !== "boolean"){
-validate85.errors = [{instancePath:instancePath+"/deleted",schemaPath:"#/properties/deleted/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
+validate86.errors = [{instancePath:instancePath+"/deleted",schemaPath:"#/properties/deleted/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
 return false;
 }
 var valid0 = _errs2 === errors;
@@ -51900,7 +52165,7 @@ if(errors === _errs4){
 if(data1 && typeof data1 == "object" && !Array.isArray(data1)){
 let missing1;
 if((((((((((data1.channel === undefined) && (missing1 = "channel")) || ((data1.createdAt === undefined) && (missing1 = "createdAt"))) || ((data1.creator === undefined) && (missing1 = "creator"))) || ((data1.id === undefined) && (missing1 = "id"))) || ((data1.nextRuns === undefined) && (missing1 = "nextRuns"))) || ((data1.status === undefined) && (missing1 = "status"))) || ((data1.text === undefined) && (missing1 = "text"))) || ((data1.timeZone === undefined) && (missing1 = "timeZone"))) || ((data1.updatedAt === undefined) && (missing1 = "updatedAt"))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
 return false;
 }
 else {
@@ -51911,12 +52176,12 @@ const _errs8 = errors;
 if(errors === _errs8){
 if(typeof data2 === "string"){
 if(!pattern5.test(data2)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51933,12 +52198,12 @@ const _errs11 = errors;
 if(errors === _errs11){
 if(typeof data3 === "string"){
 if(!pattern33.test(data3)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51955,12 +52220,12 @@ const _errs14 = errors;
 if(errors === _errs14){
 if(typeof data4 === "string"){
 if(!pattern5.test(data4)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -51977,7 +52242,7 @@ if(errors === _errs16){
 if(data5 && typeof data5 == "object" && !Array.isArray(data5)){
 let missing2;
 if((data5.name === undefined) && (missing2 = "name")){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
 return false;
 }
 else {
@@ -51988,12 +52253,12 @@ const _errs20 = errors;
 if(errors === _errs20){
 if(typeof data6 === "string"){
 if(!pattern6.test(data6)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52010,12 +52275,12 @@ const _errs23 = errors;
 if(errors === _errs23){
 if(typeof data7 === "string"){
 if(!pattern30.test(data7)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52028,7 +52293,7 @@ var valid5 = true;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52041,7 +52306,7 @@ if(valid1){
 if(data1.cron !== undefined){
 const _errs25 = errors;
 if(typeof data1.cron !== "string"){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/cron",schemaPath:"#/properties/scheduledMessage/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/cron",schemaPath:"#/properties/scheduledMessage/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs25 === errors;
@@ -52055,18 +52320,18 @@ let data9 = data1.id;
 const _errs27 = errors;
 const _errs28 = errors;
 if(!(((typeof data9 == "number") && (!(data9 % 1) && !isNaN(data9))) && (isFinite(data9)))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs28){
 if((typeof data9 == "number") && (isFinite(data9))){
 if(data9 > 9007199254740991 || isNaN(data9)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data9 < 1 || isNaN(data9)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -52085,7 +52350,7 @@ if(errors === _errs30){
 if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
 let missing3;
 if(((data10.due === undefined) && (missing3 = "due")) || ((data10.outcome === undefined) && (missing3 = "outcome"))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
 return false;
 }
 else {
@@ -52096,12 +52361,12 @@ const _errs34 = errors;
 if(errors === _errs34){
 if(typeof data11 === "string"){
 if(!pattern5.test(data11)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52116,18 +52381,18 @@ let data12 = data10.messageId;
 const _errs36 = errors;
 const _errs37 = errors;
 if(!(((typeof data12 == "number") && (!(data12 % 1) && !isNaN(data12))) && (isFinite(data12)))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs37){
 if((typeof data12 == "number") && (isFinite(data12))){
 if(data12 > 9007199254740991 || isNaN(data12)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data12 < 1 || isNaN(data12)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -52143,11 +52408,11 @@ if(data10.outcome !== undefined){
 let data13 = data10.outcome;
 const _errs39 = errors;
 if(typeof data13 !== "string"){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!((data13 === "posted") || (data13 === "skipped"))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema796.properties.scheduledMessage.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema798.properties.scheduledMessage.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid9 = _errs39 === errors;
@@ -52160,7 +52425,7 @@ var valid9 = true;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52184,12 +52449,12 @@ const _errs44 = errors;
 if(errors === _errs44){
 if(typeof data15 === "string"){
 if(!pattern5.test(data15)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52200,7 +52465,7 @@ break;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns",schemaPath:"#/properties/scheduledMessage/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns",schemaPath:"#/properties/scheduledMessage/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -52227,7 +52492,7 @@ vErrors.push(err0);
 errors++;
 }
 if(!(data16 === "creator_deactivated")){
-const err1 = {instancePath:instancePath+"/scheduledMessage/pausedBecause",schemaPath:"#/properties/scheduledMessage/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema796.properties.scheduledMessage.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
+const err1 = {instancePath:instancePath+"/scheduledMessage/pausedBecause",schemaPath:"#/properties/scheduledMessage/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema798.properties.scheduledMessage.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err1];
 }
@@ -52247,7 +52512,7 @@ else {
 vErrors.push(err2);
 }
 errors++;
-validate85.errors = vErrors;
+validate86.errors = vErrors;
 return false;
 }
 else {
@@ -52271,11 +52536,11 @@ if(data1.status !== undefined){
 let data17 = data1.status;
 const _errs50 = errors;
 if(typeof data17 !== "string"){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!(((data17 === "active") || (data17 === "paused")) || (data17 === "finished"))){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/enum",keyword:"enum",params:{allowedValues: schema796.properties.scheduledMessage.properties.status.enum},message:"must be equal to one of the allowed values"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/enum",keyword:"enum",params:{allowedValues: schema798.properties.scheduledMessage.properties.status.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs50 === errors;
@@ -52287,7 +52552,7 @@ if(valid1){
 if(data1.text !== undefined){
 const _errs52 = errors;
 if(typeof data1.text !== "string"){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/text",schemaPath:"#/properties/scheduledMessage/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/text",schemaPath:"#/properties/scheduledMessage/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs52 === errors;
@@ -52299,7 +52564,7 @@ if(valid1){
 if(data1.timeZone !== undefined){
 const _errs54 = errors;
 if(typeof data1.timeZone !== "string"){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/timeZone",schemaPath:"#/properties/scheduledMessage/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/timeZone",schemaPath:"#/properties/scheduledMessage/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs54 === errors;
@@ -52315,12 +52580,12 @@ const _errs57 = errors;
 if(errors === _errs57){
 if(typeof data20 === "string"){
 if(!pattern5.test(data20)){
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52344,7 +52609,7 @@ var valid1 = true;
 }
 }
 else {
-validate85.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate86.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52358,11 +52623,11 @@ if(data.type !== undefined){
 let data21 = data.type;
 const _errs59 = errors;
 if(typeof data21 !== "string"){
-validate85.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate86.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!(data21 === "scheduled-message")){
-validate85.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/enum",keyword:"enum",params:{allowedValues: schema796.properties.type.enum},message:"must be equal to one of the allowed values"}];
+validate86.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/enum",keyword:"enum",params:{allowedValues: schema798.properties.type.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid0 = _errs59 === errors;
@@ -52375,23 +52640,23 @@ var valid0 = true;
 }
 }
 else {
-validate85.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate86.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate85.errors = vErrors;
+validate86.errors = vErrors;
 return errors === 0;
 }
-validate85.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate86.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isScheduledMessagePreviewResponse = validate86;
-const schema807 = {"type":"object","properties":{"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}}},"required":["nextRuns"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
-const schema808 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+export const isScheduledMessagePreviewResponse = validate87;
+const schema809 = {"type":"object","properties":{"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}}},"required":["nextRuns"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
+const schema810 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
 
-function validate86(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+function validate87(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
 let errors = 0;
-const evaluated0 = validate86.evaluated;
+const evaluated0 = validate87.evaluated;
 if(evaluated0.dynamicProps){
 evaluated0.props = undefined;
 }
@@ -52402,7 +52667,7 @@ if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if((data.nextRuns === undefined) && (missing0 = "nextRuns")){
-validate86.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate87.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -52420,12 +52685,12 @@ const _errs5 = errors;
 if(errors === _errs5){
 if(typeof data1 === "string"){
 if(!pattern5.test(data1)){
-validate86.errors = [{instancePath:instancePath+"/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate87.errors = [{instancePath:instancePath+"/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate86.errors = [{instancePath:instancePath+"/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate87.errors = [{instancePath:instancePath+"/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52436,7 +52701,7 @@ break;
 }
 }
 else {
-validate86.errors = [{instancePath:instancePath+"/nextRuns",schemaPath:"#/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate87.errors = [{instancePath:instancePath+"/nextRuns",schemaPath:"#/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -52444,28 +52709,28 @@ return false;
 }
 }
 else {
-validate86.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate87.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate86.errors = vErrors;
+validate87.errors = vErrors;
 return errors === 0;
 }
-validate86.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate87.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isScheduledMessageResponse = validate87;
-const schema809 = {"type":"object","properties":{"scheduledMessage":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true}},"required":["scheduledMessage"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema810 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema811 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema813 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema814 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema815 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+export const isScheduledMessageResponse = validate88;
+const schema811 = {"type":"object","properties":{"scheduledMessage":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"creator":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"cron":{"type":"string"},"id":{"$ref":"#/$defs/ScheduledMessageId"},"lastRun":{"type":"object","properties":{"due":{"$ref":"#/$defs/IsoTime"},"messageId":{"$ref":"#/$defs/MessageId"},"outcome":{"type":"string","enum":["posted","skipped"]}},"required":["due","outcome"],"additionalProperties":true},"nextRuns":{"type":"array","items":{"$ref":"#/$defs/IsoTime"}},"pausedBecause":{"anyOf":[{"type":"string","enum":["creator_deactivated"]}]},"status":{"type":"string","enum":["active","paused","finished"]},"text":{"type":"string"},"timeZone":{"type":"string"},"updatedAt":{"$ref":"#/$defs/IsoTime"}},"required":["channel","createdAt","creator","id","nextRuns","status","text","timeZone","updatedAt"],"additionalProperties":true}},"required":["scheduledMessage"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema812 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema813 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema815 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema816 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
 const schema817 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema819 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
-function validate87(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+function validate88(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
 let errors = 0;
-const evaluated0 = validate87.evaluated;
+const evaluated0 = validate88.evaluated;
 if(evaluated0.dynamicProps){
 evaluated0.props = undefined;
 }
@@ -52476,7 +52741,7 @@ if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if((data.scheduledMessage === undefined) && (missing0 = "scheduledMessage")){
-validate87.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate88.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -52487,7 +52752,7 @@ if(errors === _errs2){
 if(data0 && typeof data0 == "object" && !Array.isArray(data0)){
 let missing1;
 if((((((((((data0.channel === undefined) && (missing1 = "channel")) || ((data0.createdAt === undefined) && (missing1 = "createdAt"))) || ((data0.creator === undefined) && (missing1 = "creator"))) || ((data0.id === undefined) && (missing1 = "id"))) || ((data0.nextRuns === undefined) && (missing1 = "nextRuns"))) || ((data0.status === undefined) && (missing1 = "status"))) || ((data0.text === undefined) && (missing1 = "text"))) || ((data0.timeZone === undefined) && (missing1 = "timeZone"))) || ((data0.updatedAt === undefined) && (missing1 = "updatedAt"))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
 return false;
 }
 else {
@@ -52498,12 +52763,12 @@ const _errs6 = errors;
 if(errors === _errs6){
 if(typeof data1 === "string"){
 if(!pattern5.test(data1)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52520,12 +52785,12 @@ const _errs9 = errors;
 if(errors === _errs9){
 if(typeof data2 === "string"){
 if(!pattern33.test(data2)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,80}$"},message:"must match pattern \""+"^[a-z0-9-]{1,80}$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/channel",schemaPath:"#/$defs/ChannelName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52542,12 +52807,12 @@ const _errs12 = errors;
 if(errors === _errs12){
 if(typeof data3 === "string"){
 if(!pattern5.test(data3)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52564,7 +52829,7 @@ if(errors === _errs14){
 if(data4 && typeof data4 == "object" && !Array.isArray(data4)){
 let missing2;
 if((data4.name === undefined) && (missing2 = "name")){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
 return false;
 }
 else {
@@ -52575,12 +52840,12 @@ const _errs18 = errors;
 if(errors === _errs18){
 if(typeof data5 === "string"){
 if(!pattern6.test(data5)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator/name",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52597,12 +52862,12 @@ const _errs21 = errors;
 if(errors === _errs21){
 if(typeof data6 === "string"){
 if(!pattern30.test(data6)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator/owner",schemaPath:"#/$defs/Owner/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52615,7 +52880,7 @@ var valid5 = true;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/creator",schemaPath:"#/properties/scheduledMessage/properties/creator/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52628,7 +52893,7 @@ if(valid1){
 if(data0.cron !== undefined){
 const _errs23 = errors;
 if(typeof data0.cron !== "string"){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/cron",schemaPath:"#/properties/scheduledMessage/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/cron",schemaPath:"#/properties/scheduledMessage/properties/cron/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs23 === errors;
@@ -52642,18 +52907,18 @@ let data8 = data0.id;
 const _errs25 = errors;
 const _errs26 = errors;
 if(!(((typeof data8 == "number") && (!(data8 % 1) && !isNaN(data8))) && (isFinite(data8)))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs26){
 if((typeof data8 == "number") && (isFinite(data8))){
 if(data8 > 9007199254740991 || isNaN(data8)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data8 < 1 || isNaN(data8)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/id",schemaPath:"#/$defs/ScheduledMessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -52672,7 +52937,7 @@ if(errors === _errs28){
 if(data9 && typeof data9 == "object" && !Array.isArray(data9)){
 let missing3;
 if(((data9.due === undefined) && (missing3 = "due")) || ((data9.outcome === undefined) && (missing3 = "outcome"))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/required",keyword:"required",params:{missingProperty: missing3},message:"must have required property '"+missing3+"'"}];
 return false;
 }
 else {
@@ -52683,12 +52948,12 @@ const _errs32 = errors;
 if(errors === _errs32){
 if(typeof data10 === "string"){
 if(!pattern5.test(data10)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/due",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52703,18 +52968,18 @@ let data11 = data9.messageId;
 const _errs34 = errors;
 const _errs35 = errors;
 if(!(((typeof data11 == "number") && (!(data11 % 1) && !isNaN(data11))) && (isFinite(data11)))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs35){
 if((typeof data11 == "number") && (isFinite(data11))){
 if(data11 > 9007199254740991 || isNaN(data11)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data11 < 1 || isNaN(data11)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -52730,11 +52995,11 @@ if(data9.outcome !== undefined){
 let data12 = data9.outcome;
 const _errs37 = errors;
 if(typeof data12 !== "string"){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!((data12 === "posted") || (data12 === "skipped"))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema809.properties.scheduledMessage.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun/outcome",schemaPath:"#/properties/scheduledMessage/properties/lastRun/properties/outcome/enum",keyword:"enum",params:{allowedValues: schema811.properties.scheduledMessage.properties.lastRun.properties.outcome.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid9 = _errs37 === errors;
@@ -52747,7 +53012,7 @@ var valid9 = true;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/lastRun",schemaPath:"#/properties/scheduledMessage/properties/lastRun/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52771,12 +53036,12 @@ const _errs42 = errors;
 if(errors === _errs42){
 if(typeof data14 === "string"){
 if(!pattern5.test(data14)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns/" + i0,schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52787,7 +53052,7 @@ break;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns",schemaPath:"#/properties/scheduledMessage/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/nextRuns",schemaPath:"#/properties/scheduledMessage/properties/nextRuns/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -52814,7 +53079,7 @@ vErrors.push(err0);
 errors++;
 }
 if(!(data15 === "creator_deactivated")){
-const err1 = {instancePath:instancePath+"/scheduledMessage/pausedBecause",schemaPath:"#/properties/scheduledMessage/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema809.properties.scheduledMessage.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
+const err1 = {instancePath:instancePath+"/scheduledMessage/pausedBecause",schemaPath:"#/properties/scheduledMessage/properties/pausedBecause/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema811.properties.scheduledMessage.properties.pausedBecause.anyOf[0].enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err1];
 }
@@ -52834,7 +53099,7 @@ else {
 vErrors.push(err2);
 }
 errors++;
-validate87.errors = vErrors;
+validate88.errors = vErrors;
 return false;
 }
 else {
@@ -52858,11 +53123,11 @@ if(data0.status !== undefined){
 let data16 = data0.status;
 const _errs48 = errors;
 if(typeof data16 !== "string"){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 if(!(((data16 === "active") || (data16 === "paused")) || (data16 === "finished"))){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/enum",keyword:"enum",params:{allowedValues: schema809.properties.scheduledMessage.properties.status.enum},message:"must be equal to one of the allowed values"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/status",schemaPath:"#/properties/scheduledMessage/properties/status/enum",keyword:"enum",params:{allowedValues: schema811.properties.scheduledMessage.properties.status.enum},message:"must be equal to one of the allowed values"}];
 return false;
 }
 var valid1 = _errs48 === errors;
@@ -52874,7 +53139,7 @@ if(valid1){
 if(data0.text !== undefined){
 const _errs50 = errors;
 if(typeof data0.text !== "string"){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/text",schemaPath:"#/properties/scheduledMessage/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/text",schemaPath:"#/properties/scheduledMessage/properties/text/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs50 === errors;
@@ -52886,7 +53151,7 @@ if(valid1){
 if(data0.timeZone !== undefined){
 const _errs52 = errors;
 if(typeof data0.timeZone !== "string"){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/timeZone",schemaPath:"#/properties/scheduledMessage/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/timeZone",schemaPath:"#/properties/scheduledMessage/properties/timeZone/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 var valid1 = _errs52 === errors;
@@ -52902,12 +53167,12 @@ const _errs55 = errors;
 if(errors === _errs55){
 if(typeof data19 === "string"){
 if(!pattern5.test(data19)){
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
 return false;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage/updatedAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
 return false;
 }
 }
@@ -52931,7 +53196,7 @@ var valid1 = true;
 }
 }
 else {
-validate87.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate88.errors = [{instancePath:instancePath+"/scheduledMessage",schemaPath:"#/properties/scheduledMessage/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -52939,30 +53204,30 @@ return false;
 }
 }
 else {
-validate87.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate88.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate87.errors = vErrors;
+validate88.errors = vErrors;
 return errors === 0;
 }
-validate87.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate88.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isSearchResponse = validate88;
-const schema820 = {"type":"object","properties":{"cursor":{"anyOf":[{"type":"string"},{"type":"null"}]},"hasMore":{"type":"boolean"},"results":{"type":"array","items":{"type":"object","properties":{"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"threadClosed":{"type":"boolean"}},"required":["message","threadClosed"],"additionalProperties":true}}},"required":["cursor","hasMore","results"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema821 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
-const schema822 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema823 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema824 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
-const schema825 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema826 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
-const schema827 = {"type":"integer","minimum":1,"maximum":9007199254740991};
-const schema830 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+export const isSearchResponse = validate89;
+const schema822 = {"type":"object","properties":{"cursor":{"anyOf":[{"type":"string"},{"type":"null"}]},"hasMore":{"type":"boolean"},"results":{"type":"array","items":{"type":"object","properties":{"message":{"anyOf":[{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"closedAt":{"$ref":"#/$defs/IsoTime"},"closedBy":{"$ref":"#/$defs/IdentityName"},"kind":{"type":"string","enum":["top-level"]},"latestReplyAt":{"anyOf":[{"$ref":"#/$defs/IsoTime"},{"type":"null"}]},"latestReplyId":{"anyOf":[{"$ref":"#/$defs/MessageId"},{"type":"null"}]},"repliers":{"type":"array","items":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"maxItems":4},"replyCount":{"type":"integer","minimum":0,"maximum":9007199254740991}},"required":["author","channel","createdAt","id","mentions","text","kind","latestReplyAt","latestReplyId","repliers","replyCount"],"additionalProperties":true},{"type":"object","properties":{"attachments":{"type":"array","items":{"type":"object","properties":{"contentType":{"type":"string","enum":["image/png","image/jpeg","image/gif","image/webp","application/octet-stream"]},"height":{"type":"integer","minimum":1,"maximum":9007199254740991},"id":{"$ref":"#/$defs/AttachmentId"},"image":{"type":"boolean"},"name":{"type":"string"},"size":{"type":"integer","minimum":1,"maximum":9007199254740991},"width":{"type":"integer","minimum":1,"maximum":9007199254740991}},"required":["contentType","id","image","name","size"],"additionalProperties":true}},"author":{"type":"object","properties":{"name":{"$ref":"#/$defs/IdentityName"},"owner":{"$ref":"#/$defs/Owner"}},"required":["name"],"additionalProperties":true},"channel":{"$ref":"#/$defs/ChannelName"},"createdAt":{"$ref":"#/$defs/IsoTime"},"data":{},"harness":{"$ref":"#/$defs/Harness"},"id":{"$ref":"#/$defs/MessageId"},"mentions":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"reactions":{"type":"array","items":{"type":"object","properties":{"by":{"type":"array","items":{"$ref":"#/$defs/IdentityName"}},"count":{"type":"integer","minimum":1,"maximum":9007199254740991},"reaction":{"type":"string","enum":["thumbs_up","thumbs_down"]}},"required":["by","count","reaction"],"additionalProperties":true}},"scheduledMessage":{"type":"object","properties":{"deleted":{"type":"boolean"},"id":{"$ref":"#/$defs/ScheduledMessageId"}},"required":["deleted","id"],"additionalProperties":true},"text":{"type":"string","maxLength":40000},"kind":{"type":"string","enum":["reply"]},"replyTo":{"$ref":"#/$defs/MessageId"}},"required":["author","channel","createdAt","id","mentions","text","kind","replyTo"],"additionalProperties":true}]},"threadClosed":{"type":"boolean"}},"required":["message","threadClosed"],"additionalProperties":true}}},"required":["cursor","hasMore","results"],"additionalProperties":true,"$defs":{"AttachmentId":{"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"Owner":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"ChannelName":{"type":"string","pattern":"^[a-z0-9-]{1,80}$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"Harness":{"type":"string","pattern":"^[a-z0-9-]{1,40}$"},"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991},"ScheduledMessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema823 = {"type":"string","pattern":"^[A-Za-z0-9_-]{1,64}$"};
+const schema824 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema825 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema826 = {"type":"string","pattern":"^[a-z0-9-]{1,80}$"};
+const schema827 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema828 = {"type":"string","pattern":"^[a-z0-9-]{1,40}$"};
+const schema829 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+const schema832 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
-function validate88(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+function validate89(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
 let errors = 0;
-const evaluated0 = validate88.evaluated;
+const evaluated0 = validate89.evaluated;
 if(evaluated0.dynamicProps){
 evaluated0.props = undefined;
 }
@@ -52973,7 +53238,7 @@ if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if((((data.cursor === undefined) && (missing0 = "cursor")) || ((data.hasMore === undefined) && (missing0 = "hasMore"))) || ((data.results === undefined) && (missing0 = "results"))){
-validate88.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate89.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -53017,7 +53282,7 @@ else {
 vErrors.push(err2);
 }
 errors++;
-validate88.errors = vErrors;
+validate89.errors = vErrors;
 return false;
 }
 else {
@@ -53040,7 +53305,7 @@ if(valid0){
 if(data.hasMore !== undefined){
 const _errs8 = errors;
 if(typeof data.hasMore !== "boolean"){
-validate88.errors = [{instancePath:instancePath+"/hasMore",schemaPath:"#/properties/hasMore/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
+validate89.errors = [{instancePath:instancePath+"/hasMore",schemaPath:"#/properties/hasMore/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
 return false;
 }
 var valid0 = _errs8 === errors;
@@ -53063,7 +53328,7 @@ if(errors === _errs12){
 if(data3 && typeof data3 == "object" && !Array.isArray(data3)){
 let missing1;
 if(((data3.message === undefined) && (missing1 = "message")) || ((data3.threadClosed === undefined) && (missing1 = "threadClosed"))){
-validate88.errors = [{instancePath:instancePath+"/results/" + i0,schemaPath:"#/properties/results/items/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+validate89.errors = [{instancePath:instancePath+"/results/" + i0,schemaPath:"#/properties/results/items/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
 return false;
 }
 else {
@@ -53125,7 +53390,7 @@ vErrors.push(err5);
 errors++;
 }
 if(!(((((data7 === "image/png") || (data7 === "image/jpeg")) || (data7 === "image/gif")) || (data7 === "image/webp")) || (data7 === "application/octet-stream"))){
-const err6 = {instancePath:instancePath+"/results/" + i0+"/message/attachments/" + i1+"/contentType",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err6 = {instancePath:instancePath+"/results/" + i0+"/message/attachments/" + i1+"/contentType",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[0].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err6];
 }
@@ -53837,7 +54102,7 @@ vErrors.push(err47);
 errors++;
 }
 if(!((data28 === "thumbs_up") || (data28 === "thumbs_down"))){
-const err48 = {instancePath:instancePath+"/results/" + i0+"/message/reactions/" + i3+"/reaction",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err48 = {instancePath:instancePath+"/results/" + i0+"/message/reactions/" + i3+"/reaction",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[0].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err48];
 }
@@ -54104,7 +54369,7 @@ vErrors.push(err63);
 errors++;
 }
 if(!(data35 === "top-level")){
-const err64 = {instancePath:instancePath+"/results/" + i0+"/message/kind",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err64 = {instancePath:instancePath+"/results/" + i0+"/message/kind",schemaPath:"#/properties/results/items/properties/message/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err64];
 }
@@ -54548,7 +54813,7 @@ vErrors.push(err88);
 errors++;
 }
 if(!(((((data45 === "image/png") || (data45 === "image/jpeg")) || (data45 === "image/gif")) || (data45 === "image/webp")) || (data45 === "application/octet-stream"))){
-const err89 = {instancePath:instancePath+"/results/" + i0+"/message/attachments/" + i6+"/contentType",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
+const err89 = {instancePath:instancePath+"/results/" + i0+"/message/attachments/" + i6+"/contentType",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/attachments/items/properties/contentType/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[1].properties.attachments.items.properties.contentType.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err89];
 }
@@ -55260,7 +55525,7 @@ vErrors.push(err130);
 errors++;
 }
 if(!((data66 === "thumbs_up") || (data66 === "thumbs_down"))){
-const err131 = {instancePath:instancePath+"/results/" + i0+"/message/reactions/" + i8+"/reaction",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
+const err131 = {instancePath:instancePath+"/results/" + i0+"/message/reactions/" + i8+"/reaction",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/reactions/items/properties/reaction/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[1].properties.reactions.items.properties.reaction.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err131];
 }
@@ -55459,7 +55724,7 @@ vErrors.push(err142);
 errors++;
 }
 if(!(data71 === "reply")){
-const err143 = {instancePath:instancePath+"/results/" + i0+"/message/kind",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema820.properties.results.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err143 = {instancePath:instancePath+"/results/" + i0+"/message/kind",schemaPath:"#/properties/results/items/properties/message/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema822.properties.results.items.properties.message.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err143];
 }
@@ -55559,7 +55824,7 @@ else {
 vErrors.push(err148);
 }
 errors++;
-validate88.errors = vErrors;
+validate89.errors = vErrors;
 return false;
 }
 else {
@@ -55582,7 +55847,7 @@ if(valid3){
 if(data3.threadClosed !== undefined){
 const _errs203 = errors;
 if(typeof data3.threadClosed !== "boolean"){
-validate88.errors = [{instancePath:instancePath+"/results/" + i0+"/threadClosed",schemaPath:"#/properties/results/items/properties/threadClosed/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
+validate89.errors = [{instancePath:instancePath+"/results/" + i0+"/threadClosed",schemaPath:"#/properties/results/items/properties/threadClosed/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
 return false;
 }
 var valid3 = _errs203 === errors;
@@ -55594,7 +55859,7 @@ var valid3 = true;
 }
 }
 else {
-validate88.errors = [{instancePath:instancePath+"/results/" + i0,schemaPath:"#/properties/results/items/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate89.errors = [{instancePath:instancePath+"/results/" + i0,schemaPath:"#/properties/results/items/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
@@ -55605,252 +55870,11 @@ break;
 }
 }
 else {
-validate88.errors = [{instancePath:instancePath+"/results",schemaPath:"#/properties/results/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate89.errors = [{instancePath:instancePath+"/results",schemaPath:"#/properties/results/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
 var valid0 = _errs10 === errors;
-}
-else {
-var valid0 = true;
-}
-}
-}
-}
-}
-else {
-validate88.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-}
-validate88.errors = vErrors;
-return errors === 0;
-}
-validate88.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
-
-export const isTriggerEvent = validate89;
-const schema848 = {"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"trigger":{"type":"object","properties":{"headerNames":{"type":"array","items":{"type":"string"}},"lastResult":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"error":{"type":"string"},"ok":{"type":"boolean"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["at","ok"],"additionalProperties":true},"url":{"type":"string"}},"required":["url"],"additionalProperties":true},"type":{"type":"string","enum":["trigger"]}},"required":["identity","trigger","type"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
-const schema849 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema850 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-
-function validate89(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
-let vErrors = null;
-let errors = 0;
-const evaluated0 = validate89.evaluated;
-if(evaluated0.dynamicProps){
-evaluated0.props = undefined;
-}
-if(evaluated0.dynamicItems){
-evaluated0.items = undefined;
-}
-if(errors === 0){
-if(data && typeof data == "object" && !Array.isArray(data)){
-let missing0;
-if((((data.identity === undefined) && (missing0 = "identity")) || ((data.trigger === undefined) && (missing0 = "trigger"))) || ((data.type === undefined) && (missing0 = "type"))){
-validate89.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
-return false;
-}
-else {
-if(data.identity !== undefined){
-let data0 = data.identity;
-const _errs2 = errors;
-const _errs3 = errors;
-if(errors === _errs3){
-if(typeof data0 === "string"){
-if(!pattern6.test(data0)){
-validate89.errors = [{instancePath:instancePath+"/identity",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
-return false;
-}
-}
-else {
-validate89.errors = [{instancePath:instancePath+"/identity",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid0 = _errs2 === errors;
-}
-else {
-var valid0 = true;
-}
-if(valid0){
-if(data.trigger !== undefined){
-let data1 = data.trigger;
-const _errs5 = errors;
-if(errors === _errs5){
-if(data1 && typeof data1 == "object" && !Array.isArray(data1)){
-let missing1;
-if((data1.url === undefined) && (missing1 = "url")){
-validate89.errors = [{instancePath:instancePath+"/trigger",schemaPath:"#/properties/trigger/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
-return false;
-}
-else {
-if(data1.headerNames !== undefined){
-let data2 = data1.headerNames;
-const _errs8 = errors;
-if(errors === _errs8){
-if(Array.isArray(data2)){
-var valid3 = true;
-const len0 = data2.length;
-for(let i0=0; i0<len0; i0++){
-const _errs10 = errors;
-if(typeof data2[i0] !== "string"){
-validate89.errors = [{instancePath:instancePath+"/trigger/headerNames/" + i0,schemaPath:"#/properties/trigger/properties/headerNames/items/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-var valid3 = _errs10 === errors;
-if(!valid3){
-break;
-}
-}
-}
-else {
-validate89.errors = [{instancePath:instancePath+"/trigger/headerNames",schemaPath:"#/properties/trigger/properties/headerNames/type",keyword:"type",params:{type: "array"},message:"must be array"}];
-return false;
-}
-}
-var valid2 = _errs8 === errors;
-}
-else {
-var valid2 = true;
-}
-if(valid2){
-if(data1.lastResult !== undefined){
-let data4 = data1.lastResult;
-const _errs12 = errors;
-if(errors === _errs12){
-if(data4 && typeof data4 == "object" && !Array.isArray(data4)){
-let missing2;
-if(((data4.at === undefined) && (missing2 = "at")) || ((data4.ok === undefined) && (missing2 = "ok"))){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult",schemaPath:"#/properties/trigger/properties/lastResult/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
-return false;
-}
-else {
-if(data4.at !== undefined){
-let data5 = data4.at;
-const _errs15 = errors;
-const _errs16 = errors;
-if(errors === _errs16){
-if(typeof data5 === "string"){
-if(!pattern5.test(data5)){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
-return false;
-}
-}
-else {
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid4 = _errs15 === errors;
-}
-else {
-var valid4 = true;
-}
-if(valid4){
-if(data4.error !== undefined){
-const _errs18 = errors;
-if(typeof data4.error !== "string"){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/error",schemaPath:"#/properties/trigger/properties/lastResult/properties/error/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-var valid4 = _errs18 === errors;
-}
-else {
-var valid4 = true;
-}
-if(valid4){
-if(data4.ok !== undefined){
-const _errs20 = errors;
-if(typeof data4.ok !== "boolean"){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/ok",schemaPath:"#/properties/trigger/properties/lastResult/properties/ok/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
-return false;
-}
-var valid4 = _errs20 === errors;
-}
-else {
-var valid4 = true;
-}
-if(valid4){
-if(data4.status !== undefined){
-let data8 = data4.status;
-const _errs22 = errors;
-if(!(((typeof data8 == "number") && (!(data8 % 1) && !isNaN(data8))) && (isFinite(data8)))){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
-return false;
-}
-if(errors === _errs22){
-if((typeof data8 == "number") && (isFinite(data8))){
-if(data8 > 9007199254740991 || isNaN(data8)){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
-return false;
-}
-else {
-if(data8 < -9007199254740991 || isNaN(data8)){
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/minimum",keyword:"minimum",params:{comparison: ">=", limit: -9007199254740991},message:"must be >= -9007199254740991"}];
-return false;
-}
-}
-}
-}
-var valid4 = _errs22 === errors;
-}
-else {
-var valid4 = true;
-}
-}
-}
-}
-}
-}
-else {
-validate89.errors = [{instancePath:instancePath+"/trigger/lastResult",schemaPath:"#/properties/trigger/properties/lastResult/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-}
-var valid2 = _errs12 === errors;
-}
-else {
-var valid2 = true;
-}
-if(valid2){
-if(data1.url !== undefined){
-const _errs24 = errors;
-if(typeof data1.url !== "string"){
-validate89.errors = [{instancePath:instancePath+"/trigger/url",schemaPath:"#/properties/trigger/properties/url/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-var valid2 = _errs24 === errors;
-}
-else {
-var valid2 = true;
-}
-}
-}
-}
-}
-else {
-validate89.errors = [{instancePath:instancePath+"/trigger",schemaPath:"#/properties/trigger/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-}
-var valid0 = _errs5 === errors;
-}
-else {
-var valid0 = true;
-}
-if(valid0){
-if(data.type !== undefined){
-let data10 = data.type;
-const _errs26 = errors;
-if(typeof data10 !== "string"){
-validate89.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-if(!(data10 === "trigger")){
-validate89.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/enum",keyword:"enum",params:{allowedValues: schema848.properties.type.enum},message:"must be equal to one of the allowed values"}];
-return false;
-}
-var valid0 = _errs26 === errors;
 }
 else {
 var valid0 = true;
@@ -55869,8 +55893,9 @@ return errors === 0;
 }
 validate89.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isTriggerResponse = validate90;
-const schema851 = {"type":"object","properties":{"trigger":{"anyOf":[{"type":"object","properties":{"headerNames":{"type":"array","items":{"type":"string"}},"lastResult":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"error":{"type":"string"},"ok":{"type":"boolean"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["at","ok"],"additionalProperties":true},"url":{"type":"string"}},"required":["url"],"additionalProperties":true},{"type":"null"}]}},"required":["trigger"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
+export const isTriggerEvent = validate90;
+const schema850 = {"type":"object","properties":{"identity":{"$ref":"#/$defs/IdentityName"},"trigger":{"type":"object","properties":{"headerNames":{"type":"array","items":{"type":"string"}},"lastResult":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"error":{"type":"string"},"ok":{"type":"boolean"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["at","ok"],"additionalProperties":true},"url":{"type":"string"}},"required":["url"],"additionalProperties":true},"type":{"type":"string","enum":["trigger"]}},"required":["identity","trigger","type"],"additionalProperties":true,"$defs":{"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
+const schema851 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
 const schema852 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
 
 function validate90(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
@@ -55886,8 +55911,248 @@ evaluated0.items = undefined;
 if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
-if((data.trigger === undefined) && (missing0 = "trigger")){
+if((((data.identity === undefined) && (missing0 = "identity")) || ((data.trigger === undefined) && (missing0 = "trigger"))) || ((data.type === undefined) && (missing0 = "type"))){
 validate90.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+return false;
+}
+else {
+if(data.identity !== undefined){
+let data0 = data.identity;
+const _errs2 = errors;
+const _errs3 = errors;
+if(errors === _errs3){
+if(typeof data0 === "string"){
+if(!pattern6.test(data0)){
+validate90.errors = [{instancePath:instancePath+"/identity",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
+return false;
+}
+}
+else {
+validate90.errors = [{instancePath:instancePath+"/identity",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid0 = _errs2 === errors;
+}
+else {
+var valid0 = true;
+}
+if(valid0){
+if(data.trigger !== undefined){
+let data1 = data.trigger;
+const _errs5 = errors;
+if(errors === _errs5){
+if(data1 && typeof data1 == "object" && !Array.isArray(data1)){
+let missing1;
+if((data1.url === undefined) && (missing1 = "url")){
+validate90.errors = [{instancePath:instancePath+"/trigger",schemaPath:"#/properties/trigger/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+return false;
+}
+else {
+if(data1.headerNames !== undefined){
+let data2 = data1.headerNames;
+const _errs8 = errors;
+if(errors === _errs8){
+if(Array.isArray(data2)){
+var valid3 = true;
+const len0 = data2.length;
+for(let i0=0; i0<len0; i0++){
+const _errs10 = errors;
+if(typeof data2[i0] !== "string"){
+validate90.errors = [{instancePath:instancePath+"/trigger/headerNames/" + i0,schemaPath:"#/properties/trigger/properties/headerNames/items/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+var valid3 = _errs10 === errors;
+if(!valid3){
+break;
+}
+}
+}
+else {
+validate90.errors = [{instancePath:instancePath+"/trigger/headerNames",schemaPath:"#/properties/trigger/properties/headerNames/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+return false;
+}
+}
+var valid2 = _errs8 === errors;
+}
+else {
+var valid2 = true;
+}
+if(valid2){
+if(data1.lastResult !== undefined){
+let data4 = data1.lastResult;
+const _errs12 = errors;
+if(errors === _errs12){
+if(data4 && typeof data4 == "object" && !Array.isArray(data4)){
+let missing2;
+if(((data4.at === undefined) && (missing2 = "at")) || ((data4.ok === undefined) && (missing2 = "ok"))){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult",schemaPath:"#/properties/trigger/properties/lastResult/required",keyword:"required",params:{missingProperty: missing2},message:"must have required property '"+missing2+"'"}];
+return false;
+}
+else {
+if(data4.at !== undefined){
+let data5 = data4.at;
+const _errs15 = errors;
+const _errs16 = errors;
+if(errors === _errs16){
+if(typeof data5 === "string"){
+if(!pattern5.test(data5)){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/at",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+return false;
+}
+}
+else {
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/at",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid4 = _errs15 === errors;
+}
+else {
+var valid4 = true;
+}
+if(valid4){
+if(data4.error !== undefined){
+const _errs18 = errors;
+if(typeof data4.error !== "string"){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/error",schemaPath:"#/properties/trigger/properties/lastResult/properties/error/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+var valid4 = _errs18 === errors;
+}
+else {
+var valid4 = true;
+}
+if(valid4){
+if(data4.ok !== undefined){
+const _errs20 = errors;
+if(typeof data4.ok !== "boolean"){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/ok",schemaPath:"#/properties/trigger/properties/lastResult/properties/ok/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"}];
+return false;
+}
+var valid4 = _errs20 === errors;
+}
+else {
+var valid4 = true;
+}
+if(valid4){
+if(data4.status !== undefined){
+let data8 = data4.status;
+const _errs22 = errors;
+if(!(((typeof data8 == "number") && (!(data8 % 1) && !isNaN(data8))) && (isFinite(data8)))){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+return false;
+}
+if(errors === _errs22){
+if((typeof data8 == "number") && (isFinite(data8))){
+if(data8 > 9007199254740991 || isNaN(data8)){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+return false;
+}
+else {
+if(data8 < -9007199254740991 || isNaN(data8)){
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult/status",schemaPath:"#/properties/trigger/properties/lastResult/properties/status/minimum",keyword:"minimum",params:{comparison: ">=", limit: -9007199254740991},message:"must be >= -9007199254740991"}];
+return false;
+}
+}
+}
+}
+var valid4 = _errs22 === errors;
+}
+else {
+var valid4 = true;
+}
+}
+}
+}
+}
+}
+else {
+validate90.errors = [{instancePath:instancePath+"/trigger/lastResult",schemaPath:"#/properties/trigger/properties/lastResult/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+var valid2 = _errs12 === errors;
+}
+else {
+var valid2 = true;
+}
+if(valid2){
+if(data1.url !== undefined){
+const _errs24 = errors;
+if(typeof data1.url !== "string"){
+validate90.errors = [{instancePath:instancePath+"/trigger/url",schemaPath:"#/properties/trigger/properties/url/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+var valid2 = _errs24 === errors;
+}
+else {
+var valid2 = true;
+}
+}
+}
+}
+}
+else {
+validate90.errors = [{instancePath:instancePath+"/trigger",schemaPath:"#/properties/trigger/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+var valid0 = _errs5 === errors;
+}
+else {
+var valid0 = true;
+}
+if(valid0){
+if(data.type !== undefined){
+let data10 = data.type;
+const _errs26 = errors;
+if(typeof data10 !== "string"){
+validate90.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+if(!(data10 === "trigger")){
+validate90.errors = [{instancePath:instancePath+"/type",schemaPath:"#/properties/type/enum",keyword:"enum",params:{allowedValues: schema850.properties.type.enum},message:"must be equal to one of the allowed values"}];
+return false;
+}
+var valid0 = _errs26 === errors;
+}
+else {
+var valid0 = true;
+}
+}
+}
+}
+}
+else {
+validate90.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+validate90.errors = vErrors;
+return errors === 0;
+}
+validate90.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+
+export const isTriggerResponse = validate91;
+const schema853 = {"type":"object","properties":{"trigger":{"anyOf":[{"type":"object","properties":{"headerNames":{"type":"array","items":{"type":"string"}},"lastResult":{"type":"object","properties":{"at":{"$ref":"#/$defs/IsoTime"},"error":{"type":"string"},"ok":{"type":"boolean"},"status":{"type":"integer","minimum":-9007199254740991,"maximum":9007199254740991}},"required":["at","ok"],"additionalProperties":true},"url":{"type":"string"}},"required":["url"],"additionalProperties":true},{"type":"null"}]}},"required":["trigger"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"}}};
+const schema854 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+
+function validate91(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+let vErrors = null;
+let errors = 0;
+const evaluated0 = validate91.evaluated;
+if(evaluated0.dynamicProps){
+evaluated0.props = undefined;
+}
+if(evaluated0.dynamicItems){
+evaluated0.items = undefined;
+}
+if(errors === 0){
+if(data && typeof data == "object" && !Array.isArray(data)){
+let missing0;
+if((data.trigger === undefined) && (missing0 = "trigger")){
+validate91.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -56161,7 +56426,7 @@ else {
 vErrors.push(err15);
 }
 errors++;
-validate90.errors = vErrors;
+validate91.errors = vErrors;
 return false;
 }
 else {
@@ -56179,23 +56444,23 @@ vErrors = null;
 }
 }
 else {
-validate90.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate91.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate90.errors = vErrors;
+validate91.errors = vErrors;
 return errors === 0;
 }
-validate90.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate91.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isCallCommandResponse = validate91;
-const schema853 = {"type":"object","properties":{"messageId":{"$ref":"#/$defs/MessageId"},"threadId":{"$ref":"#/$defs/MessageId"}},"required":["messageId","threadId"],"additionalProperties":true,"$defs":{"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
-const schema854 = {"type":"integer","minimum":1,"maximum":9007199254740991};
+export const isCallCommandResponse = validate92;
+const schema855 = {"type":"object","properties":{"messageId":{"$ref":"#/$defs/MessageId"},"threadId":{"$ref":"#/$defs/MessageId"}},"required":["messageId","threadId"],"additionalProperties":true,"$defs":{"MessageId":{"type":"integer","minimum":1,"maximum":9007199254740991}}};
+const schema856 = {"type":"integer","minimum":1,"maximum":9007199254740991};
 
-function validate91(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+function validate92(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
 let errors = 0;
-const evaluated0 = validate91.evaluated;
+const evaluated0 = validate92.evaluated;
 if(evaluated0.dynamicProps){
 evaluated0.props = undefined;
 }
@@ -56206,7 +56471,7 @@ if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
 if(((data.messageId === undefined) && (missing0 = "messageId")) || ((data.threadId === undefined) && (missing0 = "threadId"))){
-validate91.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+validate92.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -56215,18 +56480,18 @@ let data0 = data.messageId;
 const _errs2 = errors;
 const _errs3 = errors;
 if(!(((typeof data0 == "number") && (!(data0 % 1) && !isNaN(data0))) && (isFinite(data0)))){
-validate91.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate92.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs3){
 if((typeof data0 == "number") && (isFinite(data0))){
 if(data0 > 9007199254740991 || isNaN(data0)){
-validate91.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate92.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data0 < 1 || isNaN(data0)){
-validate91.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate92.errors = [{instancePath:instancePath+"/messageId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
@@ -56243,230 +56508,24 @@ let data1 = data.threadId;
 const _errs5 = errors;
 const _errs6 = errors;
 if(!(((typeof data1 == "number") && (!(data1 % 1) && !isNaN(data1))) && (isFinite(data1)))){
-validate91.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
+validate92.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/type",keyword:"type",params:{type: "integer"},message:"must be integer"}];
 return false;
 }
 if(errors === _errs6){
 if((typeof data1 == "number") && (isFinite(data1))){
 if(data1 > 9007199254740991 || isNaN(data1)){
-validate91.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
+validate92.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/maximum",keyword:"maximum",params:{comparison: "<=", limit: 9007199254740991},message:"must be <= 9007199254740991"}];
 return false;
 }
 else {
 if(data1 < 1 || isNaN(data1)){
-validate91.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
+validate92.errors = [{instancePath:instancePath+"/threadId",schemaPath:"#/$defs/MessageId/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"}];
 return false;
 }
 }
 }
 }
 var valid0 = _errs5 === errors;
-}
-else {
-var valid0 = true;
-}
-}
-}
-}
-else {
-validate91.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-}
-validate91.errors = vErrors;
-return errors === 0;
-}
-validate91.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
-
-export const isCommandWithSecretResponse = validate92;
-const schema856 = {"type":"object","properties":{"command":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"url":{"type":"string"}},"required":["createdAt","handler","name","schema","url"],"additionalProperties":true},"secret":{"$ref":"#/$defs/CommandSecret"}},"required":["command","secret"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"CommandName":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"CommandSecret":{"type":"string","pattern":"^hmac_[A-Za-z0-9_-]+$"}}};
-const schema857 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema858 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema859 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
-const schema860 = {"type":"string","pattern":"^hmac_[A-Za-z0-9_-]+$"};
-const pattern634 = new RegExp("^hmac_[A-Za-z0-9_-]+$", "u");
-
-function validate92(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
-let vErrors = null;
-let errors = 0;
-const evaluated0 = validate92.evaluated;
-if(evaluated0.dynamicProps){
-evaluated0.props = undefined;
-}
-if(evaluated0.dynamicItems){
-evaluated0.items = undefined;
-}
-if(errors === 0){
-if(data && typeof data == "object" && !Array.isArray(data)){
-let missing0;
-if(((data.command === undefined) && (missing0 = "command")) || ((data.secret === undefined) && (missing0 = "secret"))){
-validate92.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
-return false;
-}
-else {
-if(data.command !== undefined){
-let data0 = data.command;
-const _errs2 = errors;
-if(errors === _errs2){
-if(data0 && typeof data0 == "object" && !Array.isArray(data0)){
-let missing1;
-if((((((data0.createdAt === undefined) && (missing1 = "createdAt")) || ((data0.handler === undefined) && (missing1 = "handler"))) || ((data0.name === undefined) && (missing1 = "name"))) || ((data0.schema === undefined) && (missing1 = "schema"))) || ((data0.url === undefined) && (missing1 = "url"))){
-validate92.errors = [{instancePath:instancePath+"/command",schemaPath:"#/properties/command/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
-return false;
-}
-else {
-if(data0.createdAt !== undefined){
-let data1 = data0.createdAt;
-const _errs5 = errors;
-const _errs6 = errors;
-if(errors === _errs6){
-if(typeof data1 === "string"){
-if(!pattern5.test(data1)){
-validate92.errors = [{instancePath:instancePath+"/command/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
-return false;
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/command/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid1 = _errs5 === errors;
-}
-else {
-var valid1 = true;
-}
-if(valid1){
-if(data0.description !== undefined){
-let data2 = data0.description;
-const _errs8 = errors;
-if(errors === _errs8){
-if(typeof data2 === "string"){
-if(data2.length > 500){
-validate92.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/maxLength",keyword:"maxLength",params:{limit: 500},message:"must NOT have more than 500 characters"}];
-return false;
-}
-else {
-if(data2.length < 1){
-validate92.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/minLength",keyword:"minLength",params:{limit: 1},message:"must NOT have fewer than 1 characters"}];
-return false;
-}
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid1 = _errs8 === errors;
-}
-else {
-var valid1 = true;
-}
-if(valid1){
-if(data0.handler !== undefined){
-let data3 = data0.handler;
-const _errs10 = errors;
-const _errs11 = errors;
-if(errors === _errs11){
-if(typeof data3 === "string"){
-if(!pattern6.test(data3)){
-validate92.errors = [{instancePath:instancePath+"/command/handler",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
-return false;
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/command/handler",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid1 = _errs10 === errors;
-}
-else {
-var valid1 = true;
-}
-if(valid1){
-if(data0.name !== undefined){
-let data4 = data0.name;
-const _errs13 = errors;
-const _errs14 = errors;
-if(errors === _errs14){
-if(typeof data4 === "string"){
-if(!pattern30.test(data4)){
-validate92.errors = [{instancePath:instancePath+"/command/name",schemaPath:"#/$defs/CommandName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
-return false;
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/command/name",schemaPath:"#/$defs/CommandName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid1 = _errs13 === errors;
-}
-else {
-var valid1 = true;
-}
-if(valid1){
-if(data0.schema !== undefined){
-let data5 = data0.schema;
-const _errs16 = errors;
-if(!(data5 && typeof data5 == "object" && !Array.isArray(data5))){
-validate92.errors = [{instancePath:instancePath+"/command/schema",schemaPath:"#/properties/command/properties/schema/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-var valid1 = _errs16 === errors;
-}
-else {
-var valid1 = true;
-}
-if(valid1){
-if(data0.url !== undefined){
-const _errs18 = errors;
-if(typeof data0.url !== "string"){
-validate92.errors = [{instancePath:instancePath+"/command/url",schemaPath:"#/properties/command/properties/url/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-var valid1 = _errs18 === errors;
-}
-else {
-var valid1 = true;
-}
-}
-}
-}
-}
-}
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/command",schemaPath:"#/properties/command/type",keyword:"type",params:{type: "object"},message:"must be object"}];
-return false;
-}
-}
-var valid0 = _errs2 === errors;
-}
-else {
-var valid0 = true;
-}
-if(valid0){
-if(data.secret !== undefined){
-let data7 = data.secret;
-const _errs20 = errors;
-const _errs21 = errors;
-if(errors === _errs21){
-if(typeof data7 === "string"){
-if(!pattern634.test(data7)){
-validate92.errors = [{instancePath:instancePath+"/secret",schemaPath:"#/$defs/CommandSecret/pattern",keyword:"pattern",params:{pattern: "^hmac_[A-Za-z0-9_-]+$"},message:"must match pattern \""+"^hmac_[A-Za-z0-9_-]+$"+"\""}];
-return false;
-}
-}
-else {
-validate92.errors = [{instancePath:instancePath+"/secret",schemaPath:"#/$defs/CommandSecret/type",keyword:"type",params:{type: "string"},message:"must be string"}];
-return false;
-}
-}
-var valid0 = _errs20 === errors;
 }
 else {
 var valid0 = true;
@@ -56484,11 +56543,13 @@ return errors === 0;
 }
 validate92.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 
-export const isListCommandsResponse = validate93;
-const schema861 = {"type":"object","properties":{"commands":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"url":{"type":"string"}},"required":["createdAt","handler","name","schema","url"],"additionalProperties":true},{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"builtIn":{"type":"boolean","enum":[true]}},"required":["createdAt","handler","name","schema","builtIn"],"additionalProperties":true}]}}},"required":["commands"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"CommandName":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
-const schema862 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
-const schema863 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
-const schema864 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+export const isCommandWithSecretResponse = validate93;
+const schema858 = {"type":"object","properties":{"command":{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"url":{"type":"string"}},"required":["createdAt","handler","name","schema","url"],"additionalProperties":true},"secret":{"$ref":"#/$defs/CommandSecret"}},"required":["command","secret"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"CommandName":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"},"CommandSecret":{"type":"string","pattern":"^hmac_[A-Za-z0-9_-]+$"}}};
+const schema859 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema860 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema861 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+const schema862 = {"type":"string","pattern":"^hmac_[A-Za-z0-9_-]+$"};
+const pattern635 = new RegExp("^hmac_[A-Za-z0-9_-]+$", "u");
 
 function validate93(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
 let vErrors = null;
@@ -56503,8 +56564,212 @@ evaluated0.items = undefined;
 if(errors === 0){
 if(data && typeof data == "object" && !Array.isArray(data)){
 let missing0;
-if((data.commands === undefined) && (missing0 = "commands")){
+if(((data.command === undefined) && (missing0 = "command")) || ((data.secret === undefined) && (missing0 = "secret"))){
 validate93.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
+return false;
+}
+else {
+if(data.command !== undefined){
+let data0 = data.command;
+const _errs2 = errors;
+if(errors === _errs2){
+if(data0 && typeof data0 == "object" && !Array.isArray(data0)){
+let missing1;
+if((((((data0.createdAt === undefined) && (missing1 = "createdAt")) || ((data0.handler === undefined) && (missing1 = "handler"))) || ((data0.name === undefined) && (missing1 = "name"))) || ((data0.schema === undefined) && (missing1 = "schema"))) || ((data0.url === undefined) && (missing1 = "url"))){
+validate93.errors = [{instancePath:instancePath+"/command",schemaPath:"#/properties/command/required",keyword:"required",params:{missingProperty: missing1},message:"must have required property '"+missing1+"'"}];
+return false;
+}
+else {
+if(data0.createdAt !== undefined){
+let data1 = data0.createdAt;
+const _errs5 = errors;
+const _errs6 = errors;
+if(errors === _errs6){
+if(typeof data1 === "string"){
+if(!pattern5.test(data1)){
+validate93.errors = [{instancePath:instancePath+"/command/createdAt",schemaPath:"#/$defs/IsoTime/pattern",keyword:"pattern",params:{pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},message:"must match pattern \""+"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"+"\""}];
+return false;
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/command/createdAt",schemaPath:"#/$defs/IsoTime/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid1 = _errs5 === errors;
+}
+else {
+var valid1 = true;
+}
+if(valid1){
+if(data0.description !== undefined){
+let data2 = data0.description;
+const _errs8 = errors;
+if(errors === _errs8){
+if(typeof data2 === "string"){
+if(data2.length > 500){
+validate93.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/maxLength",keyword:"maxLength",params:{limit: 500},message:"must NOT have more than 500 characters"}];
+return false;
+}
+else {
+if(data2.length < 1){
+validate93.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/minLength",keyword:"minLength",params:{limit: 1},message:"must NOT have fewer than 1 characters"}];
+return false;
+}
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/command/description",schemaPath:"#/properties/command/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid1 = _errs8 === errors;
+}
+else {
+var valid1 = true;
+}
+if(valid1){
+if(data0.handler !== undefined){
+let data3 = data0.handler;
+const _errs10 = errors;
+const _errs11 = errors;
+if(errors === _errs11){
+if(typeof data3 === "string"){
+if(!pattern6.test(data3)){
+validate93.errors = [{instancePath:instancePath+"/command/handler",schemaPath:"#/$defs/IdentityName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"+"\""}];
+return false;
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/command/handler",schemaPath:"#/$defs/IdentityName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid1 = _errs10 === errors;
+}
+else {
+var valid1 = true;
+}
+if(valid1){
+if(data0.name !== undefined){
+let data4 = data0.name;
+const _errs13 = errors;
+const _errs14 = errors;
+if(errors === _errs14){
+if(typeof data4 === "string"){
+if(!pattern30.test(data4)){
+validate93.errors = [{instancePath:instancePath+"/command/name",schemaPath:"#/$defs/CommandName/pattern",keyword:"pattern",params:{pattern: "^[a-z0-9-]{1,64}$"},message:"must match pattern \""+"^[a-z0-9-]{1,64}$"+"\""}];
+return false;
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/command/name",schemaPath:"#/$defs/CommandName/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid1 = _errs13 === errors;
+}
+else {
+var valid1 = true;
+}
+if(valid1){
+if(data0.schema !== undefined){
+let data5 = data0.schema;
+const _errs16 = errors;
+if(!(data5 && typeof data5 == "object" && !Array.isArray(data5))){
+validate93.errors = [{instancePath:instancePath+"/command/schema",schemaPath:"#/properties/command/properties/schema/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+var valid1 = _errs16 === errors;
+}
+else {
+var valid1 = true;
+}
+if(valid1){
+if(data0.url !== undefined){
+const _errs18 = errors;
+if(typeof data0.url !== "string"){
+validate93.errors = [{instancePath:instancePath+"/command/url",schemaPath:"#/properties/command/properties/url/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+var valid1 = _errs18 === errors;
+}
+else {
+var valid1 = true;
+}
+}
+}
+}
+}
+}
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/command",schemaPath:"#/properties/command/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+var valid0 = _errs2 === errors;
+}
+else {
+var valid0 = true;
+}
+if(valid0){
+if(data.secret !== undefined){
+let data7 = data.secret;
+const _errs20 = errors;
+const _errs21 = errors;
+if(errors === _errs21){
+if(typeof data7 === "string"){
+if(!pattern635.test(data7)){
+validate93.errors = [{instancePath:instancePath+"/secret",schemaPath:"#/$defs/CommandSecret/pattern",keyword:"pattern",params:{pattern: "^hmac_[A-Za-z0-9_-]+$"},message:"must match pattern \""+"^hmac_[A-Za-z0-9_-]+$"+"\""}];
+return false;
+}
+}
+else {
+validate93.errors = [{instancePath:instancePath+"/secret",schemaPath:"#/$defs/CommandSecret/type",keyword:"type",params:{type: "string"},message:"must be string"}];
+return false;
+}
+}
+var valid0 = _errs20 === errors;
+}
+else {
+var valid0 = true;
+}
+}
+}
+}
+else {
+validate93.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+return false;
+}
+}
+validate93.errors = vErrors;
+return errors === 0;
+}
+validate93.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+
+export const isListCommandsResponse = validate94;
+const schema863 = {"type":"object","properties":{"commands":{"type":"array","items":{"anyOf":[{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"url":{"type":"string"}},"required":["createdAt","handler","name","schema","url"],"additionalProperties":true},{"type":"object","properties":{"createdAt":{"$ref":"#/$defs/IsoTime"},"description":{"type":"string","minLength":1,"maxLength":500},"handler":{"$ref":"#/$defs/IdentityName"},"name":{"$ref":"#/$defs/CommandName"},"schema":{"type":"object"},"builtIn":{"type":"boolean","enum":[true]}},"required":["createdAt","handler","name","schema","builtIn"],"additionalProperties":true}]}}},"required":["commands"],"additionalProperties":true,"$defs":{"IsoTime":{"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"},"IdentityName":{"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"},"CommandName":{"type":"string","pattern":"^[a-z0-9-]{1,64}$"}}};
+const schema864 = {"type":"string","pattern":"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"};
+const schema865 = {"type":"string","pattern":"^[a-z0-9-]{1,64}(?:\\/[a-z0-9-]{1,64})?$"};
+const schema866 = {"type":"string","pattern":"^[a-z0-9-]{1,64}$"};
+
+function validate94(data, {instancePath="", parentData, parentDataProperty, rootData=data, dynamicAnchors={}}={}){
+let vErrors = null;
+let errors = 0;
+const evaluated0 = validate94.evaluated;
+if(evaluated0.dynamicProps){
+evaluated0.props = undefined;
+}
+if(evaluated0.dynamicItems){
+evaluated0.items = undefined;
+}
+if(errors === 0){
+if(data && typeof data == "object" && !Array.isArray(data)){
+let missing0;
+if((data.commands === undefined) && (missing0 = "commands")){
+validate94.errors = [{instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: missing0},message:"must have required property '"+missing0+"'"}];
 return false;
 }
 else {
@@ -56936,7 +57201,7 @@ vErrors.push(err24);
 errors++;
 }
 if(!(data13 === true)){
-const err25 = {instancePath:instancePath+"/commands/" + i0+"/builtIn",schemaPath:"#/properties/commands/items/anyOf/1/properties/builtIn/enum",keyword:"enum",params:{allowedValues: schema861.properties.commands.items.anyOf[1].properties.builtIn.enum},message:"must be equal to one of the allowed values"};
+const err25 = {instancePath:instancePath+"/commands/" + i0+"/builtIn",schemaPath:"#/properties/commands/items/anyOf/1/properties/builtIn/enum",keyword:"enum",params:{allowedValues: schema863.properties.commands.items.anyOf[1].properties.builtIn.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err25];
 }
@@ -56984,7 +57249,7 @@ else {
 vErrors.push(err27);
 }
 errors++;
-validate93.errors = vErrors;
+validate94.errors = vErrors;
 return false;
 }
 else {
@@ -57005,7 +57270,7 @@ break;
 }
 }
 else {
-validate93.errors = [{instancePath:instancePath+"/commands",schemaPath:"#/properties/commands/type",keyword:"type",params:{type: "array"},message:"must be array"}];
+validate94.errors = [{instancePath:instancePath+"/commands",schemaPath:"#/properties/commands/type",keyword:"type",params:{type: "array"},message:"must be array"}];
 return false;
 }
 }
@@ -57013,12 +57278,12 @@ return false;
 }
 }
 else {
-validate93.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
+validate94.errors = [{instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"}];
 return false;
 }
 }
-validate93.errors = vErrors;
+validate94.errors = vErrors;
 return errors === 0;
 }
-validate93.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
+validate94.evaluated = {"props":true,"dynamicProps":false,"dynamicItems":false};
 

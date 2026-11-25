@@ -10,6 +10,7 @@ export { ButtonRow } from "./button-row.tsx";
 export { TokenText } from "./token-text.tsx";
 export { QuietButton } from "./quiet-button.tsx";
 export { Button } from "./button.tsx";
+export { ButtonLink } from "./button-link.tsx";
 export { CheckField } from "./check-field.tsx";
 export { ChoiceGroup } from "./choice-group.tsx";
 export { DataArea } from "./data-area.tsx";

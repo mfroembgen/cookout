@@ -1,5 +1,5 @@
-import { Caller, issueToken } from "./auth.ts";
-import { DateTime, Effect, Option } from "effect";
+import { Caller, NOT_STORED, issueToken, shownTo } from "./auth.ts";
+import { Context, DateTime, Effect, Function, Option, Struct } from "effect";
 import { HttpServerRequest, HttpServerResponse } from "effect/http";
 import { sessionCookieName, sessionPath, token, whoamiPath } from "../../index.ts";
 import type { Cookies } from "effect/http";
@@ -21,6 +21,15 @@ const cookieOptions = {
   sameSite: "strict",
 } as const satisfies NonNullable<Cookies.Cookie["options"]>;
 
+const PublicUrl = Context.Reference<string>("cookout/identities/PublicUrl", { defaultValue: Function.constant("") });
+
+const sessionCookie = Effect.map(PublicUrl, (url) => ({
+  name: sessionCookieName,
+  options: { ...cookieOptions, secure: URL.canParse(url) && new URL(url).protocol === "https:" },
+}));
+
+const sessionCookieOptions = Effect.map(sessionCookie, Struct.get("options"));
+
 function humanOnly({ kind, name }: Identity): Refusal {
   return {
     code: "human_only",
@@ -37,8 +46,13 @@ const callerResponse = Effect.gen(function* answerWithCaller() {
   return yield* identityResponse({ identity });
 });
 
-const whoamiRoute: Route<Caller> = {
-  handle: () => callerResponse,
+const whoamiRoute: Route<Caller | Storage> = {
+  handle: () =>
+    Caller.pipe(
+      Effect.flatMap((identity) => shownTo({ identity, viewer: identity })),
+      Effect.flatMap(identityResponse),
+      Effect.map(HttpServerResponse.setHeaders(NOT_STORED)),
+    ),
   method: "GET",
   path: whoamiPath,
 };
@@ -60,7 +74,8 @@ const loginRoute: Route<Caller | Storage | Secrets> = {
         now: isoTimeOf(now),
       });
       const response = yield* identityResponse({ identity });
-      return yield* HttpServerResponse.setCookie(response, sessionCookieName, issued.token, cookieOptions);
+      const options = yield* sessionCookieOptions;
+      return yield* HttpServerResponse.setCookie(response, sessionCookieName, issued.token, options);
     }),
   method: "POST",
   path: sessionPath,
@@ -82,10 +97,13 @@ const logoutRoute: Route<Caller | Storage | Secrets> = {
     Effect.gen(function* logOut() {
       yield* revokeSessionCookie;
       const response = yield* callerResponse;
-      return yield* HttpServerResponse.expireCookie(response, sessionCookieName, cookieOptions);
+      const options = yield* sessionCookieOptions;
+      return yield* HttpServerResponse.expireCookie(response, sessionCookieName, options);
     }),
   method: "DELETE",
   path: sessionPath,
 };
 
 export const callerRoutes: readonly Route<Caller | Storage | Secrets>[] = [whoamiRoute, loginRoute, logoutRoute];
+
+export { PublicUrl, sessionCookie };

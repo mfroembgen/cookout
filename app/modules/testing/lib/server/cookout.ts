@@ -1,3 +1,4 @@
+import type { AdminNameIsAgent, OidcSettings } from "../../../identities/server.ts";
 import {
   Array as Arr,
   ConfigProvider,
@@ -18,7 +19,6 @@ import { backingServices, newToken, scriptedTriggersIn, storageFor } from "./bac
 import { booted, capturedLogs, heldAssetsOn, lastEndOn, liveConnectionsClosedOn } from "./booted.ts";
 import { currentTime, startTestClock } from "./time.ts";
 import { identityFixture, identityName, ownedByAdminUnlessNamed, testCookoutAdminName } from "./identities.ts";
-import type { AdminNameIsAgent } from "../../../identities/server.ts";
 import { Identities } from "../../../identities/server.ts";
 import type { IdentityFixtureOptions } from "./identities.ts";
 import { Storage } from "../../../storage/server.ts";
@@ -79,6 +79,7 @@ export type TestCookoutOptions = {
   readonly streamsPerIdentity?: number;
   readonly triggers?: "receiver" | "scripted";
   readonly allowLocalTriggers?: false;
+  readonly oidc?: OidcSettings;
 };
 
 type Setting =
@@ -203,6 +204,7 @@ function bootOn(options: TestCookoutOptions): Effect.Effect<Boot, never, Scope.S
           port: 0,
           publicUrl: options.publicUrl ?? "",
           ...named,
+          ...Option.match(Option.fromUndefinedOr(options.oidc), { onNone: () => ({}), onSome: (oidc) => ({ oidc }) }),
         });
         return yield* booted(
           server.pipe(

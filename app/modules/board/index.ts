@@ -96,7 +96,7 @@
  * The board store is the web's one caller of the SDK and the one follower of `live` (lint's `web-rules/board-store-owner`
  * holds that): views read it only through the selectors here and change the server only through its methods.
  *
- * The board store's `session` is whether the person at the browser is logged in, and as whom (`loggedInName` reads the name), shown with
+ * The board store's `session` is whether the person at the browser is logged in, and as whom (`loggedInName` reads the name, `signInWith` the provider, `viewerOf` a key that changes with the viewer's name or admin flag), shown with
  * `subscribeShowing("session")` (or `session.subscribe`): it asks the server who the page's client is (`whoami`,
  * which a browser answers with the session cookie); no cookie is simply logged out. Its identity is the identities
  * slice's identity of that name once the slice holds one, so an `identity` event for it (a display name or admin flag
@@ -105,6 +105,9 @@
  * (`POST /v1/session`) through a client with that token for the cookout at `url`; a refused login (an agent's token, a bad token)
  * keeps the server's error code to show. `logOut` ends the session on the server (`DELETE /v1/session`, which revokes the
  * session cookie's credential) and is then logged out; if the server doesn't answer, it asks who is logged in again.
+ * Logged out or in, it also names the OpenID Connect provider the server signs people in through (`signInWith`, its
+ * `COOKOUT_OIDC_LABEL`, with `start`, the absolute sign-in URL on the public URL), from `GET /v1/sign-in`, asked until it answers once and `null` if it has none or can't be reached; the session is
+ * published first and the name joins it when it arrives, so a slow answer never holds up the token form. It asks once at a time, and a request unanswered after 5 s on the store's `clock` (the page's timers unless given) lets the next session change ask again (ADR 0107).
  *
  * `createLoginApprovals` makes the store the approval page reads: for a login request's user code, the request (its
  * host and when it expires) once the page subscribes, or why it can't be shown, and `approve`, which approves it as
@@ -162,6 +165,8 @@ export {
   presences,
   reactionRefusal,
   reactionsOf,
+  signInWith,
+  viewerOf,
 } from "./lib/part-selectors.ts";
 export type { BoardState } from "./lib/board-store.ts";
 export type { MarkAllState, MarkChannelRefusal } from "./lib/inbox-calls.ts";

@@ -7,6 +7,7 @@ import type {
   ListIdentitiesQuery,
   ListIdentitiesResponse,
 } from "../../identities/index.ts";
+import type { LoginCalls, SignInCalls } from "./logins.ts";
 import { getJson, send } from "./request.ts";
 import {
   identitiesPath,
@@ -29,15 +30,14 @@ import {
   isIdentityWithTokenResponse,
   isListIdentitiesResponse,
 } from "./generated/validators.js";
+import { loginCalls, signInCalls } from "./logins.ts";
 import type { ClientConnection } from "./request.ts";
 import type { HealthResponse } from "../../http/index.ts";
 import type { IdentityAvatarCalls } from "./avatars.ts";
 import type { IdentityDeletionCalls } from "./call-groups.ts";
-import type { LoginCalls } from "./logins.ts";
 import type { TriggerCalls } from "./triggers.ts";
 import { avatarCalls } from "./avatars.ts";
 import { healthPath } from "../../http/index.ts";
-import { loginCalls } from "./logins.ts";
 import { triggerCalls } from "./triggers.ts";
 
 interface IdentityCalls {
@@ -236,12 +236,14 @@ function identityCalls(
   DescriptionCalls<IdentityResponse> &
   AgentCreationCalls<IdentityResponse> &
   LoginCalls &
+  SignInCalls &
   TriggerCalls &
   IdentityAvatarCalls {
   return {
     ...avatarCalls(server),
     ...agentCreationCalls(server),
     ...loginCalls(server),
+    ...signInCalls(server),
     ...ownIdentityCalls(server),
     ...descriptionCalls(server),
     ...triggerCalls(server),

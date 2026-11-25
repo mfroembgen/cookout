@@ -11,6 +11,7 @@
         "app/modules/probe/web.ts!",
         "app/modules/testing/lib/server/storage.ts!",
         "app/modules/webhook-fake/server.ts!",
+        "app/modules/oidc-fake/server.ts!",
         "scripts/*.{ts,mjs}!"
       ],
       "project": [

@@ -3,7 +3,10 @@
  * `Route` (`#/`, no hash, and `#/inbox` the inbox, `#/inbox/<channel>` the
  * same with that channel's row selected and `#/inbox/<channel>/<thread id>`
  * with that thread's, `#/inbox/<channel>/<thread id>/messages/<message id>` the same
- * with that message in view and highlighted, `#/login`,
+ * with that message in view and highlighted, `#/login` (`#/login/<code>` the same with a refused sign-in's code,
+ * such as `oidc_email_not_allowed`, to show, and `#/login/<code>/approve/<user code>` or
+ * `#/login/<code>/approve-join/<user code>` the same for a sign-in started from that approval page, which signing in
+ * again comes back to),
  * `#/people` the people and agents, `#/people/<name>` the same with that
  * identity's profile open, `#/settings` the settings page and
  * `#/settings/<section>` the same with the focus on that section (`profile`,
@@ -29,8 +32,10 @@
  */
 import type { ChannelName, IdentityName } from "../sdk/index.ts";
 import { inboxHref, messageIdOf, selectionOf } from "./lib/thread-selection.ts";
+import { isSignInRefusalCode, signInReturnOf } from "../oidc/index.ts";
 import { threadHref, threadMatch } from "./lib/thread-route.ts";
 import type { InboxSelection } from "./lib/thread-selection.ts";
+import type { SignInRefusalCode } from "../oidc/index.ts";
 import type { ThreadRoute } from "./lib/thread-route.ts";
 import { isChannelName } from "../channels/index.ts";
 import { isIdentityName } from "../identities/index.ts";
@@ -41,7 +46,7 @@ const settingsSections = ["profile", "theme", "agents", "session"] as const;
 type SettingsSection = (typeof settingsSections)[number];
 
 type Route =
-  | { readonly name: "login" }
+  | { readonly name: "login"; readonly signInRefusal: SignInRefusalCode | null; readonly returnTo: string }
   | { readonly name: "settings"; readonly section: SettingsSection | null }
   | { readonly name: "people" }
   | { readonly name: "profile"; readonly identity: IdentityName }
@@ -63,6 +68,7 @@ const INBOX = /^(?:#\/?|#\/inbox)?$/u;
 const INBOX_THREAD = /^#\/inbox\/(?<channel>[^/]+)(?:\/(?<thread>[^/]+))?$/u;
 const INBOX_MESSAGE = /^#\/inbox\/(?<channel>[^/]+)\/(?<thread>[^/]+)\/messages\/(?<message>[^/]+)$/u;
 const LOGIN = /^#\/login$/u;
+const LOGIN_REFUSED = /^#\/login\/(?<code>[^/]+)(?<back>\/approve(?:-join)?\/[^/]+)?$/u;
 const SETTINGS = /^#\/settings$/u;
 const SECTION = /^#\/settings\/(?<section>[^/]+)$/u;
 const PEOPLE = /^#\/people$/u;
@@ -97,6 +103,14 @@ function sectionRoute(section: string): Route {
     }
   }
   return MISSING;
+}
+
+function loginRefusedRoute(hash: string): Route {
+  const code = hash.replace(LOGIN_REFUSED, "$<code>");
+  if (!isSignInRefusalCode(code)) {
+    return MISSING;
+  }
+  return { name: "login", returnTo: signInReturnOf(hash.replace(LOGIN_REFUSED, "#$<back>")), signInRefusal: code };
 }
 
 function approveRoute(userCode: string, name: "approve" | "approve-join" = "approve"): Route {
@@ -135,7 +149,8 @@ const matchers: readonly Matcher[] = [
     INBOX_THREAD.test(hash) &&
     inboxRoute(hash.replace(INBOX_THREAD, "$<channel>"), hash.replace(INBOX_THREAD, "$<thread>")),
   (hash) => INBOX_MESSAGE.test(hash) && inboxMessageRoute(hash),
-  (hash) => LOGIN.test(hash) && { name: "login" },
+  (hash) => LOGIN.test(hash) && { name: "login", returnTo: "", signInRefusal: null },
+  (hash) => LOGIN_REFUSED.test(hash) && loginRefusedRoute(hash),
   (hash) => SETTINGS.test(hash) && { name: "settings", section: null },
   (hash) => SECTION.test(hash) && sectionRoute(hash.replace(SECTION, "$<section>")),
   (hash) => PEOPLE.test(hash) && { name: "people" },

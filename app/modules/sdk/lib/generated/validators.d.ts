@@ -8,6 +8,7 @@ import type { DeactivateIdentityResponse, IdentityMessageCountResponse, Identity
 import type { AckAllResponse, AckResponse, DeactivatedQuietAgentResponse, DeactivationOfferResponse, FollowResponse, InboxHistoryResponse, InboxResponse, MarkUnreadResponse, NudgeResponse, OfflineAlertResponse, ReadPositionsResponse, SubscriptionResponse } from "../../../inbox/index.ts";
 import type { LoginCollectedResponse, LoginRequestResponse, LoginRequestStartedResponse, LogoutResponse } from "../../../logins/index.ts";
 import type { ListMessagesResponse, MessageResponse, ReactionsResponse, ThreadResponse, TopLevelMessageResponse, ListOpenThreadsResponse } from "../../../messages/index.ts";
+import type { SignInResponse } from "../../../oidc/index.ts";
 import type { ListScheduledMessagesResponse, ScheduledMessageEvent, ScheduledMessagePreviewResponse, ScheduledMessageResponse } from "../../../scheduled-messages/index.ts";
 import type { SearchResponse } from "../../../search/index.ts";
 import type { TriggerEvent, TriggerResponse } from "../../../triggers/index.ts";
@@ -77,6 +78,7 @@ export declare function isReactionsResponse(data: unknown): data is ReactionsRes
 export declare function isThreadResponse(data: unknown): data is ThreadResponse;
 export declare function isTopLevelMessageResponse(data: unknown): data is TopLevelMessageResponse;
 export declare function isListOpenThreadsResponse(data: unknown): data is ListOpenThreadsResponse;
+export declare function isSignInResponse(data: unknown): data is SignInResponse;
 export declare function isListScheduledMessagesResponse(data: unknown): data is ListScheduledMessagesResponse;
 export declare function isScheduledMessageEvent(data: unknown): data is ScheduledMessageEvent;
 export declare function isScheduledMessagePreviewResponse(data: unknown): data is ScheduledMessagePreviewResponse;

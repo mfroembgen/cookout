@@ -45,4 +45,29 @@ function loggedInName(state: BoardState): IdentityName | null {
   return state.session.identity.name;
 }
 
-export { agentSessions, deletedIdentities, identityList, loggedInName, presences, reactionRefusal, reactionsOf };
+function viewerOf(state: BoardState): string | null {
+  if (state.session.status !== "logged-in") {
+    return null;
+  }
+  const { identity } = state.session;
+  return `${identity.name}:${String(identity.admin)}`;
+}
+
+function signInWith(state: BoardState): string | null {
+  if (state.session.status !== "logged-in" || state.session.signInWith === null) {
+    return null;
+  }
+  return state.session.signInWith.label;
+}
+
+export {
+  agentSessions,
+  deletedIdentities,
+  identityList,
+  loggedInName,
+  presences,
+  reactionRefusal,
+  reactionsOf,
+  signInWith,
+  viewerOf,
+};

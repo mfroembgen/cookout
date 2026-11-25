@@ -1,4 +1,4 @@
-import { Array as Arr, Effect, Path, Record as Rec, Redacted, String as Str } from "effect";
+import { Array as Arr, Effect, Option, Path, Record as Rec, Redacted, String as Str } from "effect";
 import type { AssetStore, S3Bucket, Storage, StorageSetting, StorageUnavailable } from "../../../storage/server.ts";
 import type { Config, FileSystem, Layer } from "effect";
 import {
@@ -6,6 +6,7 @@ import {
   assetStoreRule,
   assetsDirectory,
   databaseUrl,
+  oidcSettings,
   s3SettingNames,
   s3Settings,
 } from "../../../config/server.ts";
@@ -16,7 +17,9 @@ import {
   storageSetting,
   withoutDatabaseSecret,
 } from "../../../storage/server.ts";
+import { isProviderIssuer, isProviderUrl } from "../../../identities/server.ts";
 import type { CommandFailed } from "./output.ts";
+import type { OidcSettings } from "../../../identities/server.ts";
 import { refused } from "./output.ts";
 
 type ServeStorage = (setting: StorageSetting) => Layer.Layer<Storage, StorageUnavailable, FileSystem.FileSystem>;
@@ -104,5 +107,96 @@ function servedStorage(path: string): Effect.Effect<ServedStorage, Config.Config
   });
 }
 
-export { chosenAssetStore, servedStorage };
+interface RequiredSetting {
+  readonly name: string;
+  readonly value: string;
+}
+
+interface ReadOidcSettings {
+  readonly client: string;
+  readonly clientSecret: Redacted.Redacted;
+  readonly emailDomain: string;
+  readonly issuer: string;
+  readonly label: string;
+}
+
+const ISSUER = "COOKOUT_OIDC_ISSUER";
+const EMAIL_DOMAIN = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/u;
+
+const invalidIssuer = {
+  code: "oidc_issuer_invalid",
+  message: `${ISSUER} must be an https URL off private networks, such as https://example.authkit.app (plain http only on localhost, 127.0.0.1 or [::1]).`,
+};
+
+const insecurePublicUrl = {
+  code: "oidc_public_url_insecure",
+  message:
+    "COOKOUT_PUBLIC_URL must be https for single sign-on, so its cookies are Secure (plain http only on localhost, 127.0.0.1 or [::1]).",
+};
+
+const invalidEmailDomain = {
+  code: "oidc_email_domain_invalid",
+  message:
+    "COOKOUT_OIDC_EMAIL_DOMAIN must be one email domain, such as example.com: only verified addresses at exactly it sign in.",
+};
+
+function missingOidcSettings(names: readonly string[]): Effect.Effect<never, CommandFailed> {
+  const missing = {
+    code: "oidc_settings_missing",
+    message: `${ISSUER} is set, but ${Arr.join(names, ", ")} ${notSet(names)}. Set each, or leave ${ISSUER} unset to turn single sign-on off.`,
+  };
+  return refused(missing);
+}
+
+function unsetNames(required: readonly RequiredSetting[]): readonly string[] {
+  return Arr.map(
+    Arr.filter(required, ({ value }) => Str.isEmpty(value)),
+    ({ name }) => name,
+  );
+}
+
+interface OidcRule {
+  readonly holds: (settings: OidcSettings) => boolean;
+  readonly refusal: { readonly code: string; readonly message: string };
+}
+
+const OIDC_RULES: readonly OidcRule[] = [
+  { holds: ({ issuer }) => isProviderIssuer(issuer), refusal: invalidIssuer },
+  { holds: ({ publicUrl }) => isProviderUrl(publicUrl), refusal: insecurePublicUrl },
+  { holds: ({ emailDomain }) => EMAIL_DOMAIN.test(emailDomain), refusal: invalidEmailDomain },
+];
+
+function checkedOidcSettings(
+  settings: ReadOidcSettings,
+  publicUrl: string,
+): Effect.Effect<OidcSettings, CommandFailed> {
+  const emailDomain = Str.toLowerCase(settings.emailDomain);
+  const unset = unsetNames([
+    { name: "COOKOUT_PUBLIC_URL", value: publicUrl },
+    { name: "COOKOUT_OIDC_CLIENT_ID", value: settings.client },
+    { name: "COOKOUT_OIDC_EMAIL_DOMAIN", value: emailDomain },
+  ]);
+  if (Arr.isReadonlyArrayNonEmpty(unset)) {
+    return missingOidcSettings(unset);
+  }
+  const clientSecret = Option.liftPredicate(settings.clientSecret, (given) => Str.isNonEmpty(Redacted.value(given)));
+  const checked = { ...settings, clientSecret, emailDomain, publicUrl };
+  return Option.match(
+    Arr.findFirst(OIDC_RULES, ({ holds }) => !holds(checked)),
+    { onNone: () => Effect.succeed(checked), onSome: ({ refusal }) => refused(refusal) },
+  );
+}
+
+function oidcSettingsOrRefuse(
+  publicUrl: string,
+): Effect.Effect<Option.Option<OidcSettings>, Config.ConfigError | CommandFailed> {
+  return Effect.flatMap(oidcSettings, (settings) => {
+    if (Str.isEmpty(settings.issuer)) {
+      return Effect.succeedNone;
+    }
+    return Effect.asSome(checkedOidcSettings(settings, publicUrl));
+  });
+}
+
+export { chosenAssetStore, oidcSettingsOrRefuse, servedStorage };
 export type { ServeStorage, ServedStorage };

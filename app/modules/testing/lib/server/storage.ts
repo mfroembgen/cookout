@@ -1,4 +1,4 @@
-import { Context, Effect, Exit, FileSystem, Layer, Path, Scope } from "effect";
+import { Context, Effect, Exit, FileSystem, Layer, Option, Path, Scope, String as Str } from "effect";
 import type { QueryPlan, ScheduledRun } from "../../../storage/server.ts";
 import {
   Storage,
@@ -10,8 +10,10 @@ import {
   sqliteQueryPlans,
   sqliteStorage,
 } from "../../../storage/server.ts";
-import { fixtureOwnerName, identityFixture } from "./identities.ts";
+import { fixtureOwnerName, identityFixture, identityName } from "./identities.ts";
+import type { OidcLinkId } from "../../../oidc/index.ts";
 import { freshPostgresDatabase } from "./postgres.ts";
+import { isOidcLinkId } from "../../../oidc/index.ts";
 import { layer as nodeServices } from "@effect/platform-node/NodeServices";
 import { tokenHash } from "../../../identities/index.ts";
 
@@ -75,6 +77,15 @@ const unusableStorage: Layer.Layer<Storage> = Layer.effect(
   })),
 ).pipe(Layer.provide(memoryStorage));
 
+const signInUnavailableStorage: Layer.Layer<Storage> = Layer.effect(
+  Storage,
+  Effect.map(Storage, (storage) => ({
+    ...storage,
+    findOidcLink: (): Effect.Effect<never, StorageUnavailable> =>
+      Effect.fail(StorageUnavailable.make({ message: "The test made sign-in storage unusable." })),
+  })),
+).pipe(Layer.provide(memoryStorage));
+
 const pausedMidRunStorage: Layer.Layer<Storage> = Layer.effect(
   Storage,
   Effect.map(Storage, (storage) => ({
@@ -119,6 +130,66 @@ const deactivatedMidRunStorage: Layer.Layer<Storage> = Layer.effect(
   })),
 ).pipe(Layer.provide(memoryStorage));
 
+const FIRST_ARGUMENT = 0;
+
+type CreatedHuman = Parameters<Storage["Service"]["createLinkedHuman"]>[typeof FIRST_ARGUMENT];
+
+const LINK_ID_LENGTH = 64;
+const HALF_LINK_ID = 32;
+
+const deletedMidSignInStorage: Layer.Layer<Storage> = Layer.effect(
+  Storage,
+  Effect.map(Storage, (storage) => ({
+    ...storage,
+    createLinkedHuman: (created: CreatedHuman) =>
+      Effect.tap(storage.createLinkedHuman(created), () => storage.deleteIdentity(created.human.name)),
+  })),
+).pipe(Layer.provide(memoryStorage));
+
+const deactivatedMidSignInStorage: Layer.Layer<Storage> = Layer.effect(
+  Storage,
+  Effect.map(Storage, (storage) => ({
+    ...storage,
+    createLinkedHuman: (created: CreatedHuman) =>
+      Effect.tap(storage.createLinkedHuman(created), () => storage.deactivateIdentity(created.human.name)),
+  })),
+).pipe(Layer.provide(memoryStorage));
+
+function otherLinkId(linkId: OidcLinkId): OidcLinkId {
+  const other = Str.padStart(LINK_ID_LENGTH, "0")(Str.takeLeft(linkId, HALF_LINK_ID));
+  return Option.getOrThrow(Option.liftPredicate(other, isOidcLinkId));
+}
+
+const racedMidSignInStorage: Layer.Layer<Storage> = Layer.effect(
+  Storage,
+  Effect.map(Storage, (storage) => ({
+    ...storage,
+    createLinkedHuman: (created: CreatedHuman) =>
+      Effect.andThen(
+        storage.createLinkedHuman({
+          ...created,
+          human: { ...created.human, name: identityName(`${created.human.name}-first`) },
+          linkId: otherLinkId(created.linkId),
+        }),
+        storage.createLinkedHuman(created),
+      ),
+  })),
+).pipe(Layer.provide(memoryStorage));
+
+const recreatedMidSignInStorage: Layer.Layer<Storage> = Layer.effect(
+  Storage,
+  Effect.map(Storage, (storage) => ({
+    ...storage,
+    createLinkedHuman: (created: CreatedHuman) =>
+      Effect.tap(storage.createLinkedHuman(created), () =>
+        Effect.andThen(
+          storage.deleteIdentity(created.human.name),
+          storage.createLinkedHuman({ ...created, linkId: otherLinkId(created.linkId) }),
+        ),
+      ),
+  })),
+).pipe(Layer.provide(memoryStorage));
+
 function freshSqliteQueryPlans<Failure>(
   work: (storage: Storage["Service"]) => Effect.Effect<unknown, Failure>,
 ): Effect.Effect<readonly QueryPlan[], Failure | StorageUnavailable, FileSystem.FileSystem | Path.Path> {
@@ -145,6 +216,10 @@ const memoryAssets = memoryAssetStore;
 
 export {
   deactivatedMidRunStorage,
+  deactivatedMidSignInStorage,
+  deletedMidSignInStorage,
+  racedMidSignInStorage,
+  recreatedMidSignInStorage,
   editedMidRunStorage,
   freshDatabasePath,
   freshPostgresQueryPlans,
@@ -153,5 +228,6 @@ export {
   openStore,
   pausedMidRunStorage,
   storageLayers,
+  signInUnavailableStorage,
   unusableStorage,
 };

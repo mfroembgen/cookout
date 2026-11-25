@@ -61,7 +61,7 @@
  */
 import type { AgentCreation, IdentityActions } from "./lib/owner-powers.ts";
 import type { Command, Identity, IdentityName } from "../sdk/index.ts";
-import type { DisplayNameDraft, TriggerSettings } from "./lib/profile-stores.ts";
+import type { DisplayNameDraft, SignInLineStore, TriggerSettings } from "./lib/profile-stores.ts";
 import type { DraftSnapshot, Sources } from "./lib/snapshot.ts";
 import { EMPTY, changesFor, draftChanges } from "./lib/snapshot.ts";
 import type { IdentityList, IdentityStore } from "./lib/identity-list.ts";
@@ -241,6 +241,8 @@ export interface Composer {
   readonly identities: Identities;
   /** This agent's trigger URL for its owner: read when first shown, set with a write-only token, or cleared (#378). */
   readonly trigger: (name: IdentityName) => TriggerSettings;
+  /** A new store, per profile shown, of how this human signs in through single sign-on (its email and when it was linked), read afresh each time it is first subscribed, an answer for an earlier showing dropped, and drawn with the provider's name as it stands; nothing when the server shows none. */
+  readonly signIn: (name: IdentityName) => SignInLineStore;
 }
 
 /** What the composer store needs: the board store, which holds the identities and the commands a channel's box suggests, and makes the identities' changes on the server. */

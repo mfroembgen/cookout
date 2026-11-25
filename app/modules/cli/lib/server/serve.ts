@@ -1,3 +1,4 @@
+import type { AdminNameIsAgent, OidcSettings } from "../../../identities/server.ts";
 import {
   Array as Arr,
   Cause,
@@ -15,6 +16,7 @@ import { BoardUrl, boardUrlLayer, domainLayers, openRoutes, routes, triggerCalle
 import { Command, Flag } from "effect/cli";
 import { CommandFailed, printLine, refused } from "./output.ts";
 import type { IdentityName, Token } from "../../../identities/index.ts";
+import { PublicUrl, SignInIssuer, adminTokenSet } from "../../../identities/server.ts";
 import type { ServeStorage, ServedStorage } from "./serve-stores.ts";
 import {
   adminName,
@@ -26,13 +28,11 @@ import {
   port,
   publicUrl,
 } from "../../../config/server.ts";
-import { chosenAssetStore, servedStorage } from "./serve-stores.ts";
+import { chosenAssetStore, oidcSettingsOrRefuse, servedStorage } from "./serve-stores.ts";
+
 import { firstAdminName, token } from "../../../identities/index.ts";
 import { httpServer, serverUrl } from "../../../http/server.ts";
-
-import type { AdminNameIsAgent } from "../../../identities/server.ts";
 import type { Serving } from "../../../http/server.ts";
-import { adminTokenSet } from "../../../identities/server.ts";
 import { requireTokenWithinLimit } from "./gate.ts";
 
 export type ServeLayers = {
@@ -51,16 +51,26 @@ const boardUrlServed = Layer.effectDiscard(
 export const cookoutServer = ({
   adminName: name = firstAdminName,
   adminToken: admin,
+  oidc,
   ...serving
-}: Serving & { readonly adminToken: Token; readonly adminName?: IdentityName }) =>
-  Layer.provideMerge(
+}: Serving & { readonly adminToken: Token; readonly adminName?: IdentityName; readonly oidc?: OidcSettings }) => {
+  const signIn = Option.fromUndefinedOr(oidc);
+  return Layer.provideMerge(
     boardUrlServed,
-    httpServer(serving, { gated: routes, open: openRoutes }, requireTokenWithinLimit),
+    httpServer(serving, { gated: routes, open: openRoutes(signIn) }, requireTokenWithinLimit),
   ).pipe(
     Layer.provideMerge(adminTokenSet({ adminName: name, adminToken: admin })),
     Layer.provideMerge(domainLayers),
     Layer.provideMerge(boardUrlLayer(serving.publicUrl ?? "")),
+    Layer.provideMerge(Layer.succeed(PublicUrl, serving.publicUrl ?? "")),
+    Layer.provideMerge(
+      Layer.succeed(
+        SignInIssuer,
+        Option.map(signIn, ({ issuer }) => issuer),
+      ),
+    ),
   );
+};
 
 function webFolderOf({ webFolder }: ServeLayers): Pick<Serving, "webFolder"> {
   return Option.match(Option.fromNullishOr(webFolder), {
@@ -164,9 +174,11 @@ const startOn = Effect.fnUntraced(function* startOnStorage(
 ) {
   const admin = yield* adminTokenOrRefuse;
   const name = yield* adminNameOrRefuse;
+  const oidc = yield* oidcSettingsOrRefuse(listen.publicUrl ?? "");
   const assets = yield* chosenAssetStore(path);
   const stores = Layer.merge(layers.storage(served.setting), assets);
-  const server = cookoutServer({ ...listen, ...webFolderOf(layers), adminName: name, adminToken: admin });
+  const signIn = Option.match(oidc, { onNone: () => ({}), onSome: (settings) => ({ oidc: settings }) });
+  const server = cookoutServer({ ...listen, ...webFolderOf(layers), ...signIn, adminName: name, adminToken: admin });
   const services = yield* Layer.build(Layer.provide(server, stores).pipe(Layer.provide(triggerCallerLive))).pipe(
     Effect.catchTags({ AdminNameIsAgent: adminNameIsAgent, StorageUnavailable: storageUnavailable(served.redact) }),
   );

@@ -84,6 +84,7 @@
     "ajv-formats": "^3.0.1",
     "aws4fetch": "^1.0.20",
     "effect": "^4.1.5",
+    "jose": "6.2.17",
     "undici": "^8.13.1"
   },
   "devDependencies": {

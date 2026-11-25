@@ -5,15 +5,27 @@ import {
   loginRequestPath,
   loginRequestsPath,
 } from "../../logins/index.ts";
+import { getJson, send } from "./request.ts";
 import {
   isLoginCollectedResponse,
   isLoginRequestResponse,
   isLoginRequestStartedResponse,
   isLogoutResponse,
+  isSignInResponse,
 } from "./generated/validators.js";
 import type { ClientConnection } from "./request.ts";
 import type { LoginCalls } from "../../logins/index.ts";
-import { send } from "./request.ts";
+import type { SignInCalls } from "../../oidc/index.ts";
+import { signInPath } from "../../oidc/index.ts";
+
+function signInCalls(server: ClientConnection): SignInCalls {
+  return {
+    signIn: async () => {
+      const signIn = await getJson(server, signInPath, isSignInResponse);
+      return signIn;
+    },
+  };
+}
 
 function loginCalls(server: ClientConnection): LoginCalls {
   return {
@@ -63,5 +75,6 @@ function loginCalls(server: ClientConnection): LoginCalls {
   };
 }
 
-export { loginCalls };
+export { loginCalls, signInCalls };
 export type { LoginCalls } from "../../logins/index.ts";
+export type { SignInCalls } from "../../oidc/index.ts";

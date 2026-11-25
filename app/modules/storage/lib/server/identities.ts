@@ -102,6 +102,7 @@ function placeHandlerIn(data: MemoryIdentities): PlaceHandler {
 }
 
 type MemoryIdentitiesSection = Omit<IdentitiesSection, keyof IdentityDeletesSection> & {
+  readonly createNow: (identity: Identity, hash: TokenHash) => "created" | CreateRefusal;
   readonly placeHandler: PlaceHandler;
   readonly findIdentity: FindIdentity;
   readonly removeIdentity: (name: IdentityName, messages: number) => Fails<DeleteIdentityResult>;
@@ -122,6 +123,7 @@ export const memoryIdentities = (state: MemoryState): MemoryIdentitiesSection =>
   const remove = memoryRemoveIdentity(data);
   return {
     createIdentity: (identity, hash) => open(() => createIn(data, identity, hash)),
+    createNow: (identity, hash) => createIn(data, identity, hash),
     deactivateIdentity: (name) => open(() => deactivations.deactivate(name)),
     findIdentity: (name) => data.identities.get(name),
     findIdentityByName: (name) => open(() => data.identities.get(name)),
@@ -273,3 +275,6 @@ export const sqlIdentities = (db: SqlDatabase): Omit<IdentitiesSection, keyof Id
     ...sqlTransfers(db),
   };
 };
+
+export { memoryOidcLinks } from "./oidc-links-memory.ts";
+export { sqlOidcLinks } from "./oidc-links.ts";

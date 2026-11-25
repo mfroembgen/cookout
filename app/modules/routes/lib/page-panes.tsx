@@ -31,7 +31,7 @@ export function PagePanes(props: PagePanesProps): ReactNode {
     );
   }
   if (route.name === "login") {
-    return <LoginView session={stores.session} />;
+    return <LoginView returnTo={route.returnTo} session={stores.session} signInRefusal={route.signInRefusal} />;
   }
   return (
     <SettingsView

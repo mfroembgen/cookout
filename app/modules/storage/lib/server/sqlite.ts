@@ -1,5 +1,6 @@
 import { Effect, identity } from "effect";
 import type { StorageService } from "./service.ts";
+import { migrateForkSqlite } from "./fork-migrations.ts";
 import { openMigrated } from "./migrations.ts";
 import { sqlStorage } from "./sql-storage.ts";
 
@@ -21,6 +22,7 @@ function openSqliteStorage({
 }: SqliteOpening): Effect.Effect<OpenedStorage, Effect.Error<Opened>, Effect.Services<Opened>> {
   return Effect.gen(function* openStorage() {
     const migrated = yield* openMigrated(path);
+    yield* migrateForkSqlite(migrated);
     const db = watch(migrated);
     return { db, storage: sqlStorage(db) };
   });

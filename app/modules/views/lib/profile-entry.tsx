@@ -28,7 +28,7 @@ export function ProfileEntry(props: ProfileEntryProps): ReactNode {
       <ProfileName displayName={identity.displayName ?? null} name={identity.name} note={noteOf(identity)}>
         <IdentityTags identity={identity} />
       </ProfileName>
-      <ProfileFacts identity={identity} />
+      <ProfileFacts composer={props.composer} identity={identity} />
       <ProfileTexts composer={props.composer} identity={identity} me={props.me} />
       <ProfileControls identities={props.composer.identities} identity={identity} me={props.me} />
     </Profile>

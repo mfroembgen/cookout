@@ -7,10 +7,10 @@ import type {
   SearchCalls,
 } from "../../messages/client.ts";
 import type { IdentityMessageCountResponse, IdentityResponse } from "../../identities/index.ts";
+import type { LoginCalls, SignInCalls } from "./logins.ts";
 import type { AgentApprovalCalls } from "./agent-sessions.ts";
 import type { EventCalls } from "./events.ts";
 import type { IdentityAvatarCalls } from "./avatars.ts";
-import type { LoginCalls } from "./logins.ts";
 import type { TriggerCalls } from "./triggers.ts";
 
 interface IdentityDeletionCalls {
@@ -19,6 +19,7 @@ interface IdentityDeletionCalls {
 }
 
 export type CallGroups = LoginCalls &
+  SignInCalls &
   AgentApprovalCalls &
   AgentCreationCalls<IdentityResponse> &
   AttachmentCalls &

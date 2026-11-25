@@ -1,5 +1,5 @@
 import type { IdentitySections, SectionsBesideIdentities } from "./identity-section-types.ts";
-import { memoryIdentities, sqlIdentities } from "./identities.ts";
+import { memoryIdentities, memoryOidcLinks, sqlIdentities, sqlOidcLinks } from "./identities.ts";
 import { memoryOfflineAlerts, sqlOfflineAlerts } from "./offline-alerts.ts";
 import { memoryReach, sqlReach } from "./reach-sections.ts";
 import { Effect } from "effect";
@@ -13,17 +13,24 @@ type MemoryIdentitySections = ReturnType<typeof memoryIdentities> & SectionsBesi
 
 function memoryIdentitySections(state: MemoryState): MemoryIdentitySections {
   const identities = memoryIdentities(state);
-  const { dropLoginCredentials, ...loginRequests } = memoryLoginRequests({
+  const { dropLoginCredentials, issueCredentialNow, ...loginRequests } = memoryLoginRequests({
     findIdentity: identities.findIdentity,
     state,
   });
   const { dropPresence, ...presence } = memoryReach(state);
   const { dropOfflineAlerts, ...offlineAlerts } = memoryOfflineAlerts(state);
+  const { dropOidcLinks, ...oidcLinks } = memoryOidcLinks({
+    createNow: identities.createNow,
+    findIdentity: identities.findIdentity,
+    issueCredentialNow,
+    state,
+  });
   return {
     ...identities,
     ...loginRequests,
     ...presence,
     ...offlineAlerts,
+    ...oidcLinks,
     deactivateIdentity: (name) =>
       Effect.tap(identities.deactivateIdentity(name), ({ status }) =>
         Effect.when(dropLoginCredentials(name), Effect.succeed(status === "deactivated")),
@@ -31,7 +38,7 @@ function memoryIdentitySections(state: MemoryState): MemoryIdentitySections {
     removeIdentity: (name, messages) =>
       Effect.tap(identities.removeIdentity(name, messages), ({ status }) =>
         Effect.when(
-          Effect.all([dropLoginCredentials(name), dropPresence(name), dropOfflineAlerts(name)], {
+          Effect.all([dropLoginCredentials(name), dropPresence(name), dropOfflineAlerts(name), dropOidcLinks(name)], {
             concurrency: 1,
             discard: true,
           }),
@@ -48,6 +55,7 @@ function sqlIdentitySections(db: SqlDatabase): IdentitySections {
     ...sqlLoginRequests(db),
     ...sqlReach(db),
     ...sqlOfflineAlerts(db),
+    ...sqlOidcLinks(db),
   };
 }
 

@@ -35,6 +35,7 @@ interface Held {
 
 type MemoryLoginRequestsSection = LoginRequestsSection & {
   readonly dropLoginCredentials: (name: IdentityName) => Effect.Effect<void>;
+  readonly issueCredentialNow: (given: IssueLoginCredential) => Identity | undefined;
 };
 
 function shown({ approvedBy, request }: MemoryRequest): LoginRequest {
@@ -163,6 +164,7 @@ function memoryLoginRequests({ findIdentity, state }: MemoryLoginRequestsOptions
     findLoginCredential: (hash) => open(state, () => findCredential(hash)),
     findLoginRequest: (userCode, now) =>
       open(state, () => pipe(liveByCode(requests, userCode, now), Option.map(shown), Option.getOrUndefined)),
+    issueCredentialNow: issue,
     issueLoginCredential: (given) => open(state, () => issue(given)),
     revokeLoginCredential: (hash) => open(state, () => held.credentials.delete(hash)),
   };

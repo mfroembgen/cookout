@@ -1,9 +1,9 @@
 import type { CookoutClient, CookoutEvent, Identity, IdentityName } from "../../sdk/index.ts";
+import { createBoardStore, signInWith } from "../index.ts";
 import { expect, it, onTestFinished, vi } from "vitest";
 import type { BoardStore } from "../index.ts";
 import type { HandLive } from "../../testing/web.ts";
 import type { LiveAdapter } from "../../live/index.ts";
-import { createBoardStore } from "../index.ts";
 import { createCookoutClient } from "../../sdk/index.ts";
 import { createLive } from "../../live/index.ts";
 import { createTestAgent } from "../../testing/index.ts";
@@ -116,14 +116,49 @@ it("an identity event for someone else keeps the logged-in identity's object", {
   expect(store.session.snapshot()).toBe(before);
 });
 
-it("with no session cookie, the session is logged out with no refusal", { timeout: 5000 }, async () => {
+it("with no session cookie, the session is logged out with no refusal, naming the server's sign-in provider", {
+  timeout: 5000,
+}, async () => {
   expect.hasAssertions();
 
   const { store } = opened(createCookoutClient({ env: {}, url: webTestCookout().url }));
 
   await vi.waitFor(() => {
-    expect(store.session.snapshot()).toStrictEqual({ refusal: null, status: "logged-out" });
+    expect(store.session.snapshot()).toStrictEqual({
+      refusal: null,
+      signInWith: { label: "single sign-on", start: "https://board.example.com/v1/oidc/start" },
+      status: "logged-out",
+    });
   });
+});
+
+it("a session that can't reach the server names no sign-in provider", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const { store } = opened(createCookoutClient({ env: {}, url: UNREACHABLE_URL }));
+
+  await vi.waitFor(() => {
+    expect(store.session.snapshot()).toMatchObject({ refusal: { code: "unreachable" }, signInWith: null });
+  });
+});
+
+it("a server with single sign-on off names no sign-in provider", { timeout: 5000 }, async () => {
+  expect.hasAssertions();
+
+  const client = createCookoutClient({ env: {}, url: webTestCookout().url });
+  const { store } = opened({
+    ...client,
+    signIn: async () => {
+      await Promise.resolve();
+      return { oidc: false };
+    },
+  });
+
+  await vi.waitFor(() => {
+    expect(store.session.snapshot()).toStrictEqual({ refusal: null, signInWith: null, status: "logged-out" });
+  });
+
+  expect(signInWith(store.snapshot())).toBeNull();
 });
 
 it("logging in with an agent's token is refused with human_only, and a human's token logs in", {
@@ -227,7 +262,11 @@ it("logging out asks the server to end the session, and then the session is logg
   store.session.logOut();
 
   await vi.waitFor(() => {
-    expect(store.session.snapshot()).toStrictEqual({ refusal: null, status: "logged-out" });
+    expect(store.session.snapshot()).toStrictEqual({
+      refusal: null,
+      signInWith: { label: "single sign-on", start: "https://board.example.com/v1/oidc/start" },
+      status: "logged-out",
+    });
   });
 
   expect(logout.mock.calls).toStrictEqual([[]]);
