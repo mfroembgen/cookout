@@ -1,0 +1,142 @@
+name: Fork image
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the image after all checks pass
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Read the version
+        id: version
+        run: |
+          version="$(jq -r .version package.json)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "unexpected version $version" >&2; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Smoke-test the image on a read-only root
+        run: |
+          docker build --tag cookout:check .
+          trap 'docker logs cookout' EXIT
+          docker run -d --name cookout --read-only --tmpfs /tmp -v cookout-data:/data -p 127.0.0.1:8080:8080 \
+            -e COOKOUT_PUBLIC_URL=http://127.0.0.1:8080 -e COOKOUT_ADMIN_TOKEN="cookout_$(openssl rand -hex 32)" \
+            cookout:check
+          for _ in $(seq 30); do curl -fs http://127.0.0.1:8080/v1/health && break; sleep 1; done
+          curl -fs http://127.0.0.1:8080/v1/health | grep -F '"status":"ok"'
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/v1/whoami)" = 401
+
+  release:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main' && github.repository == 'mfroembgen/cookout'
+    needs: verify
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: cookout-release-${{ needs.verify.outputs.version }}
+      cancel-in-progress: false
+    permissions:
+      actions: read
+      contents: write
+      packages: write
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+    steps:
+      - name: Publish only from main, compared case-sensitively
+        run: test "$GITHUB_REF" = refs/heads/main
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require upstream's checks on this commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          runs="$(gh run list --workflow check.yml --commit "$GITHUB_SHA" --status success --json databaseId --jq length)"
+          test "$runs" -gt 0 || { echo "check.yml has not passed on $GITHUB_SHA; dispatch it on main first" >&2; exit 1; }
+      - name: Require the tag on upstream's first commit releasing this version
+        id: source
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="@ai-hero/cookout@$VERSION"
+          git fetch --no-tags https://github.com/mattpocock/cookout.git main
+          release_sha=""
+          for commit in $(git rev-list --reverse FETCH_HEAD -- package.json); do
+            if [ "$(git show "$commit:package.json" | jq -r .version)" = "$VERSION" ]; then release_sha="$commit"; break; fi
+          done
+          test -n "$release_sha" || { echo "no commit on upstream main releases $VERSION" >&2; exit 1; }
+          test "$(git rev-parse "$tag^{commit}")" = "$release_sha" || { echo "$tag is not upstream's release commit $release_sha" >&2; exit 1; }
+          git merge-base --is-ancestor "$release_sha" "$GITHUB_SHA"
+          test "$release_sha" != "$GITHUB_SHA"
+          echo "release_sha=$release_sha" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" > /dev/null 2>&1; then
+            echo "Release $tag already exists; inspect its provenance before retrying" >&2
+            exit 1
+          fi
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          image: tonistiigi/binfmt:qemu-v10.2.3@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish a new image, or resume a run that pushed this commit's image
+        id: image
+        run: |
+          ref="ghcr.io/mfroembgen/cookout:$VERSION"
+          if docker buildx imagetools inspect --raw "$ref" > /tmp/manifest.json 2> /tmp/manifest-error; then
+            docker buildx imagetools inspect "$ref" --format '{{json .Image}}' > /tmp/image.json
+            for platform in linux/amd64 linux/arm64; do
+              revision="$(jq -r --arg p "$platform" '.[$p].config.Labels["org.opencontainers.image.revision"] // "none"' /tmp/image.json)"
+              test "$revision" = "$GITHUB_SHA" || { echo "$ref $platform was built from $revision, not $GITHUB_SHA" >&2; exit 1; }
+            done
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          grep -Eq "$ref: not found|manifest unknown|name unknown" /tmp/manifest-error || { cat /tmp/manifest-error >&2; exit 1; }
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+      - name: Publish image
+        if: steps.image.outputs.publish == 'true'
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/mfroembgen/cookout:${{ env.VERSION }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/mfroembgen/cookout
+            org.opencontainers.image.version=${{ env.VERSION }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          provenance: true
+          sbom: true
+      - name: Draft the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_SHA: ${{ steps.source.outputs.release_sha }}
+        run: |
+          printf '%s\n' \
+            "cookout $VERSION with the fork's patches: an image built from upstream's Dockerfile." \
+            "" \
+            "Upstream release commit: $RELEASE_SHA (npm @ai-hero/cookout@$VERSION)" \
+            "Patched source commit: $GITHUB_SHA" \
+            "Image: ghcr.io/mfroembgen/cookout:$VERSION" \
+            "" \
+            "The Git tag points to the original upstream commit. The image uses the patched source commit recorded above." \
+            > /tmp/release-notes.md
+          gh release create "@ai-hero/cookout@$VERSION" --verify-tag --draft \
+            --title "cookout $VERSION (fork)" --notes-file /tmp/release-notes.md
