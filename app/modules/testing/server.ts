@@ -75,6 +75,8 @@ export {
   type TwoSessions,
   freshStateFolder,
   agentSessionStateFiles,
+  storeAgentSessionToken,
+  storedAgentSessionStates,
   twoSessions,
   writeAgentSessionStates,
 } from "./lib/server/agent-sessions.ts";

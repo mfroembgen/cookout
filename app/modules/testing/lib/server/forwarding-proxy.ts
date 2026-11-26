@@ -14,10 +14,15 @@ interface ForwardingProxy {
 interface ForwardingProxyOptions {
   readonly target: string;
   readonly addsToken?: string;
+  readonly beforeAnswering?: (request: string) => Effect.Effect<void>;
 }
 
 const FORWARDED = new Set(["accept", "authorization", "content-type", harnessHeader]);
 const LISTEN = { host: "127.0.0.1", port: 0 } as const;
+
+function answerAtOnce(): Effect.Effect<void> {
+  return Effect.void;
+}
 
 function isForwarded(_value: string, name: string): boolean {
   return FORWARDED.has(name);
@@ -35,7 +40,7 @@ function headersToSend(
 }
 
 function forwardingProxy(options: ForwardingProxyOptions): Effect.Effect<ForwardingProxy, never, Scope.Scope> {
-  const { target } = options;
+  const { beforeAnswering = answerAtOnce, target } = options;
   return Effect.gen(function* startForwardingProxy() {
     const seen = yield* Ref.make<readonly string[]>([]);
     const authorizations = yield* Ref.make<readonly string[]>([]);
@@ -44,7 +49,8 @@ function forwardingProxy(options: ForwardingProxyOptions): Effect.Effect<Forward
     const forward = Effect.gen(function* forwardRequest() {
       const request = yield* HttpServerRequest.HttpServerRequest;
       const { pathname, search } = new URL(request.url, target);
-      yield* Ref.update(seen, (all) => [...all, `${request.method} ${pathname}`]);
+      const asked = `${request.method} ${pathname}`;
+      yield* Ref.update(seen, (all) => [...all, asked]);
       yield* Ref.update(authorizations, (all) => [...all, request.headers["authorization"] ?? ""]);
       const text = yield* request.text;
       const answered = yield* Effect.promise(() =>
@@ -57,6 +63,7 @@ function forwardingProxy(options: ForwardingProxyOptions): Effect.Effect<Forward
         }),
       );
       const body = yield* Effect.promise(() => answered.body.text());
+      yield* beforeAnswering(asked);
       return HttpServerResponse.text(body, {
         contentType: String(answered.headers["content-type"]),
         status: answered.statusCode,

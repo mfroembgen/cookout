@@ -1,13 +1,18 @@
 import type { AgentSessionResponse, JoinRequest, LeaveResponse } from "../../../agent-sessions/index.ts";
 import type { AgentSessionState, AgentSessionStateFile, AgentSessionStateNeeds } from "./agent-session-state.ts";
-import type { CallFailure, ClientWithAgentSessionState, CredentialSource, JoinPlace } from "./adapters/sdk.ts";
+import type {
+  CallFailure,
+  ClientWithAgentSessionState,
+  CredentialSource,
+  JoinPlace,
+  JoinedSession,
+} from "./adapters/sdk.ts";
 import { Console, Effect, Function, Option } from "effect";
 import { answered, refused } from "./output.ts";
-import { callClient, joinPlace, withClient, withJoinClient } from "./adapters/sdk.ts";
+import { callClient, joinPlace, withClient } from "./adapters/sdk.ts";
 import { joinByBrowser, joinByCode } from "./agent-join.ts";
 import type { CommandFailed } from "./output.ts";
 import type { IdentityName } from "../../../identities/index.ts";
-import { cookoutUrl } from "../../../config/server.ts";
 
 interface JoinFlags {
   readonly as: IdentityName;
@@ -29,7 +34,7 @@ interface Issued {
 
 interface Joining {
   readonly command: string;
-  readonly issue: Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds>;
+  readonly issue: (at: JoinPlace) => Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds>;
 }
 
 type JoinAnswer = Omit<AgentSessionResponse, "agentSessionToken"> & { readonly source: CredentialSource };
@@ -109,30 +114,30 @@ function joinRequest({ as, displayName, force, idleExpiry, sessionUrl }: JoinFla
   return asked;
 }
 
-function issueWithCredential(flags: JoinFlags): Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds> {
-  return withJoinClient((opened) =>
-    Effect.map(callClient((client) => client.join(joinRequest(flags)))(opened), (issued) => ({
-      issued,
-      source: opened.source,
-    })),
-  ).pipe(Effect.mapError(asUsage));
+function issueWithCredential(
+  flags: JoinFlags,
+  at: JoinPlace,
+): Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds> {
+  return at
+    .withJoinClient((opened) =>
+      Effect.map(callClient((client) => client.join(joinRequest(flags)))(opened), (issued) => ({
+        issued,
+        source: opened.source,
+      })),
+    )
+    .pipe(Effect.mapError(asUsage));
 }
 
 function isLoginMissing(failure: CallFailure): boolean {
   return failure.code === "login_missing";
 }
 
-function issue(flags: JoinFlags): Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds> {
-  const byBrowser = Effect.flatMap(Effect.orDie(cookoutUrl), (url) =>
-    Effect.map(
-      joinByBrowser({ as: flags.as, idleExpiry: flags.idleExpiry, sessionUrl: flags.sessionUrl, url }),
-      (issued) => ({
-        issued,
-        source: "agent-join-request" as const,
-      }),
-    ),
+function issue(flags: JoinFlags, at: JoinPlace): Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds> {
+  const byBrowser = Effect.map(
+    joinByBrowser({ as: flags.as, idleExpiry: flags.idleExpiry, sessionUrl: flags.sessionUrl, url: at.url }),
+    (issued) => ({ issued, source: "agent-join-request" as const }),
   );
-  return issueWithCredential(flags).pipe(Effect.catchIf(isLoginMissing, Function.constant(byBrowser)));
+  return issueWithCredential(flags, at).pipe(Effect.catchIf(isLoginMissing, Function.constant(byBrowser)));
 }
 
 function joinedBy(source: CredentialSource): Pick<AgentSessionState, "joinedBy"> {
@@ -144,26 +149,25 @@ function joinedBy(source: CredentialSource): Pick<AgentSessionState, "joinedBy">
 
 function issueAndKeep(
   joining: Joining,
-  { file, url }: { readonly file: AgentSessionStateFile; readonly url: string },
+  at: JoinPlace,
+  file: AgentSessionStateFile,
 ): Effect.Effect<JoinAnswer, CallFailure, AgentSessionStateNeeds> {
   return Effect.gen(function* joinAs() {
     const stored = yield* file.read;
-    if (Option.isSome(stored)) {
+    if (Option.isSome(stored) && (yield* at.storedSessionLives(stored.value))) {
       return yield* Effect.fail(alreadyJoined(stored.value.identity));
     }
     const {
       issued: { agentSessionToken, ...answer },
       source,
-    } = yield* joining.issue;
-    yield* file.write({ ...answer, agentSessionToken, ...joinedBy(source), url });
+    } = yield* joining.issue(at);
+    yield* file.write({ ...answer, agentSessionToken, ...joinedBy(source), url: at.url });
     return { ...answer, source };
   });
 }
 
-function joinIn(
-  { file, place, url }: JoinPlace,
-  joining: Joining,
-): Effect.Effect<JoinAnswer, CallFailure, AgentSessionStateNeeds> {
+function joinIn(at: JoinPlace, joining: Joining): Effect.Effect<JoinAnswer, CallFailure, AgentSessionStateNeeds> {
+  const { file, place } = at;
   const { harness = "" } = place;
   if (harness === "") {
     return Effect.fail(noHarness(joining.command));
@@ -171,14 +175,17 @@ function joinIn(
   if (Option.isNone(file)) {
     return Effect.fail(noSessionId(harness, joining.command));
   }
-  return issueAndKeep(joining, { file: file.value, url });
+  return issueAndKeep(joining, at, file.value);
 }
 
 function byCode(code: string, { idleExpiry, sessionUrl }: Pick<JoinFlags, "idleExpiry" | "sessionUrl">): Joining {
-  const redeemed = Effect.flatMap(Effect.orDie(cookoutUrl), (url) => joinByCode({ code, idleExpiry, sessionUrl, url }));
   return {
     command: "cookout join --code <code>",
-    issue: Effect.map(redeemed, (issued) => ({ issued, source: "join-code" as const })),
+    issue: ({ url }) =>
+      Effect.map(joinByCode({ code, idleExpiry, sessionUrl, url }), (issued) => ({
+        issued,
+        source: "join-code" as const,
+      })),
   };
 }
 
@@ -199,25 +206,37 @@ function joiningOf({ as, code, ...flags }: JoinOptions): Effect.Effect<Joining, 
   if (Option.isNone(as)) {
     return Effect.fail(asMissing);
   }
-  return Effect.succeed({ command: `cookout join --as ${as.value}`, issue: issue({ as: as.value, ...flags }) });
+  return Effect.succeed({
+    command: `cookout join --as ${as.value}`,
+    issue: (at) => issue({ as: as.value, ...flags }, at),
+  });
+}
+
+function forgetIfStillHeld({ file, state }: JoinedSession): Effect.Effect<void, CallFailure> {
+  return Effect.gen(function* forgetRevokedToken() {
+    const stored = yield* file.read;
+    if (Option.exists(stored, ({ agentSessionToken }) => agentSessionToken === state.agentSessionToken)) {
+      yield* file.remove;
+    }
+  });
 }
 
 function leaveAndForget(opened: ClientWithAgentSessionState): Effect.Effect<LeaveResponse, CallFailure> {
   return Effect.gen(function* leaveAgentSession() {
     const left = yield* callClient((client) => client.leave())(opened);
     if (Option.isSome(opened.joined)) {
-      yield* opened.joined.value.file.remove;
+      yield* forgetIfStillHeld(opened.joined.value);
     }
     return left;
   });
 }
 
 function join(options: JoinOptions): Effect.Effect<JoinAnswer, CallFailure, AgentSessionStateNeeds> {
-  return Effect.flatMap(joiningOf(options), (joining) => Effect.flatMap(joinPlace, (place) => joinIn(place, joining)));
+  return Effect.flatMap(joiningOf(options), (joining) => Effect.flatMap(joinPlace, (at) => joinIn(at, joining)));
 }
 
 function joinForEnvironment(options: JoinOptions): Effect.Effect<Issued, CallFailure, AgentSessionStateNeeds> {
-  return Effect.flatMap(joiningOf(options), (joining) => joining.issue);
+  return Effect.flatMap(joiningOf(options), (joining) => Effect.flatMap(joinPlace, joining.issue));
 }
 
 function printExport({ issued: { agentSessionToken } }: Issued): Effect.Effect<void> {

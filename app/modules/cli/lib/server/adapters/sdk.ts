@@ -1,7 +1,7 @@
 import type { AgentSessionState, AgentSessionStateFile, AgentSessionStateNeeds } from "../agent-session-state.ts";
 import type { CallFailure, CallFailureCode } from "./call-failure.ts";
 import type { CookoutConnection, HarnessSession } from "../../../../config/index.ts";
-import { Effect, Option, Predicate } from "effect";
+import { Effect, Function, Option, Predicate } from "effect";
 import { agentSessionExpired, agentSessionRevoked } from "../../../../agent-sessions/index.ts";
 import { boardUrlOrEmpty, loginFor } from "../logins.ts";
 import { cookoutAuth, cookoutSession, cookoutToken, harnessEnvironment } from "../../../../config/server.ts";
@@ -49,29 +49,34 @@ interface CliEnvironment {
   readonly url: string;
 }
 
+interface JoinPlace {
+  readonly file: Option.Option<AgentSessionStateFile>;
+  readonly place: HarnessSession;
+  readonly storedSessionLives: (state: AgentSessionState) => Found<boolean>;
+  readonly url: string;
+  readonly withJoinClient: <Value>(run: Run<Value>) => Found<Value>;
+}
+
 type Call<Value> = (client: CookoutClient) => Promise<Value>;
 
 const NOTHING = {};
 
-function isEnded(code: CallFailureCode): boolean {
-  return code === agentSessionRevoked || code === agentSessionExpired;
+const TOKEN_UNKNOWN = "token_unknown";
+
+function endsStoredSession(code: CallFailureCode): boolean {
+  return code === agentSessionRevoked || code === agentSessionExpired || code === TOKEN_UNKNOWN;
 }
 
 function onAgentSessionEnded({
   joined,
 }: ClientWithAgentSessionState): (failure: CallFailure) => Effect.Effect<never, CallFailure> {
-  return (failure) =>
-    Effect.gen(function* forgetEndedAgentSession() {
-      if (!isEnded(failure.code) || Option.isNone(joined)) {
-        return yield* Effect.fail(failure);
-      }
-      yield* joined.value.file.remove;
-      const rejoin = `run \`cookout join --as ${joined.value.state.identity}\` to join again`;
-      return yield* Effect.fail({
-        ...failure,
-        message: `${failure.message} The stored agent session token was deleted; ${rejoin}.`,
-      });
-    });
+  return (failure) => {
+    if (!endsStoredSession(failure.code) || Option.isNone(joined)) {
+      return Effect.fail(failure);
+    }
+    const rejoin = `Run \`cookout join --as ${joined.value.state.identity}\` to join again.`;
+    return Effect.fail({ ...failure, message: `${failure.message} ${rejoin}` });
+  };
 }
 
 const variables = Effect.orDie(
@@ -242,12 +247,8 @@ function joinCredentialFor(env: CliEnvironment): Found {
   );
 }
 
-function withJoinClient<Value>(run: Run<Value>): Found<Value> {
-  return Effect.gen(function* callWithJoinCredential() {
-    const env = yield* cliEnvironment;
-    const credential = yield* joinCredentialFor(env);
-    return yield* runWith(env, credential, run);
-  });
+function withJoinClient<Value>(env: CliEnvironment, run: Run<Value>): Found<Value> {
+  return Effect.flatMap(joinCredentialFor(env), (credential) => runWith(env, credential, run));
 }
 
 function callClient<Value>(
@@ -260,17 +261,27 @@ function callServer<Value>(call: Call<Value>): Found<Value> {
   return withClient(callClient(call));
 }
 
-interface JoinPlace {
-  readonly file: Option.Option<AgentSessionStateFile>;
-  readonly place: HarnessSession;
-  readonly url: string;
+const notLive = Effect.succeed(false);
+
+function storedSessionLives(env: CliEnvironment, state: AgentSessionState): Found<boolean> {
+  const whoami = callClient((client) => client.whoami());
+  return runWith(env, given("agent session token", state.agentSessionToken), whoami).pipe(
+    Effect.as(true),
+    Effect.catchIf(({ code }) => endsStoredSession(code), Function.constant(notLive)),
+  );
 }
 
 const joinPlace: Effect.Effect<JoinPlace, CallFailure, AgentSessionStateNeeds> = Effect.gen(function* findJoinPlace() {
   const env = yield* cliEnvironment;
   const place = harnessSessionIn(env.markers);
   const file = yield* joinedSessionFile(place, env.url);
-  return { file, place, url: baseUrlOf(env.url) };
+  return {
+    file,
+    place,
+    storedSessionLives: (state) => storedSessionLives(env, state),
+    url: baseUrlOf(env.url),
+    withJoinClient: (run) => withJoinClient(env, run),
+  };
 });
 
 export {
@@ -278,11 +289,11 @@ export {
   type ClientWithAgentSessionState,
   type CredentialSource,
   type JoinPlace,
+  type JoinedSession,
   callClient,
   callServer,
   joinPlace,
   withClient,
-  withJoinClient,
 };
 export type { CallFailure } from "./call-failure.ts";
 export { toFailure } from "./http.ts";

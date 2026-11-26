@@ -218,7 +218,7 @@ it.effect("whoami says how long ago this harness session joined", () =>
   }).pipe(Effect.provide([testCookout(), commandLineServices])),
 );
 
-it.effect("a session's agent session token revoked by another session's join --force is forgotten", () =>
+it.effect("a session's agent session token revoked by another session's join --force is refused", () =>
   Effect.gen(function* twoHarnessSessions() {
     const cookout = yield* TestCookout;
     const agent = yield* cookout.createIdentity("agent");
@@ -243,7 +243,7 @@ it.effect("a session's agent session token revoked by another session's join --f
       failedWith("agent_session_live"),
       succeeded,
       failedWith("agent_session_revoked"),
-      notJoined,
+      failedWith("agent_session_revoked"),
       { ...succeeded, stdoutJson: { revoked: true } },
       failedWith("agent_session_required"),
       { ...succeeded, stdoutJson: { expiresAt: "2026-01-31T00:00:00.000Z" } },
@@ -253,7 +253,7 @@ it.effect("a session's agent session token revoked by another session's join --f
         Arr.map(results, (result) => result.stderr),
         "\n",
       ),
-    ).toContain("The stored agent session token was deleted; run `cookout join --as agent` to join again.");
+    ).toContain("Run `cookout join --as agent` to join again.");
   }).pipe(Effect.provide([testCookout(), commandLineServices])),
 );
 

@@ -1,4 +1,4 @@
-import { Array as Arr, Effect, FileSystem, Path } from "effect";
+import { Array as Arr, Effect, FileSystem, Path, String as Str } from "effect";
 import type { TestCookoutService, TestIdentity } from "./cookout.ts";
 import type { CookoutClient } from "../../../sdk/index.ts";
 import type { Scope } from "effect";
@@ -14,9 +14,15 @@ interface AgentSessionStateText {
   readonly text: string;
 }
 
+interface StoredAgentSessionToken {
+  readonly folder: string;
+  readonly token: string;
+}
+
 type Files = FileSystem.FileSystem | Path.Path;
 
 const ONE_AT_A_TIME = { concurrency: 1 } as const;
+const storedToken = /"agentSessionToken": "[^"]+"/u;
 
 function twoSessions(cookout: TestCookoutService): Effect.Effect<TwoSessions> {
   return Effect.gen(function* identityWithTwoSessions() {
@@ -51,4 +57,28 @@ function writeAgentSessionStates({ folder, text }: AgentSessionStateText): Effec
   }).pipe(Effect.orDie);
 }
 
-export { type TwoSessions, freshStateFolder, agentSessionStateFiles, twoSessions, writeAgentSessionStates };
+function storedAgentSessionStates(folder: string): Effect.Effect<readonly string[], never, Files> {
+  return Effect.gen(function* readAgentSessionStates() {
+    const fs = yield* FileSystem.FileSystem;
+    const files = yield* agentSessionStateFiles(folder);
+    return yield* Effect.forEach(files, (file) => fs.readFileString(file), ONE_AT_A_TIME);
+  }).pipe(Effect.orDie);
+}
+
+function storeAgentSessionToken({ folder, token }: StoredAgentSessionToken): Effect.Effect<void, never, Files> {
+  return Effect.gen(function* replaceStoredToken() {
+    const [text = ""] = yield* storedAgentSessionStates(folder);
+    const replaced = Str.replace(storedToken, `"agentSessionToken": "${token}"`)(text);
+    yield* writeAgentSessionStates({ folder, text: replaced });
+  });
+}
+
+export {
+  type TwoSessions,
+  freshStateFolder,
+  agentSessionStateFiles,
+  storeAgentSessionToken,
+  storedAgentSessionStates,
+  twoSessions,
+  writeAgentSessionStates,
+};

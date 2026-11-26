@@ -31,10 +31,11 @@
  * `COOKOUT_STATE_DIR` (default `$XDG_STATE_HOME/cookout`, then `~/.local/state/cookout`); the file's name is a hash.
  * It prints the agent, `created`, the times and the credential's `source`, never the token (mattpocock/cookout#145).
  * Outside a harness it is `harness_missing`, in a tool that gives no session ID `harness_session_missing`,
- * and in a session that has joined `already_joined`, unless `--print-env`, which keeps nothing and prints
- * `export COOKOUT_SESSION=...`. `leave` revokes the token it sends and forgets a joined session's. On
- * `agent_session_revoked` or `agent_session_expired` the stored token is deleted and the message says to run
- * `cookout join` again. The state folder and its `agent-sessions/` folder must be folders only the user
+ * and in a session that has joined `already_joined`, unless the board refuses the stored token
+ * (`token_unknown`, `agent_session_revoked` or `agent_session_expired`), which `join` then replaces, or
+ * `--print-env`, which keeps nothing and prints `export COOKOUT_SESSION=...`. `leave` revokes the token it
+ * sends and forgets a joined session's. A verb refused with one of those three codes for the stored token says
+ * to run `cookout join` again. The state folder and its `agent-sessions/` folder must be folders only the user
  * can open (mode 700, not symlinks), or the command fails with
  * `agent_session_state_unsafe`; `join` makes them so. A state file that can't
  * be read as one is `agent_session_state_damaged`; any other failure of the CLI
