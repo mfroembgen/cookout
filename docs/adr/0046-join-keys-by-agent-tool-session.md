@@ -2,6 +2,8 @@
 
 Superseded in part by [ADR 0049](0049-inside-an-agent-tool-a-joined-session-beats-cookout-token.md) (2026-11-23, mattpocock/cookout#150): inside an agent tool the credential is `COOKOUT_SESSION`, then the joined session, then `COOKOUT_TOKEN`; the precedence below is as it stood before.
 
+Superseded in part on 2026-11-26 by [ADR 0108](0108-a-codex-join-keys-by-its-thread.md), in this fork (mfroembgen/cookout): Codex keys a join by `CODEX_THREAD_ID`, so it is no longer a tool with no session variable.
+
 2026-11-23 (mattpocock/cookout#116). Builds on [ADR 0042](0042-agent-session-tokens-replace-the-lease.md) and [ADR 0038](0038-a-human-token-from-an-agent-tool-is-refused-unless-overridden.md). That `cookout join` inside an agent tool makes the whole agent tool session act as the joined agent, keyed by the tool's session ID, is Matt's decision of 2026-11-23, recorded on #116, as are `--print-env`, `COOKOUT_SESSION` and the precedence below. The refusal codes (`not_joined`, `already_joined`, `agent_tool_missing`, `agent_tool_session_missing`), keying the state file by server as well, and `whoami`'s `summary` field are chief-of-staff choices, pending Matt's review.
 
 ADR 0042 kept a joined agent session token in one state file per server and Identity token. Two sessions with the same token shared one, unless each had its own `COOKOUT_STATE_DIR`, and a subagent couldn't tell which session it belonged to. An agent tool already names its session: Claude Code sets `CLAUDE_CODE_SESSION_ID`, and its subagents share their parent's (checked on Claude Code 2.1.330). So the session tree is the agent.

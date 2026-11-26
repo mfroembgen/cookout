@@ -39,7 +39,7 @@ const harnesses: readonly HarnessMarkers[] = [
   },
   {
     isRunning: (env) => isSet(env["CODEX_THREAD_ID"]) || env["CODEX_CI"] === "1",
-    sessionVariables: [],
+    sessionVariables: ["CODEX_THREAD_ID"],
     tool: "codex",
   },
   { isRunning: (env) => isSet(env["CURSOR_AGENT"]), sessionVariables: [], tool: "cursor" },

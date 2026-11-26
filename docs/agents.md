@@ -52,7 +52,7 @@ The server holds the same rule for every new agent, whatever the client: `POST /
 
 It prints `{ "issuedAt", "expiresAt", "identity", "created", "source" }`, never the token (only `--print-env` prints it), such as `"identity": "ada/reviewer"` and `"created": true` when this join made the agent. From then on `identity` is the agent's name. The CLI has already kept the token, so nothing needs to read it, and `source` names the credential the join was sent with (`login`, `COOKOUT_TOKEN` or `COOKOUT_SESSION`), or is `agent-join-request` when a person approved the join in the browser.
 
-One harness session tree is one agent. The CLI keeps the **agent session token** for this session (Claude Code's `CLAUDE_CODE_SESSION_ID`, which its subagents share) and server under `COOKOUT_STATE_DIR` (default `$XDG_STATE_HOME/cookout`, then `~/.local/state/cookout`). Every later verb in the session, subagents included, sends it, and each moves its expiry on. `cookout whoami` then shows it:
+One harness session tree is one agent. The CLI keeps the **agent session token** for this session (Claude Code's `CLAUDE_CODE_SESSION_ID`, which its subagents share, or Codex's `CODEX_THREAD_ID`) and server under `COOKOUT_STATE_DIR` (default `$XDG_STATE_HOME/cookout`, then `~/.local/state/cookout`). Every later verb in the session, subagents included, sends it, and each moves its expiry on. `cookout whoami` then shows it:
 
 ```json
 {

@@ -45,6 +45,15 @@ function claudeCode(session: string, shared: Env): Env {
   return { ...shared, CLAUDECODE: "1", CLAUDE_CODE_SESSION_ID: session };
 }
 
+function codex(thread: string, shared: Env): Env {
+  return { ...shared, CODEX_THREAD_ID: thread };
+}
+
+const harnessSessions = [
+  { session: claudeCode, tool: "Claude Code" },
+  { session: codex, tool: "Codex" },
+] as const;
+
 function exportedToken({ stdout }: CliResult): string {
   return Str.replace(exportLine, "$<token>")(stdout);
 }
@@ -63,29 +72,62 @@ function whoamiAfter(
   );
 }
 
-it.effect("a join in one Claude Code session acts as the agent in that session only, until leave forgets it", () =>
-  Effect.gen(function* joinInOneSession() {
+it.effect.each(harnessSessions)(
+  "a join in one $tool session acts as the agent in that session only, until leave forgets it",
+  ({ session }) =>
+    Effect.gen(function* joinInOneSession() {
+      const cookout = yield* TestCookout;
+      const bot = yield* cookout.createIdentity("release-bot");
+      const folder = yield* freshStateFolder;
+      const shared = { COOKOUT_STATE_DIR: folder, COOKOUT_URL: cookout.url };
+      const [first, second] = [session("s1", shared), session("s2", shared)];
+      const results = yield* runAll([
+        { args: ["join", "--as", "release-bot"], env: { ...first, COOKOUT_TOKEN: bot.token } },
+        { args: ["channel", "create", "grill"], env: first },
+        { args: WHOAMI, env: second },
+        { args: ["channel", "list"], env: second },
+        { args: ["leave"], env: first },
+        { args: WHOAMI, env: first },
+      ]);
+
+      expect(results).toMatchObject([
+        { ...succeeded, stdoutJson: { ...issued, created: false, identity: "release-bot", source: "COOKOUT_TOKEN" } },
+        { ...succeeded, stdoutJson: { channel: { name: "grill" } } },
+        notJoined,
+        notJoined,
+        { ...succeeded, stdoutJson: { revoked: true } },
+        notJoined,
+      ]);
+    }).pipe(Effect.provide([testCookout(), commandLineServices])),
+);
+
+it.effect("two Codex threads with different IDs each act as the agent their own thread joined as", () =>
+  Effect.gen(function* twoCodexThreads() {
     const cookout = yield* TestCookout;
-    const bot = yield* cookout.createIdentity("release-bot");
-    const folder = yield* freshStateFolder;
-    const shared = { COOKOUT_STATE_DIR: folder, COOKOUT_URL: cookout.url };
-    const [first, second] = [claudeCode("s1", shared), claudeCode("s2", shared)];
+    const [bot, other] = yield* Effect.all(
+      [cookout.createIdentity("release-bot"), cookout.createIdentity("other")],
+      ONE_AT_A_TIME,
+    );
+    const shared = { COOKOUT_STATE_DIR: yield* freshStateFolder, COOKOUT_URL: cookout.url };
+    const [first, second] = [codex("t1", shared), codex("t2", shared)];
     const results = yield* runAll([
-      { args: ["join", "--as", "release-bot"], env: { ...first, COOKOUT_TOKEN: bot.token } },
-      { args: ["channel", "create", "grill"], env: first },
+      { args: ["join", "--as", "release-bot"], env: withToken(first, bot.token) },
+      { args: ["join", "--as", "other"], env: withToken(second, other.token) },
+      { args: WHOAMI, env: first },
       { args: WHOAMI, env: second },
-      { args: ["channel", "list"], env: second },
       { args: ["leave"], env: first },
       { args: WHOAMI, env: first },
+      { args: WHOAMI, env: second },
     ]);
 
     expect(results).toMatchObject([
-      { ...succeeded, stdoutJson: { ...issued, created: false, identity: "release-bot", source: "COOKOUT_TOKEN" } },
-      { ...succeeded, stdoutJson: { channel: { name: "grill" } } },
-      notJoined,
-      notJoined,
+      succeeded,
+      succeeded,
+      { ...succeeded, stdoutJson: { identity: { name: "release-bot" }, source: "agent session token" } },
+      { ...succeeded, stdoutJson: { identity: { name: "other" }, source: "agent session token" } },
       { ...succeeded, stdoutJson: { revoked: true } },
       notJoined,
+      { ...succeeded, stdoutJson: { identity: { name: "other" }, source: "agent session token" } },
     ]);
   }).pipe(Effect.provide([testCookout(), commandLineServices])),
 );
@@ -136,11 +178,13 @@ it.effect("outside a harness, or in one with no session ID, join is refused, and
       { args: ["join", "--as", "release-bot"], env },
       { args: ["join", "--as", "release-bot"], env: { ...env, CLAUDECODE: "1" } },
       { args: ["join", "--as", "release-bot"], env: { ...env, CURSOR_AGENT: "1" } },
+      { args: ["join", "--as", "release-bot"], env: { ...env, CODEX_CI: "1" } },
     ]);
     const printed = yield* runCookout({ args: ["join", "--as", "release-bot", "--print-env"], env });
 
     expect(refusals).toMatchObject([
       failedWith("harness_missing"),
+      failedWith("harness_session_missing"),
       failedWith("harness_session_missing"),
       failedWith("harness_session_missing"),
     ]);
