@@ -38,12 +38,45 @@ jobs:
         run: |
           docker build --tag cookout:check .
           trap 'docker logs cookout' EXIT
-          docker run -d --name cookout --read-only --tmpfs /tmp -v cookout-data:/data -p 127.0.0.1:8080:8080 \
-            -e COOKOUT_PUBLIC_URL=http://127.0.0.1:8080 -e COOKOUT_ADMIN_TOKEN="cookout_$(openssl rand -hex 32)" \
+          (umask 077 && printf 'cookout_%s' "$(openssl rand -hex 32)" > "$RUNNER_TEMP/admin-token")
+          COOKOUT_ADMIN_TOKEN="$(cat "$RUNNER_TEMP/admin-token")" docker run -d --name cookout --read-only --tmpfs /tmp \
+            -v cookout-data:/data -p 127.0.0.1:8080:8080 -e COOKOUT_PUBLIC_URL=http://127.0.0.1:8080 -e COOKOUT_ADMIN_TOKEN \
             cookout:check
           for _ in $(seq 30); do curl -fs http://127.0.0.1:8080/v1/health && break; sleep 1; done
           curl -fs http://127.0.0.1:8080/v1/health | grep -F '"status":"ok"'
           test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/v1/whoami)" = 401
+      - uses: ./.github/actions/setup
+        with:
+          cache-name: fork-cli
+      - name: Pack the CLI from this commit
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          pnpm run --silent build
+          pnpm pack --pack-destination "$RUNNER_TEMP/cli"
+          test -f "$RUNNER_TEMP/cli/ai-hero-cookout-$VERSION.tgz"
+      - name: Smoke-test the CLI as people run it
+        working-directory: ${{ runner.temp }}
+        env:
+          SOURCE: file:${{ runner.temp }}/cli/ai-hero-cookout-${{ steps.version.outputs.version }}.tgz
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir -p cli-check cli-smoke
+          tar -xzf "cli/ai-hero-cookout-$VERSION.tgz" -C cli-check
+          test "$(jq -r .version cli-check/package/package.json)" = "$VERSION"
+          cd cli-smoke
+          test "$(npx -y "$SOURCE" --version)" = "cookout v$VERSION"
+          npx -y "$SOURCE" --help | grep -F 'cookout <subcommand>'
+          export CODEX_THREAD_ID="smoke-$GITHUB_RUN_ID" COOKOUT_URL=http://127.0.0.1:8080 COOKOUT_STATE_DIR="$RUNNER_TEMP/cli-state"
+          COOKOUT_TOKEN="$(cat "$RUNNER_TEMP/admin-token")" npx -y "$SOURCE" join --as smoke --display-name 'Smoke test' > /dev/null
+          npx -y "$SOURCE" whoami | jq -e '.source == "agent session token" and .identity.kind == "agent" and .identity.name == "smoke"'
+          npx -y "$SOURCE" leave > /dev/null
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cli
+          path: ${{ runner.temp }}/cli/ai-hero-cookout-${{ steps.version.outputs.version }}.tgz
+          if-no-files-found: error
+          retention-days: 7
 
   gate:
     if: github.event_name == 'workflow_dispatch' && inputs.publish && github.ref == 'refs/heads/main' && github.repository == 'mfroembgen/cookout'
@@ -88,32 +121,32 @@ jobs:
           git merge-base --is-ancestor "$release_sha" "$GITHUB_SHA"
           test "$release_sha" != "$GITHUB_SHA"
           echo "release_sha=$release_sha" >> "$GITHUB_OUTPUT"
-          gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[].tag_name' > /tmp/release-tags
-          if grep -Fxq "$tag" /tmp/release-tags; then
-            echo "Release $tag already exists; inspect its provenance before retrying" >&2
-            exit 1
-          fi
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build a new image, or resume a run that pushed this commit's image
+      - name: Keep the image built from this commit, or build it again
         id: image
         run: |
           ref="ghcr.io/mfroembgen/cookout:$VERSION"
           if docker buildx imagetools inspect --raw "$ref" > /tmp/manifest.json 2> /tmp/manifest-error; then
             docker buildx imagetools inspect "$ref" --format '{{json .Image}}' > /tmp/image.json
-            for platform in linux/amd64 linux/arm64; do
-              revision="$(jq -r --arg p "$platform" '.[$p].config.Labels["org.opencontainers.image.revision"] // "none"' /tmp/image.json)"
-              test "$revision" = "$GITHUB_SHA" || { echo "$ref $platform was built from $revision, not $GITHUB_SHA" >&2; exit 1; }
-            done
-            echo "publish=false" >> "$GITHUB_OUTPUT"
-            echo "index=sha256:$(sha256sum < /tmp/manifest.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-            exit 0
+            revisions="$(jq -r '[."linux/amd64", ."linux/arm64" | .config.Labels["org.opencontainers.image.revision"] // "none"] | unique | join(",")' /tmp/image.json)"
+            if [ "$revisions" = "$GITHUB_SHA" ]; then
+              echo "publish=false" >> "$GITHUB_OUTPUT"
+              echo "index=sha256:$(sha256sum < /tmp/manifest.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if ! [[ "$revisions" =~ ^[0-9a-f]{40}$ ]] || ! git merge-base --is-ancestor "$revisions" "$GITHUB_SHA"; then
+              echo "$ref is built from $revisions, which $GITHUB_SHA does not descend from; refusing to roll it back" >&2
+              exit 1
+            fi
+            echo "::notice::Replacing $ref, built from $revisions, with $GITHUB_SHA"
+          else
+            grep -Eq "$ref: not found|manifest unknown|name unknown" /tmp/manifest-error || { cat /tmp/manifest-error >&2; exit 1; }
           fi
-          grep -Eq "$ref: not found|manifest unknown|name unknown" /tmp/manifest-error || { cat /tmp/manifest-error >&2; exit 1; }
           echo "publish=true" >> "$GITHUB_OUTPUT"
 
   build:
@@ -183,6 +216,7 @@ jobs:
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         if: needs.gate.outputs.publish == 'true'
@@ -196,36 +230,50 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check the release and the version tag again before writing
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: cli
+          path: ${{ runner.temp }}/cli
+      - name: Check the CLI before publishing anything
+        run: |
+          mkdir "$RUNNER_TEMP/cli-check"
+          tar -xzf "$RUNNER_TEMP/cli/ai-hero-cookout-$VERSION.tgz" -C "$RUNNER_TEMP/cli-check"
+          test "$(jq -r .version "$RUNNER_TEMP/cli-check/package/package.json")" = "$VERSION"
+      - name: Check the image and the release again before writing
         id: recheck
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH: ${{ needs.gate.outputs.publish }}
           GATE_INDEX: ${{ needs.gate.outputs.index }}
         run: |
-          tag="@ai-hero/cookout@$VERSION"
-          gh api --paginate "repos/$GITHUB_REPOSITORY/releases" --jq '.[].tag_name' > /tmp/release-tags
-          if grep -Fxq "$tag" /tmp/release-tags; then
-            echo "Release $tag already exists; inspect its provenance before retrying" >&2
-            exit 1
-          fi
+          descends() { [[ "$1" =~ ^[0-9a-f]{40}$ ]] && git merge-base --is-ancestor "$1" "$GITHUB_SHA"; }
+          release_named() {
+            gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > /tmp/releases.json || return 1
+            jq -s --arg tag "$1" '[.[][] | select(.tag_name == $tag)] | if length > 1 then error("\(length) releases have the tag \($tag)") else first // empty end' /tmp/releases.json
+          }
+          release="$(release_named "@ai-hero/cookout@$VERSION")" || exit 1
+          recorded="$(jq -r '.body // ""' <<< "$release" | sed -n 's/^Patched source commit: //p')"
+          [ -z "$recorded" ] || descends "$recorded" ||
+            { echo "the release records $recorded, which $GITHUB_SHA does not descend from; refusing to roll it back" >&2; exit 1; }
           ref="ghcr.io/mfroembgen/cookout:$VERSION"
           if docker buildx imagetools inspect --raw "$ref" > /tmp/manifest.json 2> /tmp/manifest-error; then
             index="sha256:$(sha256sum < /tmp/manifest.json | cut -d' ' -f1)"
-            if [ "$PUBLISH" = false ]; then
-              test "$index" = "$GATE_INDEX" || { echo "$ref moved from $GATE_INDEX to $index after the gate" >&2; exit 1; }
-            fi
             docker buildx imagetools inspect "$ref" --format '{{json .Image}}' > /tmp/image.json
-            for platform in linux/amd64 linux/arm64; do
-              revision="$(jq -r --arg p "$platform" '.[$p].config.Labels["org.opencontainers.image.revision"] // "none"' /tmp/image.json)"
-              test "$revision" = "$GITHUB_SHA" || { echo "$ref $platform was built from $revision, not $GITHUB_SHA" >&2; exit 1; }
-            done
-            echo "tag=false" >> "$GITHUB_OUTPUT"
+            revisions="$(jq -r '[."linux/amd64", ."linux/arm64" | .config.Labels["org.opencontainers.image.revision"] // "none"] | unique | join(",")' /tmp/image.json)"
+            if [ "$revisions" = "$GITHUB_SHA" ]; then
+              if [ "$PUBLISH" = false ]; then
+                test "$index" = "$GATE_INDEX" || { echo "$ref moved from $GATE_INDEX to $index after the gate" >&2; exit 1; }
+              fi
+              echo "tag=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            test "$PUBLISH" = true || { echo "$ref moved to $revisions after the gate" >&2; exit 1; }
+            descends "$revisions" || { echo "$ref moved to $revisions, which $GITHUB_SHA does not descend from" >&2; exit 1; }
           else
             grep -Eq "$ref: not found|manifest unknown|name unknown" /tmp/manifest-error || { cat /tmp/manifest-error >&2; exit 1; }
             test "$PUBLISH" = true || { echo "$ref disappeared after the gate" >&2; exit 1; }
-            echo "tag=true" >> "$GITHUB_OUTPUT"
           fi
+          echo "tag=true" >> "$GITHUB_OUTPUT"
       - name: Check each platform's digest before tagging
         if: steps.recheck.outputs.tag == 'true'
         run: |
@@ -244,19 +292,111 @@ jobs:
           docker buildx imagetools create -t "$ref" \
             "ghcr.io/mfroembgen/cookout@$(cat /tmp/digests/linux-amd64)" \
             "ghcr.io/mfroembgen/cookout@$(cat /tmp/digests/linux-arm64)"
-      - name: Draft the release
+      - name: Attach the CLI named for this commit, then write the notes and publish the release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_SHA: ${{ needs.gate.outputs.release_sha }}
         run: |
+          tag="@ai-hero/cookout@$VERSION"
+          asset="ai-hero-cookout-$VERSION-$GITHUB_SHA.tgz"
+          dir="$RUNNER_TEMP/cli"
+          mv "$dir/ai-hero-cookout-$VERSION.tgz" "$dir/$asset"
           printf '%s\n' \
-            "cookout $VERSION with the fork's patches: an image built from upstream's Dockerfile." \
+            "cookout $VERSION with the fork's patches: an image built from upstream's Dockerfile, and the CLI." \
             "" \
             "Upstream release commit: $RELEASE_SHA (npm @ai-hero/cookout@$VERSION)" \
             "Patched source commit: $GITHUB_SHA" \
             "Image: ghcr.io/mfroembgen/cookout:$VERSION" \
+            "CLI: $asset" \
             "" \
-            "The Git tag points to the original upstream commit. The image uses the patched source commit recorded above." \
+            "The Git tag points to the original upstream commit. The image and the CLI use the patched source commit recorded above." \
+            "Each CLI asset is named for the commit it was built from and is never replaced, so a pinned URL keeps working." \
             > /tmp/release-notes.md
-          gh release create "@ai-hero/cookout@$VERSION" --verify-tag --draft \
-            --title "cookout $VERSION (fork)" --notes-file /tmp/release-notes.md
+          release_named() {
+            gh api --paginate "repos/$GITHUB_REPOSITORY/releases?per_page=100" > /tmp/releases.json || return 1
+            jq -s --arg tag "$1" '[.[][] | select(.tag_name == $tag)] | if length > 1 then error("\(length) releases have the tag \($tag)") else first // empty end' /tmp/releases.json
+          }
+          release="$(release_named "$tag")" || exit 1
+          if [ -z "$release" ]; then
+            gh release create "$tag" --verify-tag --draft --title "cookout $VERSION (fork)" --notes-file /tmp/release-notes.md
+            release="$(release_named "$tag")" || exit 1
+          fi
+          id="$(jq -er .id <<< "$release")" || exit 1
+          assets="repos/$GITHUB_REPOSITORY/releases/$id/assets"
+          partial="$asset.partial"
+          listed() { gh api --paginate "$assets" --jq '.[] | [.id, .name, .state] | @tsv'; }
+          field() { listed | awk -F '\t' -v name="$1" -v column="$2" '$2 == name { print $column }'; }
+          listed | awk -F '\t' -v final="$asset" -v partial="$partial" '$2 == partial || ($3 == "starter" && $2 != final) { print $1 }' |
+            while read -r stale; do gh api -X DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$stale"; done
+          built="$(sha256sum < "$dir/$asset" | cut -d' ' -f1)"
+          state="$(field "$asset" 3)"
+          if [ "$state" = uploaded ]; then
+            mkdir "$RUNNER_TEMP/published"
+            gh release download "$tag" --pattern "$asset" --dir "$RUNNER_TEMP/published"
+            tar -xzOf "$RUNNER_TEMP/published/$asset" package/package.json | jq -e --arg v "$VERSION" '.version == $v' > /dev/null
+            echo "$asset is already published (sha256 $(sha256sum < "$RUNNER_TEMP/published/$asset" | cut -d' ' -f1)); keeping it"
+          elif [ -z "$state" ]; then
+            cp "$dir/$asset" "$dir/$partial"
+            gh release upload "$tag" "$dir/$partial"
+            uploaded="$(gh release download "$tag" --pattern "$partial" --output - | sha256sum | cut -d' ' -f1)"
+            test "$uploaded" = "$built" || { echo "$partial has sha256 $uploaded, not the build's $built" >&2; exit 1; }
+            renamed="$(gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/assets/$(field "$partial" 1)" -f name="$asset" --jq .name)"
+            test "$renamed" = "$asset"
+          else
+            echo "$asset is in state $state; check it by hand" >&2
+            exit 1
+          fi
+          gh release edit "$tag" --notes-file /tmp/release-notes.md
+          draft="$(gh api "repos/$GITHUB_REPOSITORY/releases/$id" --jq .draft)" || exit 1
+          case "$draft" in
+            true) gh release edit "$tag" --draft=false ;;
+            false) ;;
+            *) echo "release $id answered draft=$draft" >&2; exit 1 ;;
+          esac
+
+  check-cli:
+    if: ${{ !cancelled() && needs.release.result == 'success' }}
+    needs: [verify, release]
+    strategy:
+      fail-fast: false
+      matrix:
+        npm: [10, 12]
+    runs-on: ubuntu-24.04
+    permissions:
+      packages: read
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+    steps:
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - name: Use npm ${{ matrix.npm }}
+        env:
+          NPM: ${{ matrix.npm }}
+        run: |
+          npm install -g "npm@$NPM"
+          [[ "$(npm --version)" == "$NPM".* ]]
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Start a test board from the released image
+        run: |
+          ref="ghcr.io/mfroembgen/cookout:$VERSION"
+          docker pull --quiet "$ref"
+          test "$(docker image inspect "$ref" --format '{{index .Config.Labels "org.opencontainers.image.revision"}}')" = "$GITHUB_SHA"
+          (umask 077 && printf 'cookout_%s' "$(openssl rand -hex 32)" > "$RUNNER_TEMP/admin-token")
+          COOKOUT_ADMIN_TOKEN="$(cat "$RUNNER_TEMP/admin-token")" docker run -d --name cookout --read-only --tmpfs /tmp \
+            -v cookout-data:/data -p 127.0.0.1:8080:8080 -e COOKOUT_PUBLIC_URL=http://127.0.0.1:8080 -e COOKOUT_ADMIN_TOKEN "$ref"
+          for _ in $(seq 30); do curl -fs http://127.0.0.1:8080/v1/health && break; sleep 1; done
+          curl -fs http://127.0.0.1:8080/v1/health | grep -F '"status":"ok"'
+      - name: Run the released CLI as the skill runs it
+        run: |
+          source="https://github.com/mfroembgen/cookout/releases/download/%40ai-hero%2Fcookout%40$VERSION/ai-hero-cookout-$VERSION-$GITHUB_SHA.tgz"
+          cookout() { (cd / && npx -y -q --allow-remote=root "$source" "$@"); }
+          test "$(cookout --version)" = "cookout v$VERSION"
+          export CODEX_THREAD_ID="smoke-$GITHUB_RUN_ID" COOKOUT_URL=http://127.0.0.1:8080 COOKOUT_STATE_DIR="$RUNNER_TEMP/cli-state"
+          COOKOUT_TOKEN="$(cat "$RUNNER_TEMP/admin-token")" cookout join --as smoke --display-name 'Smoke test' > /dev/null
+          cookout whoami | jq -e '.source == "agent session token" and .identity.kind == "agent" and .identity.name == "smoke"'
+          cookout leave > /dev/null
